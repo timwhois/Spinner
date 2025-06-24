@@ -1,0 +1,98 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Neon 3D Spinner</title>
+  <style>
+    body { margin: 0; overflow: hidden; background: black; }
+    canvas { display: block; }
+    #spinBtn {
+      position: absolute;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 15px 30px;
+      font-size: 18px;
+      background: #00e5ff;
+      color: black;
+      border: none;
+      border-radius: 5px;
+      z-index: 10;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <button id="spinBtn">SPIN</button>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r148/three.min.js"></script>
+  <script>
+    // Basic scene setup
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(70, window.innerWidth/window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+
+    // Lights
+    const ambientLight = new THREE.AmbientLight(0x404040, 2);
+    scene.add(ambientLight);
+
+    const pointLight = new THREE.PointLight(0x00e5ff, 5, 100);
+    pointLight.position.set(0, 10, 10);
+    scene.add(pointLight);
+
+    // Create wheel
+    const segments = 8;
+    const radius = 5;
+    const wheelGroup = new THREE.Group();
+
+    for (let i = 0; i < segments; i++) {
+      const angle = (i / segments) * Math.PI * 2;
+      const geometry = new THREE.CylinderGeometry(radius, radius, 0.5, 32, 1, true, angle, Math.PI * 2 / segments);
+      const material = new THREE.MeshStandardMaterial({ color: new THREE.Color(`hsl(${i * 360 / segments}, 100%, 50%)`), emissive: 0x222222, side: THREE.DoubleSide });
+      const segment = new THREE.Mesh(geometry, material);
+      wheelGroup.add(segment);
+    }
+
+    scene.add(wheelGroup);
+    wheelGroup.rotation.x = Math.PI / 2;
+    camera.position.z = 15;
+
+    // Spin logic
+    let spinning = false;
+    let rotationSpeed = 0;
+
+    document.getElementById('spinBtn').onclick = () => {
+      if (!spinning) {
+        rotationSpeed = 0.3 + Math.random() * 0.2;
+        spinning = true;
+      }
+    };
+
+    function animate() {
+      requestAnimationFrame(animate);
+
+      if (spinning) {
+        wheelGroup.rotation.z += rotationSpeed;
+        rotationSpeed *= 0.98; // slow down
+
+        if (rotationSpeed < 0.002) {
+          spinning = false;
+          rotationSpeed = 0;
+        }
+      }
+
+      renderer.render(scene, camera);
+    }
+
+    animate();
+
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+  </script>
+</body>
+</html>
