@@ -1,0 +1,110 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>What Should I Eat?</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      background: #f4f4f4;
+      margin-top: 50px;
+    }
+
+    .container {
+      display: inline-block;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    #spin {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    #result {
+      font-size: 20px;
+      font-weight: bold;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>What Should I Eat?</h1>
+    <canvas id="wheel" width="300" height="300"></canvas>
+    <br>
+    <button id="spin">SPIN</button>
+    <p id="result"></p>
+  </div>
+  <script>
+    window.onload = function() {
+      const canvas = document.getElementById('wheel');
+      const ctx = canvas.getContext('2d');
+      const result = document.getElementById('result');
+      const spinBtn = document.getElementById('spin');
+
+      const foodOptions = ['Pizza', 'Sushi', 'Burger', 'Salad', 'Tacos', 'Pasta', 'Sandwich', 'Curry'];
+      const numOptions = foodOptions.length;
+      const anglePerSlice = 2 * Math.PI / numOptions;
+      let rotation = 0;
+
+      function drawWheel() {
+        for (let i = 0; i < numOptions; i++) {
+          const angle = i * anglePerSlice;
+          ctx.beginPath();
+          ctx.moveTo(150, 150);
+          ctx.arc(150, 150, 140, angle, angle + anglePerSlice);
+          ctx.fillStyle = `hsl(${i * 360 / numOptions}, 70%, 70%)`;
+          ctx.fill();
+          ctx.save();
+          ctx.translate(150, 150);
+          ctx.rotate(angle + anglePerSlice / 2);
+          ctx.textAlign = "right";
+          ctx.fillStyle = "black";
+          ctx.font = "16px sans-serif";
+          ctx.fillText(foodOptions[i], 130, 5);
+          ctx.restore();
+        }
+      }
+
+      function spinWheel() {
+        const spins = Math.floor(Math.random() * 3) + 3;
+        const extraAngle = Math.random() * 2 * Math.PI;
+        const totalRotation = spins * 2 * Math.PI + extraAngle;
+
+        let start = null;
+        function animate(timestamp) {
+          if (!start) start = timestamp;
+          const elapsed = timestamp - start;
+          const ease = 1 - Math.pow(1 - elapsed / 3000, 3);
+          rotation = totalRotation * ease;
+          ctx.clearRect(0, 0, 300, 300);
+          ctx.save();
+          ctx.translate(150, 150);
+          ctx.rotate(rotation);
+          ctx.translate(-150, -150);
+          drawWheel();
+          ctx.restore();
+
+          if (elapsed < 3000) {
+            requestAnimationFrame(animate);
+          } else {
+            const index = Math.floor(numOptions - ((rotation % (2 * Math.PI)) / anglePerSlice)) % numOptions;
+            result.textContent = `You should eat: ${foodOptions[index]}!`;
+          }
+        }
+        requestAnimationFrame(animate);
+      }
+
+      drawWheel();
+      spinBtn.addEventListener('click', spinWheel);
+    };
+  </script>
+</body>
+</html>
