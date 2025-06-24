@@ -1,109 +1,140 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>What Should I Eat?</title>
+  <title>What Should I Eat? – Game Show Edition</title>
   <style>
     body {
-      font-family: sans-serif;
+      background: radial-gradient(circle, #111 0%, #222 100%);
+      font-family: 'Segoe UI', sans-serif;
+      color: white;
       text-align: center;
-      background: #f4f4f4;
-      margin-top: 50px;
+      padding: 40px;
     }
 
-    .container {
-      display: inline-block;
-      background: white;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    h1 {
+      font-size: 2.5em;
+      margin-bottom: 20px;
+      text-shadow: 0 0 10px #ffd700;
     }
 
-    #spin {
-      margin-top: 20px;
-      padding: 10px 20px;
-      font-size: 18px;
+    .wheel-container {
+      position: relative;
+      width: 300px;
+      height: 300px;
+      margin: 0 auto;
+      border-radius: 50%;
+      box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+      overflow: hidden;
+      border: 8px solid #ffd700;
+      transform-style: preserve-3d;
+    }
+
+    .wheel {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      position: absolute;
+      transition: transform 4s cubic-bezier(0.33, 1, 0.68, 1);
+      transform: rotate(0deg);
+    }
+
+    .wheel div {
+      position: absolute;
+      width: 50%;
+      height: 50%;
+      background: #ff4081;
+      transform-origin: 100% 100%;
+      clip-path: polygon(0 0, 100% 0, 100% 100%);
+      border-right: 3px solid #fff;
+      border-bottom: 3px solid #fff;
+      text-align: right;
+      padding: 5px;
+      color: white;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .wheel div:nth-child(even) {
+      background: #3f51b5;
+    }
+
+    .pointer {
+      width: 0;
+      height: 0;
+      border-left: 20px solid transparent;
+      border-right: 20px solid transparent;
+      border-bottom: 40px solid #ffd700;
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+    }
+
+    #spinBtn {
+      margin-top: 30px;
+      padding: 15px 30px;
+      font-size: 20px;
+      background: #00c853;
+      color: white;
+      border: none;
+      border-radius: 8px;
       cursor: pointer;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
     }
 
     #result {
-      font-size: 20px;
-      font-weight: bold;
       margin-top: 20px;
+      font-size: 22px;
+      color: #ffd700;
+      font-weight: bold;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>What Should I Eat?</h1>
-    <canvas id="wheel" width="300" height="300"></canvas>
-    <br>
-    <button id="spin">SPIN</button>
-    <p id="result"></p>
+  <h1>What Should I Eat?</h1>
+  <div class="wheel-container">
+    <div class="pointer"></div>
+    <div class="wheel" id="wheel">
+      <!-- 8 food options -->
+    </div>
   </div>
+  <button id="spinBtn">SPIN</button>
+  <div id="result"></div>
+
   <script>
-    window.onload = function() {
-      const canvas = document.getElementById('wheel');
-      const ctx = canvas.getContext('2d');
-      const result = document.getElementById('result');
-      const spinBtn = document.getElementById('spin');
+    const foodOptions = ['Pizza', 'Sushi', 'Burger', 'Salad', 'Tacos', 'Pasta', 'Sandwich', 'Curry'];
+    const wheel = document.getElementById('wheel');
+    const result = document.getElementById('result');
+    const spinBtn = document.getElementById('spinBtn');
 
-      const foodOptions = ['Pizza', 'Sushi', 'Burger', 'Salad', 'Tacos', 'Pasta', 'Sandwich', 'Curry'];
-      const numOptions = foodOptions.length;
-      const anglePerSlice = 2 * Math.PI / numOptions;
-      let rotation = 0;
+    // Create wheel slices
+    const angle = 360 / foodOptions.length;
+    foodOptions.forEach((food, i) => {
+      const slice = document.createElement('div');
+      slice.style.transform = `rotate(${i * angle}deg) skewY(-${90 - angle}deg)`;
+      slice.innerHTML = food;
+      wheel.appendChild(slice);
+    });
 
-      function drawWheel() {
-        for (let i = 0; i < numOptions; i++) {
-          const angle = i * anglePerSlice;
-          ctx.beginPath();
-          ctx.moveTo(150, 150);
-          ctx.arc(150, 150, 140, angle, angle + anglePerSlice);
-          ctx.fillStyle = `hsl(${i * 360 / numOptions}, 70%, 70%)`;
-          ctx.fill();
-          ctx.save();
-          ctx.translate(150, 150);
-          ctx.rotate(angle + anglePerSlice / 2);
-          ctx.textAlign = "right";
-          ctx.fillStyle = "black";
-          ctx.font = "16px sans-serif";
-          ctx.fillText(foodOptions[i], 130, 5);
-          ctx.restore();
-        }
-      }
+    let rotation = 0;
 
-      function spinWheel() {
-        const spins = Math.floor(Math.random() * 3) + 3;
-        const extraAngle = Math.random() * 2 * Math.PI;
-        const totalRotation = spins * 2 * Math.PI + extraAngle;
+    spinBtn.onclick = () => {
+      const randIndex = Math.floor(Math.random() * foodOptions.length);
+      const fullSpins = 5;
+      const sliceAngle = 360 / foodOptions.length;
+      const targetAngle = randIndex * sliceAngle + sliceAngle / 2;
 
-        let start = null;
-        function animate(timestamp) {
-          if (!start) start = timestamp;
-          const elapsed = timestamp - start;
-          const ease = 1 - Math.pow(1 - elapsed / 3000, 3);
-          rotation = totalRotation * ease;
-          ctx.clearRect(0, 0, 300, 300);
-          ctx.save();
-          ctx.translate(150, 150);
-          ctx.rotate(rotation);
-          ctx.translate(-150, -150);
-          drawWheel();
-          ctx.restore();
+      // Reverse angle so selected lands at the pointer (top)
+      const spinTo = 360 * fullSpins - targetAngle;
 
-          if (elapsed < 3000) {
-            requestAnimationFrame(animate);
-          } else {
-            const index = Math.floor(numOptions - ((rotation % (2 * Math.PI)) / anglePerSlice)) % numOptions;
-            result.textContent = `You should eat: ${foodOptions[index]}!`;
-          }
-        }
-        requestAnimationFrame(animate);
-      }
+      rotation += spinTo;
+      wheel.style.transform = `rotate(${rotation}deg)`;
 
-      drawWheel();
-      spinBtn.addEventListener('click', spinWheel);
+      setTimeout(() => {
+        result.textContent = `You should eat: ${foodOptions[randIndex]}!`;
+      }, 4000); // matches transition duration
     };
   </script>
 </body>
