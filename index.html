@@ -9,6 +9,7 @@
       --primary-bg: #0D1B2A;
       --text-color: #fff;
       --accent-color: #3EB489;
+      --nav-bg-hover: rgba(255,255,255,0.1);
     }
 
     * {
@@ -27,7 +28,7 @@
       position: absolute;
       top: 0;
       width: 100%;
-      padding: 20px 40px;
+      padding: 40px 40px 20px 40px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -44,16 +45,21 @@
       text-decoration: none;
       color: var(--text-color);
       font-weight: 700;
-      transition: color 0.2s;
+      padding: 10px 20px;
+      border-radius: 999px;
+      font-size: 1.1rem;
+      transition: background 0.3s, color 0.3s;
     }
 
-    .nav-left a:hover {
-      color: var(--accent-color);
+    .nav-left a:hover,
+    .nav-left a.active {
+      background: #fff;
+      color: #0D1B2A;
     }
 
     .logo {
       font-weight: 700;
-      font-size: 1.3em;
+      font-size: 1.4em;
       letter-spacing: 1px;
       text-align: center;
       flex: 1;
@@ -89,34 +95,38 @@
 
     .hero-overlay h1 {
       font-family: 'Playfair Display', serif;
-      font-size: 10vh;
-      line-height: 0.95;
+      font-size: 9.5vh;
+      line-height: 1;
       max-width: 90vw;
       margin: 0;
       color: #fff;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.6);
       letter-spacing: -1.5px;
     }
 
     .hero-overlay h2 {
       font-family: 'Montserrat', sans-serif;
       font-weight: 900;
-      font-size: 7vh;
-      margin: 8px 0 0 0;
+      font-size: 8.5vh;
+      margin: 10px 0 0 0;
       color: #fff;
       text-transform: uppercase;
-      letter-spacing: 1px;
+      letter-spacing: 2px;
     }
 
     @media (max-width: 768px) {
       header {
         flex-direction: column;
         align-items: center;
-        padding: 15px 20px;
+        padding: 20px 20px;
       }
 
       .nav-left {
         margin-bottom: 10px;
+      }
+
+      .nav-left a {
+        padding: 8px 16px;
+        font-size: 1rem;
       }
 
       .hero-overlay {
@@ -125,11 +135,10 @@
 
       .hero-overlay h1 {
         font-size: 5vh;
-        letter-spacing: -1px;
       }
 
       .hero-overlay h2 {
-        font-size: 4vh;
+        font-size: 4.5vh;
       }
     }
   </style>
@@ -137,9 +146,9 @@
 <body>
   <header>
     <div class="nav-left">
-      <a href="#">Work</a>
-      <a href="#">About</a>
-      <a href="#">Contact</a>
+      <a href="#" class="active">Shop</a>
+      <a href="#">Affirm</a>
+      <a href="#">News</a>
     </div>
     <div class="logo">Third Axis Design</div>
   </header>
