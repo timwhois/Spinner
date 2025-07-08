@@ -160,29 +160,24 @@
     import * as THREE from 'https://esm.sh/three@0.158.0';
     import { FBXLoader } from 'https://esm.sh/three@0.158.0/examples/jsm/loaders/FBXLoader.js';
 
-    // Renderer
     const canvas = document.getElementById('three-canvas');
     const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
 
-    // Scene
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0x0D1B2A);
 
-    // Default Camera
     let camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
     camera.position.set(2, 2, 5);
     camera.lookAt(0, 0, 0);
     scene.add(camera);
 
-    // Lights
     scene.add(new THREE.AmbientLight(0xffffff, 0.6));
     const dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
     dirLight.position.set(5, 10, 5);
     scene.add(dirLight);
 
-    // Load FBX
     const loader = new FBXLoader();
     loader.load('My-Model.fbx',
       (object) => {
@@ -193,7 +188,6 @@
             foundCamera = child;
           }
           if (child.isMesh) {
-            // Optional: force material
             child.material = new THREE.MeshStandardMaterial({
               color: 0x00aaff,
               metalness: 0.4,
@@ -210,7 +204,18 @@
           scene.add(camera);
           console.log('✅ Imported camera used!');
         } else {
-          console.warn('⚠️ No camera found in FBX. Using default.');
+          console.warn('⚠️ No camera found in FBX. Framing with default.');
+
+          // Center model in view automatically
+          const box = new THREE.Box3().setFromObject(object);
+          const size = box.getSize(new THREE.Vector3());
+          const center = box.getCenter(new THREE.Vector3());
+
+          const maxDim = Math.max(size.x, size.y, size.z);
+          const distance = maxDim * 2;
+
+          camera.position.copy(center.clone().add(new THREE.Vector3(distance, distance, distance)));
+          camera.lookAt(center);
         }
 
         object.scale.set(0.1, 0.1, 0.1);
@@ -224,14 +229,12 @@
       }
     );
 
-    // Resize
     window.addEventListener('resize', () => {
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
     });
 
-    // Animate
     function animate() {
       requestAnimationFrame(animate);
       renderer.render(scene, camera);
