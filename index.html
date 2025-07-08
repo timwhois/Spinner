@@ -19,7 +19,7 @@
       top: 0;
       z-index: 100;
     }
-    .logo { font-weight: bold; font-size: 1.5rem; }
+    .logo { font-weight: bold; font-size: 1.5rem; color: #333; }
     .nav-links a {
       margin-left: 1rem;
       text-decoration: none;
@@ -106,26 +106,35 @@
     const canvas = document.getElementById('three-canvas');
     const hero = document.querySelector('.hero');
 
+    // SCENE
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0x111111);
 
+    // CAMERA
     const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
     camera.position.set(0, 2, 8);
     camera.lookAt(0, 0, 0);
 
+    // RENDERER
     const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
     resizeRenderer();
 
-    // Lighting
+    // LIGHTING
     scene.add(new THREE.AmbientLight(0xffffff, 0.5));
+
     const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
     directionalLight.position.set(5, 10, 7.5);
     scene.add(directionalLight);
+
     const hemiLight = new THREE.HemisphereLight(0xffffff, 0x444444, 0.6);
     hemiLight.position.set(0, 20, 0);
     scene.add(hemiLight);
 
-    // FBX Loader
+    const pointLight = new THREE.PointLight(0xffffff, 0.5);
+    pointLight.position.set(0, 5, 5);
+    scene.add(pointLight);
+
+    // FBX LOADER
     const loader = new FBXLoader();
     loader.load('my-model.fbx',
       (object) => {
@@ -133,7 +142,7 @@
         object.scale.set(5, 5, 5);
         object.position.set(0, 0, 0);
 
-        // Force all meshes to have bright material
+        // Force visible color
         object.traverse(child => {
           if (child.isMesh) {
             child.material = new THREE.MeshStandardMaterial({ color: 0x00aaff });
@@ -152,7 +161,7 @@
       }
     );
 
-    // Mouse rotation
+    // MOUSE-BASED ROTATION
     let targetRotationX = 0;
     let targetRotationY = 0;
     document.addEventListener('mousemove', (event) => {
