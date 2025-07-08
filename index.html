@@ -11,8 +11,8 @@
 <body>
   <canvas id="three-canvas"></canvas>
   <script type="module">
-    import * as THREE from 'https://unpkg.com/three@0.158.0/build/three.module.js';
-    import { FBXLoader } from 'https://unpkg.com/three@0.158.0/examples/jsm/loaders/FBXLoader.js';
+import * as THREE from 'https://cdn.skypack.dev/three@0.158.0';
+import { FBXLoader } from 'https://cdn.skypack.dev/three@0.158.0/examples/jsm/loaders/FBXLoader.js';
 
     const canvas = document.getElementById('three-canvas');
     const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
