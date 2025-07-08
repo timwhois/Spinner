@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <title>Third Axis Design</title>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
   <style>
     :root {
       --primary-bg: #0D1B2A;
@@ -83,25 +83,26 @@
       align-items: flex-start;
       justify-content: flex-end;
       height: 100%;
-      padding: 0 40px 25vh 40px; /* 25vh bottom buffer to sit ~1/4 up */
+      padding: 0 40px 25vh 40px;
       background: linear-gradient(0deg, rgba(13,27,42,0.7) 0%, rgba(13,27,42,0.4) 50%, transparent 100%);
     }
 
     .hero-overlay h1 {
       font-family: 'Playfair Display', serif;
-      font-size: 6rem;
-      line-height: 1;
+      font-size: 10vh;
+      line-height: 0.95;
+      max-width: 90vw;
       margin: 0;
       color: #fff;
       text-shadow: 0 2px 4px rgba(0,0,0,0.6);
-      letter-spacing: -1px;
+      letter-spacing: -1.5px;
     }
 
     .hero-overlay h2 {
       font-family: 'Montserrat', sans-serif;
-      font-weight: 700;
-      font-size: 3rem;
-      margin: 10px 0 0 0;
+      font-weight: 900;
+      font-size: 7vh;
+      margin: 8px 0 0 0;
       color: #fff;
       text-transform: uppercase;
       letter-spacing: 1px;
@@ -123,11 +124,12 @@
       }
 
       .hero-overlay h1 {
-        font-size: 3.5rem;
+        font-size: 5vh;
+        letter-spacing: -1px;
       }
 
       .hero-overlay h2 {
-        font-size: 2rem;
+        font-size: 4vh;
       }
     }
   </style>
@@ -180,7 +182,6 @@
     let model;
     loader.load('My-Model.fbx',
       (object) => {
-        console.log('✅ FBX loaded:', object);
         model = object;
         model.scale.set(0.1, 0.1, 0.1);
         model.position.set(0, 2, 0);
@@ -205,7 +206,7 @@
       }
     );
 
-    // Subtle parallax rotation
+    // Parallax rotation
     let targetRotationX = 0;
     let targetRotationY = 0;
     document.addEventListener('mousemove', (event) => {
