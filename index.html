@@ -4,101 +4,105 @@
   <meta charset="UTF-8" />
   <title>Third Axis Design - FBX Viewer</title>
   <style>
-    body { margin: 0; background: #0D1B2A; overflow: hidden; }
+    body {
+      margin: 0;
+      background-color: #0D1B2A;
+      overflow: hidden;
+      font-family: sans-serif;
+    }
     canvas { display: block; }
+    header {
+      position: absolute;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #9CC9E2;
+      font-weight: bold;
+      font-size: 1.2rem;
+      letter-spacing: 1px;
+    }
   </style>
 </head>
 <body>
+  <header>Third Axis Design</header>
   <canvas id="three-canvas"></canvas>
   <script type="module">
     import * as THREE from 'https://esm.sh/three@0.158.0';
     import { FBXLoader } from 'https://esm.sh/three@0.158.0/examples/jsm/loaders/FBXLoader.js';
-    import { OrbitControls } from 'https://esm.sh/three@0.158.0/examples/jsm/controls/OrbitControls.js';
 
+    // Renderer
     const canvas = document.getElementById('three-canvas');
     const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(window.devicePixelRatio);
 
+    // Scene
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x0D1B2A);
+    scene.background = new THREE.Color('#0D1B2A');
 
-    // Default fallback camera
-    let camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
+    // Default Camera (fallback)
+    let camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 2000);
     camera.position.set(0, 2, 10);
     scene.add(camera);
 
-    let controls = new OrbitControls(camera, renderer.domElement);
-    controls.enableDamping = true;
+    // Imported Camera (if found in FBX)
+    let importedCamera = null;
 
-    // LIGHTS
-    scene.add(new THREE.AmbientLight(0xffffff, 0.6));
-    const dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
+    // Lighting
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+    scene.add(ambientLight);
+
+    const dirLight = new THREE.DirectionalLight(0xffffff, 1);
     dirLight.position.set(5, 10, 5);
     scene.add(dirLight);
 
-    // LOAD FBX
+    const hemiLight = new THREE.HemisphereLight(0xffffff, 0x444444, 0.5);
+    hemiLight.position.set(0, 20, 0);
+    scene.add(hemiLight);
+
+    // FBX Loader
     const loader = new FBXLoader();
     loader.load('My-Model.fbx',
       (object) => {
         console.log('✅ FBX loaded:', object);
 
-        // Optional: scale if needed
-        object.scale.set(0.1, 0.1, 0.1);
-
-        // Look for imported camera
-        let importedCamera = null;
-
-        object.traverse(child => {
-          if (child.isCamera) {
-            importedCamera = child;
-            console.log('✅ Imported camera found:', importedCamera);
-          }
-          if (child.isMesh) {
-            // Override missing textures
-            child.material = new THREE.MeshStandardMaterial({
-              color: 0x00aaff,
-              roughness: 0.6,
-              metalness: 0.2
-            });
-          }
-        });
-
-        // Add bounding box to visualize scene bounds
-        const boxHelper = new THREE.BoxHelper(object, 0xff00ff);
-        scene.add(boxHelper);
-
+        // Add object to the scene
         scene.add(object);
 
-        // Use imported camera if found
-        if (importedCamera) {
-          camera = importedCamera;
-          camera.aspect = window.innerWidth / window.innerHeight;
-          camera.updateProjectionMatrix();
-          controls = new OrbitControls(camera, renderer.domElement);
-          controls.enableDamping = true;
-          console.log('✅ Switched to imported FBX camera');
-        }
+        // Look for a camera in the FBX
+        object.traverse((child) => {
+          if (child.isCamera) {
+            console.log('✅ Imported camera found in FBX:', child);
+            importedCamera = child;
+          }
+        });
       },
       (xhr) => {
         console.log(`Loading FBX: ${(xhr.loaded / xhr.total * 100).toFixed(0)}%`);
       },
       (error) => {
-        console.error('❌ Error loading FBX:', error.message, error);
+        console.error('❌ Error loading FBX:', error);
       }
     );
 
-    // Responsive resize
+    // Handle Resize
     window.addEventListener('resize', () => {
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
+      const aspect = window.innerWidth / window.innerHeight;
+      if (camera) {
+        camera.aspect = aspect;
+        camera.updateProjectionMatrix();
+      }
+      if (importedCamera) {
+        importedCamera.aspect = aspect;
+        importedCamera.updateProjectionMatrix();
+      }
       renderer.setSize(window.innerWidth, window.innerHeight);
     });
 
-    // Animate
+    // Animation loop
     function animate() {
       requestAnimationFrame(animate);
-      controls.update();
-      renderer.render(scene, camera);
+      renderer.render(scene, importedCamera || camera);
     }
     animate();
   </script>
