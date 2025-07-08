@@ -22,31 +22,39 @@
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0x0D1B2A);
 
-    const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
+    // Default fallback camera
+    let camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
     camera.position.set(0, 2, 10);
+    scene.add(camera);
 
-    const controls = new OrbitControls(camera, renderer.domElement);
+    let controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
 
+    // LIGHTS
     scene.add(new THREE.AmbientLight(0xffffff, 0.6));
     const dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
     dirLight.position.set(5, 10, 5);
     scene.add(dirLight);
 
+    // LOAD FBX
     const loader = new FBXLoader();
     loader.load('My-Model.fbx',
       (object) => {
-        console.log('✅ FBX loaded', object);
+        console.log('✅ FBX loaded:', object);
 
+        // Optional: scale if needed
         object.scale.set(0.1, 0.1, 0.1);
+
+        // Look for imported camera
+        let importedCamera = null;
 
         object.traverse(child => {
           if (child.isCamera) {
-            console.log('✅ Using imported camera:', child);
-            camera.position.copy(child.position);
-            camera.rotation.copy(child.rotation);
+            importedCamera = child;
+            console.log('✅ Imported camera found:', importedCamera);
           }
           if (child.isMesh) {
+            // Override missing textures
             child.material = new THREE.MeshStandardMaterial({
               color: 0x00aaff,
               roughness: 0.6,
@@ -55,25 +63,38 @@
           }
         });
 
+        // Add bounding box to visualize scene bounds
         const boxHelper = new THREE.BoxHelper(object, 0xff00ff);
         scene.add(boxHelper);
 
         scene.add(object);
+
+        // Use imported camera if found
+        if (importedCamera) {
+          camera = importedCamera;
+          camera.aspect = window.innerWidth / window.innerHeight;
+          camera.updateProjectionMatrix();
+          controls = new OrbitControls(camera, renderer.domElement);
+          controls.enableDamping = true;
+          console.log('✅ Switched to imported FBX camera');
+        }
       },
       (xhr) => {
         console.log(`Loading FBX: ${(xhr.loaded / xhr.total * 100).toFixed(0)}%`);
       },
       (error) => {
-        console.error('❌ FBX LOAD FAILED:', error.message, error);
+        console.error('❌ Error loading FBX:', error.message, error);
       }
     );
 
+    // Responsive resize
     window.addEventListener('resize', () => {
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
     });
 
+    // Animate
     function animate() {
       requestAnimationFrame(animate);
       controls.update();
