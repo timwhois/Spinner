@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Third Axis Design - 3D Viewer</title>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
+  <title>Third Axis Design</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
   <style>
     :root {
       --primary-bg: #0D1B2A;
@@ -12,28 +12,32 @@
 
     * {
       box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
     body {
-      margin: 0;
       background: var(--primary-bg);
       font-family: 'Montserrat', sans-serif;
       color: var(--text-color);
     }
 
     header {
+      position: absolute;
+      top: 0;
+      width: 100%;
+      padding: 20px 40px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 20px 40px;
-      background: var(--primary-bg);
-      position: relative;
       z-index: 10;
+      background: transparent;
     }
 
     header .logo {
-      font-size: 1.5em;
       font-weight: 700;
+      font-size: 1.2em;
+      letter-spacing: 1px;
     }
 
     header nav a {
@@ -50,54 +54,49 @@
 
     .hero {
       position: relative;
-      height: 80vh;
+      height: 100vh;
       overflow: hidden;
-      background: var(--primary-bg);
+      background: radial-gradient(circle at center, #0D1B2A, #050B15);
     }
 
-    canvas {
+    canvas#three-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
       width: 100%;
       height: 100%;
-      display: block;
+      z-index: 1;
     }
 
-    .features {
+    .hero-overlay {
+      position: relative;
+      z-index: 5;
       display: flex;
-      justify-content: space-around;
-      padding: 40px 20px;
-      background: var(--primary-bg);
-      flex-wrap: wrap;
+      flex-direction: column;
+      justify-content: center;
+      height: 100%;
+      padding: 80px 40px;
+      background: linear-gradient(0deg, rgba(13,27,42,0.75) 0%, rgba(13,27,42,0.4) 50%, transparent 100%);
     }
 
-    .feature-box {
-      background: linear-gradient(145deg, #2C3E50, #1A252F);
-      padding: 30px 20px;
-      flex: 1 1 300px;
-      max-width: 400px;
-      margin: 20px;
-      border-radius: 30px 10px 10px 10px;
-      text-align: center;
-      color: var(--text-color);
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-      transition: transform 0.3s, background 0.3s, box-shadow 0.3s;
-    }
-
-    .feature-box:hover {
-      background: linear-gradient(145deg, #3A4E65, #253544);
-      transform: scale(1.05);
-      box-shadow: 0 12px 20px rgba(0, 0, 0, 0.4);
-    }
-
-    .feature-box h3 {
-      margin-top: 0;
-      margin-bottom: 10px;
-      font-size: 1.4em;
-    }
-
-    .feature-box p {
+    .hero-overlay h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 4rem;
+      line-height: 1.1;
+      max-width: 800px;
       margin: 0;
-      line-height: 1.5;
-      font-size: 1em;
+      color: #fff;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.6);
+    }
+
+    @media (max-width: 768px) {
+      .hero-overlay h1 {
+        font-size: 2.5rem;
+      }
+
+      header {
+        padding: 15px 20px;
+      }
     }
   </style>
 </head>
@@ -105,28 +104,16 @@
   <header>
     <div class="logo">Third Axis Design</div>
     <nav>
-      <a href="#">Home</a>
-      <a href="#">Portfolio</a>
+      <a href="#">Work</a>
+      <a href="#">About</a>
       <a href="#">Contact</a>
     </nav>
   </header>
 
   <section class="hero">
     <canvas id="three-canvas"></canvas>
-  </section>
-
-  <section class="features">
-    <div class="feature-box">
-      <h3>Design</h3>
-      <p>Creative solutions for modern spaces.</p>
-    </div>
-    <div class="feature-box">
-      <h3>Visualization</h3>
-      <p>Accurate 3D rendering and animation.</p>
-    </div>
-    <div class="feature-box">
-      <h3>Delivery</h3>
-      <p>Fast turnaround and reliable results.</p>
+    <div class="hero-overlay">
+      <h1>Making ideas a reality</h1>
     </div>
   </section>
 
@@ -145,37 +132,37 @@
     const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
     camera.position.set(0, 2, 10);
 
-    // Lights
+    // Lighting
     scene.add(new THREE.AmbientLight(0xffffff, 0.6));
     const dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
     dirLight.position.set(5, 10, 5);
     scene.add(dirLight);
-    const hemiLight = new THREE.HemisphereLight(0xffffff, 0x444444, 0.6);
+
+    const hemiLight = new THREE.HemisphereLight(0xffffff, 0x444444, 0.5);
     hemiLight.position.set(0, 20, 0);
     scene.add(hemiLight);
-    const pointLight = new THREE.PointLight(0xffffff, 0.5);
-    pointLight.position.set(0, 5, 5);
-    scene.add(pointLight);
 
-    // FBX Loader
+    // Load 3D model
     const loader = new FBXLoader();
+    let model;
     loader.load('My-Model.fbx',
       (object) => {
         console.log('✅ FBX loaded:', object);
-        object.scale.set(0.1, 0.1, 0.1);
-        object.position.set(0, 2, 0);
+        model = object;
+        model.scale.set(0.1, 0.1, 0.1);
+        model.position.set(0, 2, 0);
 
-        object.traverse(child => {
+        model.traverse(child => {
           if (child.isMesh) {
             child.material = new THREE.MeshStandardMaterial({
               color: 0x00aaff,
-              metalness: 0.5,
-              roughness: 0.5
+              metalness: 0.4,
+              roughness: 0.6
             });
           }
         });
 
-        scene.add(object);
+        scene.add(model);
       },
       (xhr) => {
         console.log(`Loading FBX: ${(xhr.loaded / xhr.total * 100).toFixed(0)}%`);
@@ -185,14 +172,14 @@
       }
     );
 
-    // Mouse rotation
+    // Subtle parallax rotation
     let targetRotationX = 0;
     let targetRotationY = 0;
     document.addEventListener('mousemove', (event) => {
       const x = (event.clientX / window.innerWidth) - 0.5;
       const y = (event.clientY / window.innerHeight) - 0.5;
-      targetRotationY = x * Math.PI;
-      targetRotationX = y * Math.PI;
+      targetRotationY = x * 0.2;
+      targetRotationX = y * 0.2;
     });
 
     window.addEventListener('resize', () => {
@@ -203,8 +190,10 @@
 
     function animate() {
       requestAnimationFrame(animate);
-      scene.rotation.x += (targetRotationX - scene.rotation.x) * 0.05;
-      scene.rotation.y += (targetRotationY - scene.rotation.y) * 0.05;
+      if (model) {
+        model.rotation.x += (targetRotationX - model.rotation.x) * 0.05;
+        model.rotation.y += (targetRotationY - model.rotation.y) * 0.05;
+      }
       renderer.render(scene, camera);
     }
     animate();
