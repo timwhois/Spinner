@@ -7,9 +7,8 @@
   <style>
     :root {
       --primary-bg: #0D1B2A;
-      --header-bg: #000;
-      --feature-bg: #333;
       --text-color: #fff;
+      --feature-bg: #333;
     }
 
     * {
@@ -28,7 +27,7 @@
       justify-content: space-between;
       align-items: center;
       padding: 20px 40px;
-      background: var(--header-bg);
+      background: var(--primary-bg);
       position: relative;
       z-index: 10;
     }
@@ -54,6 +53,7 @@
       position: relative;
       height: 80vh;
       overflow: hidden;
+      background: var(--primary-bg);
     }
 
     canvas {
@@ -66,7 +66,7 @@
       display: flex;
       justify-content: space-around;
       padding: 40px 20px;
-      background: #222;
+      background: var(--primary-bg);
       flex-wrap: wrap;
     }
 
