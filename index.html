@@ -42,28 +42,33 @@
 
     // FBX Loader
     const loader = new FBXLoader();
-    loader.load('/Spinner/My-Model.fbx',
-      (object) => {
-        console.log('✅ FBX loaded:', object);
-        object.scale.set(5, 5, 5);
-        object.position.set(0, 0, 0);
+loader.load('/Spinner/My-Model.fbx',
+  (object) => {
+    console.log('✅ FBX loaded:', object);
 
-        // Force material if missing
-        object.traverse(child => {
-          if (child.isMesh) {
-            child.material = new THREE.MeshStandardMaterial({ color: 0x00aaff });
-          }
-        });
+    // Make it huge for visibility
+    object.scale.set(50, 50, 50);
+    object.position.set(0, 0, 0);
 
-        scene.add(object);
-      },
-      (xhr) => {
-        console.log(`Loading FBX: ${(xhr.loaded / xhr.total * 100).toFixed(0)}%`);
-      },
-      (error) => {
-        console.error('❌ Error loading FBX:', error);
+    // Force a bright visible color
+    object.traverse(child => {
+      if (child.isMesh) {
+        child.material = new THREE.MeshStandardMaterial({ color: 0xff00ff });
+        child.castShadow = true;
+        child.receiveShadow = true;
       }
-    );
+    });
+
+    scene.add(object);
+  },
+  (xhr) => {
+    console.log(`Loading FBX: ${(xhr.loaded / xhr.total * 100).toFixed(0)}%`);
+  },
+  (error) => {
+    console.error('❌ Error loading FBX:', error);
+  }
+);
+
 
     // Rotation
     let targetRotationX = 0;
