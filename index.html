@@ -2,109 +2,105 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Third Axis Design - FBX Viewer</title>
+  <title>Third Axis Design</title>
   <style>
+    :root {
+      --background-color: #0D1B2A;
+      --text-color: #FFFFFF;
+      --accent-color: #9CC9E2;
+    }
     body {
       margin: 0;
-      background-color: #0D1B2A;
+      background-color: var(--background-color);
+      color: var(--text-color);
+      font-family: 'Helvetica Neue', Arial, sans-serif;
       overflow: hidden;
-      font-family: sans-serif;
     }
-    canvas { display: block; }
     header {
-      position: absolute;
-      top: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      color: #9CC9E2;
-      font-weight: bold;
-      font-size: 1.2rem;
-      letter-spacing: 1px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 50px;
+      background-color: var(--background-color);
+    }
+    .nav-left {
+      display: flex;
+      gap: 20px;
+    }
+    .nav-left a {
+      text-decoration: none;
+      color: var(--accent-color);
+      font-weight: 600;
+      padding: 6px 16px;
+      border-radius: 20px;
+      background-color: rgba(255, 255, 255, 0.1);
+      transition: background-color 0.3s;
+    }
+    .nav-left a:hover {
+      background-color: rgba(255, 255, 255, 0.3);
+    }
+    .logo-center img {
+      height: 50px;
+      width: auto;
+      max-width: 300px;
+      filter: brightness(0) invert(1);
+    }
+    .hero {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      height: calc(100vh - 100px);
+      padding: 0 50px 100px;
+      background-color: var(--background-color);
+    }
+    .hero h1 {
+      font-size: 8vw;
+      font-weight: 200;
+      letter-spacing: -1px;
+      margin: 0;
+      line-height: 1.1;
+      max-width: 90vw;
+    }
+    .hero span {
+      display: block;
+      font-weight: 800;
+      font-size: 9vw;
+      letter-spacing: 0;
+    }
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        gap: 15px;
+      }
+      .hero {
+        padding: 0 20px 60px;
+      }
+      .hero h1 {
+        font-size: 12vw;
+      }
+      .hero span {
+        font-size: 13vw;
+      }
     }
   </style>
 </head>
 <body>
-  <header>Third Axis Design</header>
-  <canvas id="three-canvas"></canvas>
-  <script type="module">
-    import * as THREE from 'https://esm.sh/three@0.158.0';
-    import { FBXLoader } from 'https://esm.sh/three@0.158.0/examples/jsm/loaders/FBXLoader.js';
+  <header>
+    <div class="nav-left">
+      <a href="#">Shop</a>
+      <a href="#">Affirm</a>
+      <a href="#">News</a>
+    </div>
+    <div class="logo-center">
+      <img src="Logo 2.svg" alt="Third Axis Design Logo">
+    </div>
+  </header>
 
-    // Renderer
-    const canvas = document.getElementById('three-canvas');
-    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(window.devicePixelRatio);
-
-    // Scene
-    const scene = new THREE.Scene();
-    scene.background = new THREE.Color('#0D1B2A');
-
-    // Default Camera (fallback)
-    let camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 2000);
-    camera.position.set(0, 2, 10);
-    scene.add(camera);
-
-    // Imported Camera (if found in FBX)
-    let importedCamera = null;
-
-    // Lighting
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-    scene.add(ambientLight);
-
-    const dirLight = new THREE.DirectionalLight(0xffffff, 1);
-    dirLight.position.set(5, 10, 5);
-    scene.add(dirLight);
-
-    const hemiLight = new THREE.HemisphereLight(0xffffff, 0x444444, 0.5);
-    hemiLight.position.set(0, 20, 0);
-    scene.add(hemiLight);
-
-    // FBX Loader
-    const loader = new FBXLoader();
-    loader.load('My-Model.fbx',
-      (object) => {
-        console.log('✅ FBX loaded:', object);
-
-        // Add object to the scene
-        scene.add(object);
-
-        // Look for a camera in the FBX
-        object.traverse((child) => {
-          if (child.isCamera) {
-            console.log('✅ Imported camera found in FBX:', child);
-            importedCamera = child;
-          }
-        });
-      },
-      (xhr) => {
-        console.log(`Loading FBX: ${(xhr.loaded / xhr.total * 100).toFixed(0)}%`);
-      },
-      (error) => {
-        console.error('❌ Error loading FBX:', error);
-      }
-    );
-
-    // Handle Resize
-    window.addEventListener('resize', () => {
-      const aspect = window.innerWidth / window.innerHeight;
-      if (camera) {
-        camera.aspect = aspect;
-        camera.updateProjectionMatrix();
-      }
-      if (importedCamera) {
-        importedCamera.aspect = aspect;
-        importedCamera.updateProjectionMatrix();
-      }
-      renderer.setSize(window.innerWidth, window.innerHeight);
-    });
-
-    // Animation loop
-    function animate() {
-      requestAnimationFrame(animate);
-      renderer.render(scene, importedCamera || camera);
-    }
-    animate();
-  </script>
+  <section class="hero">
+    <h1>
+      Making Ideas <br>
+      <span>A REALITY</span>
+    </h1>
+  </section>
 </body>
 </html>
