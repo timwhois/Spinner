@@ -8,7 +8,6 @@
     :root {
       --primary-bg: #0D1B2A;
       --text-color: #fff;
-      --feature-bg: #333;
     }
 
     * {
@@ -71,17 +70,21 @@
     }
 
     .feature-box {
-      background: var(--feature-bg);
+      background: linear-gradient(145deg, #2C3E50, #1A252F);
       padding: 20px;
       width: 250px;
       margin: 20px;
-      border-radius: 30px 0 0 0;
+      border-radius: 30px 10px 10px 10px;
       text-align: center;
-      transition: background 0.3s;
+      color: var(--text-color);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+      transition: transform 0.3s, background 0.3s, box-shadow 0.3s;
     }
 
     .feature-box:hover {
-      background: #444;
+      background: linear-gradient(145deg, #3A4E65, #253544);
+      transform: scale(1.05);
+      box-shadow: 0 12px 20px rgba(0, 0, 0, 0.4);
     }
 
     .feature-box h3 {
