@@ -46,7 +46,7 @@ import { FBXLoader } from 'https://esm.sh/three@0.158.0/examples/jsm/loaders/FBX
     loader.load('My-Model.fbx',
       (object) => {
         console.log('✅ FBX loaded:', object);
-        object.scale.set(1, 1, 1);
+        object.scale.set(0.01, 0.01, 0.01);
         object.position.set(0, 0, 0);
 
         // Force material if missing
