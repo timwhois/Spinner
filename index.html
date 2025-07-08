@@ -186,43 +186,49 @@
     // Load FBX with optional camera
     const loader = new FBXLoader();
     loader.load('My-Model.fbx',
-      (object) => {
-        let importedCamera = null;
+  (object) => {
+    let importedCamera = null;
 
-        object.traverse((child) => {
-          if (child.isCamera) {
-            importedCamera = child;
-          }
-
-          if (child.isMesh) {
-            // Optional material override
-            // child.material = new THREE.MeshStandardMaterial({
-            //   color: 0x00aaff
-            // });
-          }
-        });
-
-        if (importedCamera) {
-          camera = importedCamera;
-          camera.aspect = window.innerWidth / window.innerHeight;
-          camera.updateProjectionMatrix();
-          scene.add(camera);
-          console.log('✅ Using imported camera!');
-        } else {
-          console.warn('⚠️ No camera found in FBX. Using default camera.');
-        }
-
-        // Optional: scale your model
-        object.scale.set(0.1, 0.1, 0.1);
-        scene.add(object);
-      },
-      (xhr) => {
-        console.log(`Loading FBX: ${(xhr.loaded / xhr.total * 100).toFixed(0)}%`);
-      },
-      (error) => {
-        console.error('❌ Error loading FBX:', error);
+    object.traverse((child) => {
+      if (child.isCamera) {
+        importedCamera = child;
       }
-    );
+
+      if (child.isMesh) {
+        // Optional: apply material
+        // child.material = new THREE.MeshStandardMaterial({ color: 0x00aaff });
+      }
+    });
+
+    if (importedCamera) {
+      // Force it to aim at your model
+      importedCamera.lookAt(0, 0, 0);
+
+      // Optionally reposition if needed
+      // importedCamera.position.set(2, 2, 5);
+
+      camera = importedCamera;
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      scene.add(camera);
+
+      console.log('✅ Using imported camera with lookAt fix!');
+    } else {
+      console.warn('⚠️ No camera found in FBX. Using default camera.');
+    }
+
+    // Add your model to the scene
+    object.scale.set(0.1, 0.1, 0.1);
+    scene.add(object);
+  },
+  (xhr) => {
+    console.log(`Loading FBX: ${(xhr.loaded / xhr.total * 100).toFixed(0)}%`);
+  },
+  (error) => {
+    console.error('❌ Error loading FBX:', error);
+  }
+);
+
 
     // Handle resizing
     window.addEventListener('resize', () => {
