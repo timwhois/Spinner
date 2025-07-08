@@ -80,29 +80,31 @@
       z-index: 5;
       display: flex;
       flex-direction: column;
-      justify-content: center;
-      align-items: center;
+      align-items: flex-start;
+      justify-content: flex-end;
       height: 100%;
-      padding: 40px 20px;
+      padding: 0 40px 25vh 40px; /* 25vh bottom buffer to sit ~1/4 up */
       background: linear-gradient(0deg, rgba(13,27,42,0.7) 0%, rgba(13,27,42,0.4) 50%, transparent 100%);
-      text-align: center;
     }
 
     .hero-overlay h1 {
       font-family: 'Playfair Display', serif;
-      font-size: 5rem;
-      line-height: 1.1;
-      max-width: 900px;
+      font-size: 6rem;
+      line-height: 1;
       margin: 0;
       color: #fff;
       text-shadow: 0 2px 4px rgba(0,0,0,0.6);
+      letter-spacing: -1px;
     }
 
-    .hero-overlay p {
-      margin-top: 20px;
-      font-size: 1.5rem;
-      max-width: 600px;
-      color: rgba(255,255,255,0.85);
+    .hero-overlay h2 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 3rem;
+      margin: 10px 0 0 0;
+      color: #fff;
+      text-transform: uppercase;
+      letter-spacing: 1px;
     }
 
     @media (max-width: 768px) {
@@ -116,12 +118,16 @@
         margin-bottom: 10px;
       }
 
-      .hero-overlay h1 {
-        font-size: 3rem;
+      .hero-overlay {
+        padding: 0 20px 20vh 20px;
       }
 
-      .hero-overlay p {
-        font-size: 1.2rem;
+      .hero-overlay h1 {
+        font-size: 3.5rem;
+      }
+
+      .hero-overlay h2 {
+        font-size: 2rem;
       }
     }
   </style>
@@ -139,7 +145,8 @@
   <section class="hero">
     <canvas id="three-canvas"></canvas>
     <div class="hero-overlay">
-      <h1>Making ideas a reality</h1>
+      <h1>Making Ideas</h1>
+      <h2>a Reality</h2>
     </div>
   </section>
 
