@@ -3,11 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <title>Third Axis Design</title>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
   <style>
     :root {
       --primary-bg: #0D1B2A;
       --text-color: #fff;
+      --accent-color: #3EB489;
     }
 
     * {
@@ -34,22 +35,28 @@
       background: transparent;
     }
 
-    header .logo {
-      font-weight: 700;
-      font-size: 1.2em;
-      letter-spacing: 1px;
+    .nav-left {
+      display: flex;
+      gap: 20px;
     }
 
-    header nav a {
-      margin-left: 20px;
+    .nav-left a {
       text-decoration: none;
       color: var(--text-color);
       font-weight: 700;
       transition: color 0.2s;
     }
 
-    header nav a:hover {
-      color: #3EB489;
+    .nav-left a:hover {
+      color: var(--accent-color);
+    }
+
+    .logo {
+      font-weight: 700;
+      font-size: 1.3em;
+      letter-spacing: 1px;
+      text-align: center;
+      flex: 1;
     }
 
     .hero {
@@ -74,40 +81,59 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
+      align-items: center;
       height: 100%;
-      padding: 80px 40px;
-      background: linear-gradient(0deg, rgba(13,27,42,0.75) 0%, rgba(13,27,42,0.4) 50%, transparent 100%);
+      padding: 40px 20px;
+      background: linear-gradient(0deg, rgba(13,27,42,0.7) 0%, rgba(13,27,42,0.4) 50%, transparent 100%);
+      text-align: center;
     }
 
     .hero-overlay h1 {
       font-family: 'Playfair Display', serif;
-      font-size: 4rem;
+      font-size: 5rem;
       line-height: 1.1;
-      max-width: 800px;
+      max-width: 900px;
       margin: 0;
       color: #fff;
       text-shadow: 0 2px 4px rgba(0,0,0,0.6);
     }
 
+    .hero-overlay p {
+      margin-top: 20px;
+      font-size: 1.5rem;
+      max-width: 600px;
+      color: rgba(255,255,255,0.85);
+    }
+
     @media (max-width: 768px) {
-      .hero-overlay h1 {
-        font-size: 2.5rem;
+      header {
+        flex-direction: column;
+        align-items: center;
+        padding: 15px 20px;
       }
 
-      header {
-        padding: 15px 20px;
+      .nav-left {
+        margin-bottom: 10px;
+      }
+
+      .hero-overlay h1 {
+        font-size: 3rem;
+      }
+
+      .hero-overlay p {
+        font-size: 1.2rem;
       }
     }
   </style>
 </head>
 <body>
   <header>
-    <div class="logo">Third Axis Design</div>
-    <nav>
+    <div class="nav-left">
       <a href="#">Work</a>
       <a href="#">About</a>
       <a href="#">Contact</a>
-    </nav>
+    </div>
+    <div class="logo">Third Axis Design</div>
   </header>
 
   <section class="hero">
