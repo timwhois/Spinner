@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Third Axis Design - Sky & Daylight Final</title>
+  <title>Third Axis Design - Use Embedded FBX Camera</title>
   <style>
     :root {
       --background-color: #0D1B2A;
@@ -173,58 +173,33 @@
     const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
-
-    // Physically correct lighting & tone mapping
+    renderer.shadowMap.enabled = true;
     renderer.physicallyCorrectLights = true;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1;
+    renderer.toneMappingExposure = 1.2;
 
     const scene = new THREE.Scene();
 
-    // Camera
-    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 2000);
+    let camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 2000);
+    camera.position.set(60, 5, 2);
     scene.add(camera);
 
-    function setCameraPositionForViewport() {
-      if (window.innerWidth < 768) {
-        camera.position.set(40, 3, 2);
-      } else {
-        camera.position.set(58.61, 4.67, 1.99);
-      }
-      camera.rotation.set(
-        THREE.MathUtils.degToRad(-16.94),
-        THREE.MathUtils.degToRad(77.52),
-        THREE.MathUtils.degToRad(16.56)
-      );
-    }
-
-    setCameraPositionForViewport();
-
-    // Lights
-    const ambient = new THREE.AmbientLight(0xffffff, 0.6);
-    scene.add(ambient);
-
-    const sunLight = new THREE.DirectionalLight(0xffffff, 5);
-    sunLight.position.set(100, 100, 100);
-    sunLight.castShadow = true;
-    scene.add(sunLight);
-
-    // Sky
+    // SKY
     const sky = new Sky();
     sky.scale.setScalar(10000);
     scene.add(sky);
 
     const skyUniforms = sky.material.uniforms;
-    skyUniforms['turbidity'].value = 10;
-    skyUniforms['rayleigh'].value = 3;
-    skyUniforms['mieCoefficient'].value = 0.005;
-    skyUniforms['mieDirectionalG'].value = 0.8;
+    skyUniforms['turbidity'].value = 4;
+    skyUniforms['rayleigh'].value = 2;
+    skyUniforms['mieCoefficient'].value = 0.001;
+    skyUniforms['mieDirectionalG'].value = 0.7;
 
     const sun = new THREE.Vector3();
-    sun.setFromSphericalCoords(1, THREE.MathUtils.degToRad(90 - 20), THREE.MathUtils.degToRad(180));
+    sun.setFromSphericalCoords(1, THREE.MathUtils.degToRad(90 - 30), THREE.MathUtils.degToRad(180));
     sky.material.uniforms['sunPosition'].value.copy(sun);
 
-    // Generate environment map from Sky
+    // ENVIRONMENT MAP
     const pmremGenerator = new PMREMGenerator(renderer);
     pmremGenerator.compileEquirectangularShader();
     const renderTarget = pmremGenerator.fromScene(sky);
@@ -232,11 +207,42 @@
     scene.environment = envMap;
     scene.background = envMap;
 
-    // Load FBX
+    // LIGHTS
+    const ambient = new THREE.AmbientLight(0xffffff, 0.4);
+    scene.add(ambient);
+
+    const sunLight = new THREE.DirectionalLight(0xffffff, 4);
+    sunLight.position.set(50, 100, 50);
+    sunLight.castShadow = true;
+    sunLight.shadow.mapSize.width = 2048;
+    sunLight.shadow.mapSize.height = 2048;
+    scene.add(sunLight);
+
+    // FBX LOADER
     const loader = new FBXLoader();
     loader.load('My-Model.fbx',
       (object) => {
         console.log('✅ FBX loaded:', object);
+
+        let importedCamera = null;
+        object.traverse(child => {
+          if (child.isCamera) {
+            console.log('✅ Found embedded camera:', child);
+            importedCamera = child;
+          }
+          if (child.isMesh) {
+            child.castShadow = true;
+            child.receiveShadow = true;
+          }
+        });
+
+        if (importedCamera) {
+          camera = importedCamera;
+          camera.aspect = window.innerWidth / window.innerHeight;
+          camera.updateProjectionMatrix();
+          scene.add(camera);
+        }
+
         object.scale.set(0.2, 0.2, 0.2);
         scene.add(object);
       },
@@ -252,7 +258,6 @@
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
-      setCameraPositionForViewport();
     });
 
     function animate() {
