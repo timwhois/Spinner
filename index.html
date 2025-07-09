@@ -26,7 +26,7 @@
       width: 100vw;
       height: 100vh;
       z-index: 0;
-      background-color: #0D1B2A;
+      background-color: var(--background-color);
     }
 
     header {
@@ -168,15 +168,17 @@
 
   <script type="module">
     import * as THREE from 'https://esm.sh/three';
-    import { FBXLoader } from 'https://esm.sh/three/examples/jsm/loaders/FBXLoader.js';
-    import { GLTFLoader } from 'https://esm.sh/three/examples/jsm/loaders/GLTFLoader.js';
     import { OrbitControls } from 'https://esm.sh/three/examples/jsm/controls/OrbitControls.js';
+    import { GLTFLoader } from 'https://esm.sh/three/examples/jsm/loaders/GLTFLoader.js';
+    import { RGBELoader } from 'https://esm.sh/three/examples/jsm/loaders/RGBELoader.js';
 
     const canvas = document.getElementById('three-canvas');
     const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
-    renderer.shadowMap.enabled = true;
+    renderer.outputEncoding = THREE.sRGBEncoding;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.0;
 
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0x0D1B2A);
@@ -190,85 +192,52 @@
       THREE.MathUtils.degToRad(0)
     );
 
-    // Controls
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
-    controls.dampingFactor = 0.1;
+    controls.dampingFactor = 0.05;
     controls.rotateSpeed = 0.5;
     controls.zoomSpeed = 0.5;
-    controls.target.set(0, 0, 0);
 
     // Lights
-    const hemiLight = new THREE.HemisphereLight(0xffffff, 0x444444, 1.0);
-    hemiLight.position.set(0, 200, 0);
+    const hemiLight = new THREE.HemisphereLight(0xffffff, 0x444444, 1.2);
     scene.add(hemiLight);
 
-    const dirLight = new THREE.DirectionalLight(0xffffff, 1.2);
+    const dirLight = new THREE.DirectionalLight(0xffffff, 2);
     dirLight.position.set(100, 200, 100);
     dirLight.castShadow = true;
-    dirLight.shadow.camera.top = 180;
-    dirLight.shadow.camera.bottom = -100;
-    dirLight.shadow.camera.left = -120;
-    dirLight.shadow.camera.right = 120;
     scene.add(dirLight);
 
-    // Ground (optional)
-    const groundGeo = new THREE.PlaneGeometry(2000, 2000);
-    const groundMat = new THREE.MeshPhongMaterial({ color: 0x0D1B2A, depthWrite: false });
-    const ground = new THREE.Mesh(groundGeo, groundMat);
-    ground.rotation.x = -Math.PI / 2;
-    ground.receiveShadow = true;
-    scene.add(ground);
+    // HDRI Environment
+    new RGBELoader()
+      .setDataType(THREE.UnsignedByteType)
+      .load('golden_gate_hills_2k.hdr', function(texture) {
+        texture.mapping = THREE.EquirectangularReflectionMapping;
+        scene.environment = texture;
+      });
 
-    // Sky (simple gradient)
-    const skyGeo = new THREE.SphereGeometry(1000, 32, 32);
-    const skyMat = new THREE.MeshBasicMaterial({
-      color: 0x87CEEB,
-      side: THREE.BackSide
-    });
-    const sky = new THREE.Mesh(skyGeo, skyMat);
-    scene.add(sky);
-
-    // Load your model (choose ONE)
-    const fbxLoader = new FBXLoader();
-    fbxLoader.load('My-Model.fbx',
-      (object) => {
-        object.traverse(child => {
+    // Load GLB model
+    const loader = new GLTFLoader();
+    loader.load('My-Model.glb',
+      (gltf) => {
+        gltf.scene.traverse(child => {
           if (child.isMesh) {
             child.castShadow = true;
             child.receiveShadow = true;
-            child.material.color.set(0xC49E6C);
           }
         });
-        object.scale.set(0.2, 0.2, 0.2);
-        scene.add(object);
+        gltf.scene.scale.set(1, 1, 1);
+        scene.add(gltf.scene);
       },
-      xhr => console.log(`Loading FBX: ${ (xhr.loaded / xhr.total * 100).toFixed(0) }%`),
-      error => console.error('❌ FBX load error:', error)
+      (xhr) => console.log(`Loading: ${(xhr.loaded / xhr.total * 100).toFixed(0)}%`),
+      (error) => console.error('❌ Error loading model:', error)
     );
 
-    /*
-    // Example for GLTF instead:
-    const gltfLoader = new GLTFLoader();
-    gltfLoader.load('My-Model.glb', (gltf) => {
-      gltf.scene.traverse(child => {
-        if (child.isMesh) {
-          child.castShadow = true;
-          child.receiveShadow = true;
-        }
-      });
-      scene.add(gltf.scene);
-    });
-    */
-
-    // Handle resize
     window.addEventListener('resize', () => {
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
     });
 
-    // Show camera info
     const cameraInfo = document.getElementById('camera-info');
     function updateCameraInfo() {
       cameraInfo.innerText = `Position:
@@ -282,13 +251,13 @@ y: ${(THREE.MathUtils.radToDeg(camera.rotation.y)).toFixed(2)}°
 z: ${(THREE.MathUtils.radToDeg(camera.rotation.z)).toFixed(2)}°`;
     }
 
-    // Animation loop
     function animate() {
       requestAnimationFrame(animate);
       controls.update();
       updateCameraInfo();
       renderer.render(scene, camera);
     }
+
     animate();
   </script>
 </body>
