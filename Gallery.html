@@ -3,12 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Spinner Gallery - Big Scrollable Grid</title>
+  <title>Spinner Gallery - Filled Grid</title>
   <style>
     body {
       margin: 0;
       background: #f0f0f0;
-      overflow: hidden;
       font-family: sans-serif;
     }
 
@@ -17,16 +16,16 @@
       height: 100vh;
       overflow: auto;
       box-sizing: border-box;
+      padding: 20px;
     }
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(40, 200px);
-      grid-template-rows: repeat(40, 200px);
+      grid-template-columns: repeat(auto-fill, 200px);
+      grid-auto-rows: 200px;
       gap: 12px;
-      position: relative;
+      grid-auto-flow: dense;
       box-sizing: border-box;
-      padding: 20px;
     }
 
     .grid-item {
@@ -81,7 +80,9 @@
 
     const grid = document.getElementById('grid');
 
-    const totalItems = 150;
+    const totalItems = 100;
+
+    const spanOptions = [1, 2]; // 1 or 2 grid cells
 
     for (let i = 0; i < totalItems; i++) {
       const item = document.createElement('div');
@@ -90,14 +91,11 @@
       // Random rounded corner
       item.classList.add(roundedClasses[Math.floor(Math.random() * roundedClasses.length)]);
 
-      // Random grid position and span
-      const colStart = Math.floor(Math.random() * 40) + 1;
-      const rowStart = Math.floor(Math.random() * 40) + 1;
-      const colSpan = Math.floor(Math.random() * 2) + 1;
-      const rowSpan = Math.floor(Math.random() * 2) + 1;
-
-      item.style.gridColumn = `${colStart} / span ${colSpan}`;
-      item.style.gridRow = `${rowStart} / span ${rowSpan}`;
+      // Random grid spans
+      const colSpan = spanOptions[Math.floor(Math.random() * spanOptions.length)];
+      const rowSpan = spanOptions[Math.floor(Math.random() * spanOptions.length)];
+      item.style.gridColumn = `span ${colSpan}`;
+      item.style.gridRow = `span ${rowSpan}`;
 
       // Random image
       const img = document.createElement('img');
