@@ -2,14 +2,13 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Third Axis Design - Fixed Camera</title>
+  <title>Third Axis Design</title>
   <style>
     :root {
       --background-color: #0D1B2A;
       --text-color: #FFFFFF;
       --accent-color: #9CC9E2;
     }
-
     html, body {
       margin: 0;
       padding: 0;
@@ -19,36 +18,38 @@
       font-family: 'Helvetica Neue', Arial, sans-serif;
       overflow: hidden;
     }
-
     #three-canvas {
       position: fixed;
       top: 0;
       left: 0;
       width: 100vw;
       height: 100vh;
-      z-index: 1;
-      pointer-events: none;
-      background-color: transparent;
+      z-index: 0;
     }
-
     header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 70px 50px 20px;
+      padding: 40px 50px 20px;
       position: relative;
       z-index: 2;
     }
-
-    .nav-left,
-    .nav-spacer {
+    .logo-center {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    .logo-center img {
+      height: 140px;
+      width: auto;
+      max-width: 90vw;
+    }
+    .nav-left, .nav-spacer {
       flex: 1;
       display: flex;
       gap: 20px;
       align-items: center;
-      justify-content: center;
     }
-
     .nav-left a {
       text-decoration: none;
       color: var(--accent-color);
@@ -58,34 +59,18 @@
       background-color: rgba(255, 255, 255, 0.1);
       transition: background-color 0.3s;
     }
-
     .nav-left a:hover {
       background-color: rgba(255, 255, 255, 0.3);
     }
-
-    .logo-center {
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-    }
-
-    .logo-center img {
-      height: 180px;
-      width: auto;
-      max-width: 90vw;
-    }
-
     .hero {
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
-      height: calc(100vh - 260px);
+      height: calc(100vh - 220px);
       padding: 0 50px 100px;
       position: relative;
       z-index: 2;
-      text-align: left;
     }
-
     .hero h1 {
       font-size: 8vw;
       font-weight: 200;
@@ -94,42 +79,33 @@
       line-height: 1.1;
       max-width: 90vw;
     }
-
     .hero span {
       display: block;
       font-weight: 800;
       font-size: 9vw;
       letter-spacing: 0;
     }
-
     @media (max-width: 768px) {
       header {
         flex-direction: column;
         gap: 15px;
-        padding: 30px 20px 15px;
+        padding: 20px;
       }
-
       .logo-center {
         position: static;
         transform: none;
         margin-top: 10px;
       }
-
       .logo-center img {
         height: 100px;
-        max-width: 80vw;
       }
-
       .hero {
         padding: 0 20px 60px;
         height: auto;
-        text-align: center;
       }
-
       .hero h1 {
         font-size: 12vw;
       }
-
       .hero span {
         font-size: 13vw;
       }
@@ -161,46 +137,86 @@
   <script type="module">
     import * as THREE from 'https://esm.sh/three';
     import { FBXLoader } from 'https://esm.sh/three/examples/jsm/loaders/FBXLoader.js';
+    import { RGBELoader } from 'https://esm.sh/three/examples/jsm/loaders/RGBELoader.js';
+    import { OrbitControls } from 'https://esm.sh/three/examples/jsm/controls/OrbitControls.js';
 
     const canvas = document.getElementById('three-canvas');
-    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.outputEncoding = THREE.sRGBEncoding;
+    renderer.physicallyCorrectLights = true;
     renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x0d1b2a);
 
-    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 2000);
-    camera.position.set(195.09, 158.04, 385.09);
-    camera.rotation.set(
-      THREE.MathUtils.degToRad(-22.35),
-      THREE.MathUtils.degToRad(36.67),
-      THREE.MathUtils.degToRad(0)
-    );
-    scene.add(camera);
+    let camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 2000);
+    camera.position.set(5, 5, 10);
 
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
-    scene.add(ambientLight);
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.05;
+    controls.target.set(0, 0, 0);
+    controls.update();
 
-    const dirLight = new THREE.DirectionalLight(0xffffff, 1.2);
-    dirLight.position.set(5, 10, 5);
+    // Load HDR environment
+    const pmremGenerator = new THREE.PMREMGenerator(renderer);
+    pmremGenerator.compileEquirectangularShader();
+
+    new RGBELoader()
+      .setDataType(THREE.UnsignedByteType)
+      .load('golden_gate_hills_2k.exr', (texture) => {
+        const envMap = pmremGenerator.fromEquirectangular(texture).texture;
+        scene.environment = envMap;
+        scene.background = envMap;
+        texture.dispose();
+        pmremGenerator.dispose();
+      });
+
+    // Lighting
+    const dirLight = new THREE.DirectionalLight(0xffffff, 2);
+    dirLight.position.set(50, 100, 50);
     dirLight.castShadow = true;
+    dirLight.shadow.mapSize.width = 2048;
+    dirLight.shadow.mapSize.height = 2048;
     scene.add(dirLight);
+
+    const ambient = new THREE.AmbientLight(0xffffff, 0.3);
+    scene.add(ambient);
+
+    // Ground plane for shadows
+    const groundGeo = new THREE.PlaneGeometry(1000, 1000);
+    const groundMat = new THREE.ShadowMaterial({ opacity: 0.3 });
+    const ground = new THREE.Mesh(groundGeo, groundMat);
+    ground.rotation.x = -Math.PI / 2;
+    ground.position.y = -0.01;
+    ground.receiveShadow = true;
+    scene.add(ground);
 
     // Load FBX
     const loader = new FBXLoader();
-    loader.load('My-Model.fbx', (object) => {
-      console.log('✅ FBX loaded:', object);
-      object.scale.set(0.2, 0.2, 0.2);
-      object.traverse(child => {
-        if (child.isMesh) {
-          child.castShadow = true;
-          child.receiveShadow = true;
-        }
-      });
-      scene.add(object);
-    });
+    loader.load('My-Model.fbx',
+      (object) => {
+        console.log('✅ FBX loaded:', object);
+
+        object.traverse((child) => {
+          if (child.isMesh) {
+            child.castShadow = true;
+            child.receiveShadow = true;
+            if (child.material) {
+              child.material.roughness = 0.8;
+              child.material.metalness = 0.1;
+            }
+          }
+        });
+
+        object.scale.set(0.2, 0.2, 0.2);
+        scene.add(object);
+      },
+      (xhr) => console.log(`Loading FBX: ${(xhr.loaded / xhr.total * 100).toFixed(0)}%`),
+      (error) => console.error('❌ Error loading FBX:', error)
+    );
 
     window.addEventListener('resize', () => {
       camera.aspect = window.innerWidth / window.innerHeight;
@@ -210,9 +226,9 @@
 
     function animate() {
       requestAnimationFrame(animate);
+      controls.update();
       renderer.render(scene, camera);
     }
-
     animate();
   </script>
 </body>
