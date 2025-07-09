@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Third Axis Design - Mobile Friendly</title>
+  <title>Third Axis Design - Sky & Daylight</title>
   <style>
     :root {
       --background-color: #0D1B2A;
@@ -102,7 +102,6 @@
       letter-spacing: 0;
     }
 
-    /* Mobile Styles */
     @media (max-width: 768px) {
       header {
         flex-direction: column;
@@ -167,6 +166,7 @@
   <script type="module">
     import * as THREE from 'https://esm.sh/three';
     import { FBXLoader } from 'https://esm.sh/three/examples/jsm/loaders/FBXLoader.js';
+    import { Sky } from 'https://esm.sh/three/examples/jsm/objects/Sky.js';
 
     const canvas = document.getElementById('three-canvas');
     const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
@@ -175,40 +175,55 @@
 
     const scene = new THREE.Scene();
 
-    // Camera with default desktop position
+    // Camera
     const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 2000);
-    camera.position.set(58.61, 4.67, 1.99);
-    camera.rotation.set(
-      THREE.MathUtils.degToRad(-16.94),
-      THREE.MathUtils.degToRad(77.52),
-      THREE.MathUtils.degToRad(16.56)
-    );
     scene.add(camera);
 
-    // Lights
-    scene.add(new THREE.AmbientLight(0xffffff, 2.5));
-    const dirLight = new THREE.DirectionalLight(0xffffff, 5);
-    dirLight.position.set(20, 30, 20);
-    scene.add(dirLight);
+    function setCameraPositionForViewport() {
+      if (window.innerWidth < 768) {
+        camera.position.set(40, 3, 2);
+      } else {
+        camera.position.set(58.61, 4.67, 1.99);
+      }
+      camera.rotation.set(
+        THREE.MathUtils.degToRad(-16.94),
+        THREE.MathUtils.degToRad(77.52),
+        THREE.MathUtils.degToRad(16.56)
+      );
+    }
 
-    // Load FBX
+    setCameraPositionForViewport();
+
+    // Lights
+    const ambient = new THREE.AmbientLight(0xffffff, 0.8);
+    scene.add(ambient);
+
+    const sunLight = new THREE.DirectionalLight(0xffffff, 1.2);
+    sunLight.position.set(100, 100, 100);
+    sunLight.castShadow = true;
+    scene.add(sunLight);
+
+    // Sky
+    const sky = new Sky();
+    sky.scale.setScalar(10000);
+    scene.add(sky);
+
+    const skyUniforms = sky.material.uniforms;
+    skyUniforms['turbidity'].value = 10;
+    skyUniforms['rayleigh'].value = 3;
+    skyUniforms['mieCoefficient'].value = 0.005;
+    skyUniforms['mieDirectionalG'].value = 0.8;
+
+    const sun = new THREE.Vector3();
+    sun.setFromSphericalCoords(1, THREE.MathUtils.degToRad(90 - 20), THREE.MathUtils.degToRad(180));
+    sky.material.uniforms['sunPosition'].value.copy(sun);
+
+    // FBX Loader (no material override)
     const loader = new FBXLoader();
     loader.load('My-Model.fbx',
       (object) => {
         console.log('✅ FBX loaded:', object);
         object.scale.set(0.2, 0.2, 0.2);
-
-        // Force bright brand-colored material
-        object.traverse((child) => {
-          if (child.isMesh) {
-            child.material = new THREE.MeshStandardMaterial({
-              color: 0x9CC9E2,
-              metalness: 0.1,
-              roughness: 0.4
-            });
-          }
-        });
-
         scene.add(object);
       },
       (xhr) => {
@@ -219,24 +234,12 @@
       }
     );
 
-    // Responsive camera adjustment
-    function adjustCameraForViewport() {
-      if (window.innerWidth < 768) {
-        camera.position.set(40, 3, 2);
-      } else {
-        camera.position.set(58.61, 4.67, 1.99);
-      }
-    }
-
     window.addEventListener('resize', () => {
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
-      adjustCameraForViewport();
+      setCameraPositionForViewport();
     });
-
-    // Initial camera adjustment
-    adjustCameraForViewport();
 
     function animate() {
       requestAnimationFrame(animate);
