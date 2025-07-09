@@ -6,125 +6,236 @@
 <title>Third Axis Design - Gallery</title>
 <style>
 :root {
---background-color: #0D1B2A;
---text-color: #FFFFFF;
---accent-color: #9CC9E2;
+  --background-color: #0D1B2A;
+  --text-color: #FFFFFF;
+  --accent-color: #9CC9E2;
 }
 
+/* Base styles */
 html, body {
-margin: 0;
-padding: 0;
-height: 100%;
-background-color: var(--background-color);
-font-family: 'Helvetica Neue', Arial, sans-serif;
-color: var(--text-color);
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background-color: var(--background-color);
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  color: var(--text-color);
 }
 
+/* Header with logo and nav (including hamburger) */
 header {
-position: relative;
-z-index: 10;
-background-color: var(--background-color);
-border-bottom: 2px solid #ffffff33;
-display: flex;
-justify-content: space-between;
-align-items: center;
-padding: 70px 50px 20px;
-      margin-bottom: 40px;
+  position: relative;
+  z-index: 10;
+  background-color: var(--background-color);
+  border-bottom: 2px solid #ffffff33;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 70px 50px 20px;
 }
 
+/* Hamburger toggle (for mobile) */
 .menu-toggle {
-@@ -104,6 +105,7 @@
-flex-direction: column;
-align-items: stretch;
-padding: 20px;
-        margin-bottom: 20px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px;
+  border: none;
+  background: none;
 }
 
-.menu-toggle {
-@@ -186,85 +188,85 @@
-</div>
-<nav class="nav-overlay">
-<a href="index.html">Home</a>
-      <a href="gallery.html" class="active">Gallery</a>
-      <a href="Gallery.html" class="active">Gallery</a>
-<a href="#">Shop</a>
-<a href="#">Affirm</a>
-<a href="#">News</a>
-</nav>
-<nav class="mobile-nav" id="mobileNav">
-<a href="index.html">Home</a>
-      <a href="gallery.html" class="active">Gallery</a>
-      <a href="Gallery.html" class="active">Gallery</a>
-<a href="#">Shop</a>
-<a href="#">Affirm</a>
-<a href="#">News</a>
-</nav>
+.menu-toggle span {
+  width: 25px;
+  height: 3px;
+  background-color: var(--text-color);
+}
+
+/* Nav overlay for mobile */
+.nav-overlay {
+  display: none;
+  flex-direction: column;
+  align-items: stretch;
+  background-color: var(--background-color);
+  padding: 20px;
+}
+
+/* Mobile nav (hamburger menu) */
+.mobile-nav {
+  display: none;
+  flex-direction: column;
+  background-color: var(--background-color);
+  padding: 20px;
+}
+
+.mobile-nav a {
+  color: var(--text-color);
+  text-decoration: none;
+  padding: 10px 0;
+  border-bottom: 1px solid #ffffff33;
+}
+
+.mobile-nav a.active {
+  color: var(--accent-color);
+  font-weight: bold;
+}
+
+.mobile-nav.show {
+  display: flex;
+}
+
+/* Desktop nav links */
+header nav a {
+  color: var(--text-color);
+  text-decoration: none;
+  margin-left: 20px;
+  padding: 8px 16px;
+  border-radius: 20px;
+  background-color: transparent;
+  border: 1px solid var(--accent-color);
+  transition: background-color 0.3s ease;
+}
+
+header nav a.active,
+header nav a:hover {
+  background-color: var(--accent-color);
+  color: #0D1B2A;
+}
+
+/* --- THE FIX --- */
+/* Push the gallery down below the header to prevent overlap */
+.scroll-container {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 180px 20px 20px; /* This is the key! Adjust as needed */
+  background-color: var(--background-color);
+}
+
+/* Grid styles */
+.grid {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(150px, 300px);
+  grid-template-rows: repeat(3, 200px);
+  gap: 12px;
+}
+
+/* Grid items with fade-in */
+.grid-item {
+  position: relative;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateX(-50px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+  display: flex;
+}
+
+.grid-item.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.grid-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Rounded corner options */
+.rounded-top-left    { border-top-left-radius: 30px; }
+.rounded-top-right   { border-top-right-radius: 30px; }
+.rounded-bottom-left { border-bottom-left-radius: 30px; }
+.rounded-bottom-right{ border-bottom-right-radius: 30px; }
+</style>
+</head>
+
+<body>
+<header>
+  <div class="menu-toggle" id="menuToggle">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+  <nav class="nav-overlay">
+    <a href="index.html">Home</a>
+    <a href="gallery.html" class="active">Gallery</a>
+    <a href="#">Shop</a>
+    <a href="#">Affirm</a>
+    <a href="#">News</a>
+  </nav>
+  <nav class="mobile-nav" id="mobileNav">
+    <a href="index.html">Home</a>
+    <a href="gallery.html" class="active">Gallery</a>
+    <a href="#">Shop</a>
+    <a href="#">Affirm</a>
+    <a href="#">News</a>
+  </nav>
 </header>
 
 <div class="scroll-container">
-<div class="grid" id="grid"></div>
+  <div class="grid" id="grid"></div>
 </div>
 
 <script>
 const imageUrls = [
-"https://raw.githubusercontent.com/timwhois/Spinner/main/Images/2.png",
-"https://raw.githubusercontent.com/timwhois/Spinner/main/Images/2detail.png",
-"https://raw.githubusercontent.com/timwhois/Spinner/main/Images/3detail.png"
+  "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/2.png",
+  "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/2detail.png",
+  "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/3detail.png"
 ];
 
 const roundedClasses = [
-'rounded-top-left',
-'rounded-top-right',
-'rounded-bottom-left',
-'rounded-bottom-right'
+  'rounded-top-left',
+  'rounded-top-right',
+  'rounded-bottom-left',
+  'rounded-bottom-right'
 ];
 
 const grid = document.getElementById('grid');
-const totalItems = 300;
+const totalItems = 60;
 const spanOptions = [1, 2];
 
 for (let i = 0; i < totalItems; i++) {
-const item = document.createElement('div');
-item.classList.add('grid-item');
-item.classList.add(roundedClasses[Math.floor(Math.random() * roundedClasses.length)]);
+  const item = document.createElement('div');
+  item.classList.add('grid-item');
+  item.classList.add(roundedClasses[Math.floor(Math.random() * roundedClasses.length)]);
 
-const colSpan = spanOptions[Math.floor(Math.random() * spanOptions.length)];
-const rowSpan = spanOptions[Math.floor(Math.random() * spanOptions.length)];
-item.style.gridColumn = `span ${colSpan}`;
-item.style.gridRow = `span ${rowSpan}`;
+  const colSpan = spanOptions[Math.floor(Math.random() * spanOptions.length)];
+  const rowSpan = spanOptions[Math.floor(Math.random() * spanOptions.length)];
+  item.style.gridColumn = `span ${colSpan}`;
+  item.style.gridRow = `span ${rowSpan}`;
 
-const img = document.createElement('img');
-img.src = imageUrls[Math.floor(Math.random() * imageUrls.length)];
-img.alt = `Image ${i + 1}`;
+  const img = document.createElement('img');
+  img.src = imageUrls[Math.floor(Math.random() * imageUrls.length)];
+  img.alt = `Image ${i + 1}`;
 
-item.appendChild(img);
-grid.appendChild(item);
+  item.appendChild(img);
+  grid.appendChild(item);
 }
 
 const observer = new IntersectionObserver(
-entries => {
-entries.forEach(entry => {
-if (entry.isIntersecting) {
-entry.target.classList.add('visible');
-observer.unobserve(entry.target);
-}
-});
-},
-{
-root: document.querySelector('.scroll-container'),
-threshold: 0.1
-}
+  entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  },
+  {
+    root: document.querySelector('.scroll-container'),
+    threshold: 0.1
+  }
 );
 
 document.querySelectorAll('.grid-item').forEach(item => {
-observer.observe(item);
+  observer.observe(item);
 });
 
-const toggle = document.querySelector('.menu-toggle');
+const toggle = document.getElementById('menuToggle');
 const mobileNav = document.getElementById('mobileNav');
 
 toggle.addEventListener('click', () => {
-mobileNav.classList.toggle('show');
+  mobileNav.classList.toggle('show');
 });
 </script>
 </body>
