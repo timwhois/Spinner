@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Third Axis Design - Sky & Daylight</title>
+  <title>Third Axis Design - Sky & Daylight Final</title>
   <style>
     :root {
       --background-color: #0D1B2A;
@@ -167,11 +167,17 @@
     import * as THREE from 'https://esm.sh/three';
     import { FBXLoader } from 'https://esm.sh/three/examples/jsm/loaders/FBXLoader.js';
     import { Sky } from 'https://esm.sh/three/examples/jsm/objects/Sky.js';
+    import { PMREMGenerator } from 'https://esm.sh/three';
 
     const canvas = document.getElementById('three-canvas');
     const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
+
+    // Physically correct lighting & tone mapping
+    renderer.physicallyCorrectLights = true;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1;
 
     const scene = new THREE.Scene();
 
@@ -195,10 +201,10 @@
     setCameraPositionForViewport();
 
     // Lights
-    const ambient = new THREE.AmbientLight(0xffffff, 0.8);
+    const ambient = new THREE.AmbientLight(0xffffff, 0.6);
     scene.add(ambient);
 
-    const sunLight = new THREE.DirectionalLight(0xffffff, 1.2);
+    const sunLight = new THREE.DirectionalLight(0xffffff, 5);
     sunLight.position.set(100, 100, 100);
     sunLight.castShadow = true;
     scene.add(sunLight);
@@ -218,7 +224,15 @@
     sun.setFromSphericalCoords(1, THREE.MathUtils.degToRad(90 - 20), THREE.MathUtils.degToRad(180));
     sky.material.uniforms['sunPosition'].value.copy(sun);
 
-    // FBX Loader (no material override)
+    // Generate environment map from Sky
+    const pmremGenerator = new PMREMGenerator(renderer);
+    pmremGenerator.compileEquirectangularShader();
+    const renderTarget = pmremGenerator.fromScene(sky);
+    const envMap = renderTarget.texture;
+    scene.environment = envMap;
+    scene.background = envMap;
+
+    // Load FBX
     const loader = new FBXLoader();
     loader.load('My-Model.fbx',
       (object) => {
