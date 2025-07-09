@@ -1,235 +1,131 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Gallery | Third Axis Design</title>
-  <style>
-    :root {
-      --header-height: 100px;
-      --header-bg: #0a1b2a;
-      --nav-button-bg: #2a3b4c;
-      --nav-button-active-bg: #7aa5d2;
-      --nav-button-text: #cfd8e3;
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Third Axis Design - Gallery</title>
+<style>
+:root {
+--background-color: #0D1B2A;
+--text-color: #FFFFFF;
+--accent-color: #9CC9E2;
+}
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+html, body {
+margin: 0;
+padding: 0;
+height: 100%;
+background-color: var(--background-color);
+font-family: 'Helvetica Neue', Arial, sans-serif;
+color: var(--text-color);
+}
 
-    body {
-      font-family: sans-serif;
-      background: #f0f0f0;
-      overflow-x: hidden;
-    }
+header {
+position: relative;
+z-index: 10;
+background-color: var(--background-color);
+border-bottom: 2px solid #ffffff33;
+display: flex;
+justify-content: space-between;
+align-items: center;
+padding: 70px 50px 20px;
+      margin-bottom: 40px;
+}
 
-    /* HEADER */
-    header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: var(--header-height);
-      background-color: var(--header-bg);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 20px;
-      z-index: 1000;
-      border-bottom: 1px solid #324050;
-    }
+.menu-toggle {
+@@ -104,6 +105,7 @@
+flex-direction: column;
+align-items: stretch;
+padding: 20px;
+        margin-bottom: 20px;
+}
 
-    .nav {
-      display: flex;
-      gap: 12px;
-    }
+.menu-toggle {
+@@ -186,85 +188,85 @@
+</div>
+<nav class="nav-overlay">
+<a href="index.html">Home</a>
+      <a href="gallery.html" class="active">Gallery</a>
+      <a href="Gallery.html" class="active">Gallery</a>
+<a href="#">Shop</a>
+<a href="#">Affirm</a>
+<a href="#">News</a>
+</nav>
+<nav class="mobile-nav" id="mobileNav">
+<a href="index.html">Home</a>
+      <a href="gallery.html" class="active">Gallery</a>
+      <a href="Gallery.html" class="active">Gallery</a>
+<a href="#">Shop</a>
+<a href="#">Affirm</a>
+<a href="#">News</a>
+</nav>
+</header>
 
-    .nav button {
-      background-color: var(--nav-button-bg);
-      color: var(--nav-button-text);
-      border: none;
-      border-radius: 20px;
-      padding: 8px 16px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: background-color 0.3s ease;
-    }
+<div class="scroll-container">
+<div class="grid" id="grid"></div>
+</div>
 
-    .nav button:hover {
-      background-color: #41586b;
-    }
+<script>
+const imageUrls = [
+"https://raw.githubusercontent.com/timwhois/Spinner/main/Images/2.png",
+"https://raw.githubusercontent.com/timwhois/Spinner/main/Images/2detail.png",
+"https://raw.githubusercontent.com/timwhois/Spinner/main/Images/3detail.png"
+];
 
-    .nav .active {
-      background-color: var(--nav-button-active-bg);
-      color: #fff;
-    }
+const roundedClasses = [
+'rounded-top-left',
+'rounded-top-right',
+'rounded-bottom-left',
+'rounded-bottom-right'
+];
 
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      color: #cfd8e3;
-      font-size: 1.4rem;
-      font-weight: 700;
-    }
+const grid = document.getElementById('grid');
+const totalItems = 300;
+const spanOptions = [1, 2];
 
-    .logo svg {
-      width: 40px;
-      height: 40px;
-    }
+for (let i = 0; i < totalItems; i++) {
+const item = document.createElement('div');
+item.classList.add('grid-item');
+item.classList.add(roundedClasses[Math.floor(Math.random() * roundedClasses.length)]);
 
-    /* SPACER BELOW HEADER */
-    .header-spacer {
-      height: var(--header-height);
-    }
+const colSpan = spanOptions[Math.floor(Math.random() * spanOptions.length)];
+const rowSpan = spanOptions[Math.floor(Math.random() * spanOptions.length)];
+item.style.gridColumn = `span ${colSpan}`;
+item.style.gridRow = `span ${rowSpan}`;
 
-    /* HORIZONTAL SCROLL CONTAINER */
-    .scroll-container {
-      width: 100vw;
-      height: calc(100vh - var(--header-height));
-      overflow-x: auto;
-      overflow-y: hidden;
-      background-color: #f0f0f0;
-    }
+const img = document.createElement('img');
+img.src = imageUrls[Math.floor(Math.random() * imageUrls.length)];
+img.alt = `Image ${i + 1}`;
 
-    .grid {
-      display: grid;
-      grid-auto-flow: column;
-      grid-auto-columns: minmax(150px, 300px);
-      grid-template-rows: repeat(3, 200px);
-      gap: 12px;
-      padding: 20px;
-      height: 100%;
-    }
+item.appendChild(img);
+grid.appendChild(item);
+}
 
-    .grid-item {
-      position: relative;
-      overflow: hidden;
-      background-color: #ccc;
-      opacity: 0;
-      transform: translateX(-50px);
-      transition: opacity 0.8s ease, transform 0.8s ease;
-      display: flex;
-    }
+const observer = new IntersectionObserver(
+entries => {
+entries.forEach(entry => {
+if (entry.isIntersecting) {
+entry.target.classList.add('visible');
+observer.unobserve(entry.target);
+}
+});
+},
+{
+root: document.querySelector('.scroll-container'),
+threshold: 0.1
+}
+);
 
-    .grid-item.visible {
-      opacity: 1;
-      transform: translateX(0);
-    }
+document.querySelectorAll('.grid-item').forEach(item => {
+observer.observe(item);
+});
 
-    .grid-item img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
+const toggle = document.querySelector('.menu-toggle');
+const mobileNav = document.getElementById('mobileNav');
 
-    /* Rounded corner options */
-    .rounded-top-left    { border-top-left-radius: 30px; }
-    .rounded-top-right   { border-top-right-radius: 30px; }
-    .rounded-bottom-left { border-bottom-left-radius: 30px; }
-    .rounded-bottom-right{ border-bottom-right-radius: 30px; }
-
-    /* Jigsaw-like sizing variations */
-    .span2-rows { grid-row: span 2; }
-    .span3-rows { grid-row: span 3; }
-    .span2-cols { grid-column: span 2; }
-
-    /* Scrollbar styling (optional) */
-    .scroll-container::-webkit-scrollbar {
-      height: 8px;
-    }
-    .scroll-container::-webkit-scrollbar-thumb {
-      background: #888;
-      border-radius: 4px;
-    }
-    .scroll-container::-webkit-scrollbar-track {
-      background: #ddd;
-    }
-
-  </style>
-</head>
-<body>
-  <header>
-    <nav class="nav">
-      <button>Home</button>
-      <button class="active">Gallery</button>
-      <button>Shop</button>
-      <button>Affirm</button>
-      <button>News</button>
-    </nav>
-    <div class="logo">
-      <!-- Placeholder for your logo graphic -->
-      <svg viewBox="0 0 100 100">
-        <line x1="50" y1="0" x2="50" y2="100" stroke="blue" stroke-width="2"/>
-        <line x1="0" y1="50" x2="100" y2="50" stroke="green" stroke-width="2"/>
-        <line x1="0" y1="0" x2="100" y2="100" stroke="red" stroke-width="2"/>
-      </svg>
-      THIRD AXIS DESIGN
-    </div>
-  </header>
-
-  <div class="header-spacer"></div>
-
-  <div class="scroll-container">
-    <div class="grid" id="grid">
-      <!-- Images will be injected here -->
-    </div>
-  </div>
-
-  <script>
-    const imageCount = 30;
-    const roundedClasses = [
-      'rounded-top-left',
-      'rounded-top-right',
-      'rounded-bottom-left',
-      'rounded-bottom-right'
-    ];
-    const sizeClasses = ['', 'span2-rows', 'span3-rows', 'span2-cols'];
-    const grid = document.getElementById('grid');
-
-    for (let i = 0; i < imageCount; i++) {
-      const item = document.createElement('div');
-      item.classList.add('grid-item');
-
-      // Random rounded corner
-      item.classList.add(roundedClasses[Math.floor(Math.random() * roundedClasses.length)]);
-
-      // Random size
-      const sizeClass = sizeClasses[Math.floor(Math.random() * sizeClasses.length)];
-      if (sizeClass) item.classList.add(sizeClass);
-
-      // Random placeholder image
-      const img = document.createElement('img');
-      img.src = `https://picsum.photos/300/300?random=${i + 1}`;
-      img.alt = `Image ${i + 1}`;
-      item.appendChild(img);
-
-      grid.appendChild(item);
-    }
-
-    // Intersection Observer for horizontal scroll
-    const observer = new IntersectionObserver(
-      entries => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      {
-        root: document.querySelector('.scroll-container'),
-        rootMargin: '0px',
-        threshold: 0.1
-      }
-    );
-
-    document.querySelectorAll('.grid-item').forEach(item => {
-      observer.observe(item);
-    });
-  </script>
+toggle.addEventListener('click', () => {
+mobileNav.classList.toggle('show');
+});
+</script>
 </body>
 </html>
