@@ -7,13 +7,47 @@
   <style>
     body {
       margin: 0;
-      background: #f0f0f0;
+      background: #0e1a40; /* dark blue background */
       font-family: sans-serif;
+      color: #fff;
+    }
+
+    header {
+      background-color: #0e1a40;
+      padding: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid #fff;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.8rem;
+    }
+
+    nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      gap: 20px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #fff;
+      font-weight: bold;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
     }
 
     .scroll-container {
       width: 100vw;
-      height: 100vh;
+      height: calc(100vh - 72px); /* subtract header height */
       overflow: auto;
       box-sizing: border-box;
       padding: 20px;
@@ -61,6 +95,16 @@
   </style>
 </head>
 <body>
+  <header>
+    <h1>Spinner</h1>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+      </ul>
+    </nav>
+  </header>
+  
   <div class="scroll-container">
     <div class="grid" id="grid"></div>
   </div>
@@ -81,24 +125,21 @@
 
     const grid = document.getElementById('grid');
 
-    const totalItems = 300; // plenty to fill 25x30 grid
+    const totalItems = 300;
 
-    const spanOptions = [1, 2]; // random tile sizes
+    const spanOptions = [1, 2];
 
     for (let i = 0; i < totalItems; i++) {
       const item = document.createElement('div');
       item.classList.add('grid-item');
 
-      // Random rounded corner
       item.classList.add(roundedClasses[Math.floor(Math.random() * roundedClasses.length)]);
 
-      // Random spans for jigsaw look
       const colSpan = spanOptions[Math.floor(Math.random() * spanOptions.length)];
       const rowSpan = spanOptions[Math.floor(Math.random() * spanOptions.length)];
       item.style.gridColumn = `span ${colSpan}`;
       item.style.gridRow = `span ${rowSpan}`;
 
-      // Random image
       const img = document.createElement('img');
       img.src = imageUrls[Math.floor(Math.random() * imageUrls.length)];
       img.alt = `Image ${i + 1}`;
@@ -107,7 +148,6 @@
       grid.appendChild(item);
     }
 
-    // Fade-in on scroll
     const observer = new IntersectionObserver(
       entries => {
         entries.forEach(entry => {
