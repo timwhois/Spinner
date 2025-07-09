@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Third Axis Design - Fixed Layering</title>
+  <title>Third Axis Design - Mobile Friendly</title>
   <style>
     :root {
       --background-color: #0D1B2A;
@@ -26,9 +26,9 @@
       left: 0;
       width: 100vw;
       height: 100vh;
-      z-index: 1;                       /* Moved above -1, behind content */
+      z-index: 1;
       pointer-events: none;
-      background-color: transparent;    /* Transparent to show brand color */
+      background-color: transparent;
     }
 
     header {
@@ -46,6 +46,7 @@
       display: flex;
       gap: 20px;
       align-items: center;
+      justify-content: center;
     }
 
     .nav-left a {
@@ -82,6 +83,7 @@
       padding: 0 50px 100px;
       position: relative;
       z-index: 2;
+      text-align: left;
     }
 
     .hero h1 {
@@ -100,11 +102,17 @@
       letter-spacing: 0;
     }
 
+    /* Mobile Styles */
     @media (max-width: 768px) {
       header {
         flex-direction: column;
         gap: 15px;
-        padding: 20px;
+        padding: 30px 20px 15px;
+      }
+
+      .nav-left {
+        flex-wrap: wrap;
+        justify-content: center;
       }
 
       .logo-center {
@@ -114,12 +122,14 @@
       }
 
       .logo-center img {
-        height: 120px;
+        height: 100px;
+        max-width: 80vw;
       }
 
       .hero {
         padding: 0 20px 60px;
         height: auto;
+        text-align: center;
       }
 
       .hero h1 {
@@ -129,20 +139,6 @@
       .hero span {
         font-size: 13vw;
       }
-    }
-
-    /* Camera position debug overlay (if used) */
-    #camera-info {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background-color: rgba(0,0,0,0.7);
-      padding: 10px 15px;
-      border-radius: 8px;
-      font-family: monospace;
-      font-size: 14px;
-      color: #9CC9E2;
-      z-index: 3;
     }
   </style>
 </head>
@@ -168,8 +164,6 @@
     </h1>
   </section>
 
-  <div id="camera-info"></div>
-
   <script type="module">
     import * as THREE from 'https://esm.sh/three';
     import { FBXLoader } from 'https://esm.sh/three/examples/jsm/loaders/FBXLoader.js';
@@ -181,25 +175,41 @@
 
     const scene = new THREE.Scene();
 
-    // Default fallback camera
-    let camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+    // Camera with default desktop position
+    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 2000);
     camera.position.set(58.61, 4.67, 1.99);
-    camera.rotation.set(THREE.MathUtils.degToRad(-16.94), THREE.MathUtils.degToRad(77.52), THREE.MathUtils.degToRad(16.56));
+    camera.rotation.set(
+      THREE.MathUtils.degToRad(-16.94),
+      THREE.MathUtils.degToRad(77.52),
+      THREE.MathUtils.degToRad(16.56)
+    );
     scene.add(camera);
 
     // Lights
-    scene.add(new THREE.AmbientLight(0xffffff, 0.8));
-    const dirLight = new THREE.DirectionalLight(0xffffff, 1.2);
-    dirLight.position.set(10, 20, 10);
+    scene.add(new THREE.AmbientLight(0xffffff, 2.5));
+    const dirLight = new THREE.DirectionalLight(0xffffff, 5);
+    dirLight.position.set(20, 30, 20);
     scene.add(dirLight);
 
-    // FBX Load
+    // Load FBX
     const loader = new FBXLoader();
     loader.load('My-Model.fbx',
       (object) => {
-        object.scale.set(0.2, 0.2, 0.2);
-        scene.add(object);
         console.log('✅ FBX loaded:', object);
+        object.scale.set(0.2, 0.2, 0.2);
+
+        // Force bright brand-colored material
+        object.traverse((child) => {
+          if (child.isMesh) {
+            child.material = new THREE.MeshStandardMaterial({
+              color: 0x9CC9E2,
+              metalness: 0.1,
+              roughness: 0.4
+            });
+          }
+        });
+
+        scene.add(object);
       },
       (xhr) => {
         console.log(`Loading FBX: ${(xhr.loaded / xhr.total * 100).toFixed(0)}%`);
@@ -209,33 +219,27 @@
       }
     );
 
-    // Window resize
+    // Responsive camera adjustment
+    function adjustCameraForViewport() {
+      if (window.innerWidth < 768) {
+        camera.position.set(40, 3, 2);
+      } else {
+        camera.position.set(58.61, 4.67, 1.99);
+      }
+    }
+
     window.addEventListener('resize', () => {
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
+      adjustCameraForViewport();
     });
 
-    // Show camera position & rotation
-    const infoBox = document.getElementById('camera-info');
-    function updateInfo() {
-      const pos = camera.position;
-      const rot = camera.rotation;
-      infoBox.innerHTML = `
-        Position:<br>
-        x: ${pos.x.toFixed(2)}<br>
-        y: ${pos.y.toFixed(2)}<br>
-        z: ${pos.z.toFixed(2)}<br><br>
-        Rotation:<br>
-        x: ${THREE.MathUtils.radToDeg(rot.x).toFixed(2)}<br>
-        y: ${THREE.MathUtils.radToDeg(rot.y).toFixed(2)}<br>
-        z: ${THREE.MathUtils.radToDeg(rot.z).toFixed(2)}
-      `;
-    }
+    // Initial camera adjustment
+    adjustCameraForViewport();
 
     function animate() {
       requestAnimationFrame(animate);
-      updateInfo();
       renderer.render(scene, camera);
     }
 
