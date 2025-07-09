@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Third Axis Design</title>
+  <title>Third Axis Design - TEST</title>
   <style>
     :root {
       --background-color: #0D1B2A;
@@ -178,6 +178,12 @@
     dirLight.position.set(5, 10, 5);
     scene.add(dirLight);
 
+    // ADD A TEST CUBE
+    const testGeo = new THREE.BoxGeometry(1, 1, 1);
+    const testMat = new THREE.MeshStandardMaterial({ color: 0xff0000 });
+    const testCube = new THREE.Mesh(testGeo, testMat);
+    scene.add(testCube);
+
     // Load FBX
     const loader = new FBXLoader();
     loader.load('My-Model.fbx',
@@ -185,7 +191,6 @@
         console.log('✅ FBX loaded:', object);
 
         let importedCamera = null;
-
         object.traverse(child => {
           if (child.isCamera) {
             console.log('✅ Imported camera found in FBX:', child);
@@ -194,6 +199,7 @@
         });
 
         if (importedCamera) {
+          console.log('✅ Switching to imported camera');
           camera = importedCamera;
           scene.add(importedCamera);
         }
