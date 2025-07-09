@@ -20,7 +20,7 @@ html, body {
   color: var(--text-color);
 }
 
-/* HEADER - exactly matching Index */
+/* HEADER - same as index.html */
 header {
   position: relative;
   z-index: 10;
@@ -82,6 +82,7 @@ header {
   color: var(--background-color);
 }
 
+/* Mobile dropdown overlay */
 .mobile-nav {
   display: none;
   flex-direction: column;
@@ -90,8 +91,9 @@ header {
   top: 100%;
   left: 0;
   width: 100%;
-  background-color: var(--background-color);
   padding: 20px;
+  box-sizing: border-box;
+  background-color: var(--background-color);
   border-top: 1px solid #ffffff33;
   z-index: 5;
 }
@@ -100,7 +102,7 @@ header {
   display: flex;
 }
 
-/* MOBILE HEADER overrides */
+/* MOBILE HEADER fixes */
 @media (max-width: 768px) {
   header {
     flex-direction: column;
@@ -119,15 +121,35 @@ header {
   .logo-center {
     position: static;
     transform: none;
-    margin-top: 10px;
+    margin: 10px auto;
+    text-align: center;
   }
 
   .logo-center img {
     height: 120px;
   }
+
+  .mobile-nav {
+    display: none;
+    flex-direction: column;
+    gap: 15px;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: var(--background-color);
+    border-top: 1px solid #ffffff33;
+    z-index: 5;
+  }
+
+  .mobile-nav.show {
+    display: flex;
+  }
 }
 
-/* GALLERY GRID AREA */
+/* GALLERY GRID AREA - lowered ~20px extra */
 .scroll-container {
   width: 100vw;
   height: calc(100vh - 180px);
@@ -137,7 +159,6 @@ header {
   background-color: var(--background-color);
 }
 
-/* Mobile adjustment */
 @media (max-width: 768px) {
   .scroll-container {
     height: calc(100vh - 130px);
