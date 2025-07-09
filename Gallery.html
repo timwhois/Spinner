@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Spinner Gallery - 2D Scroll</title>
+  <title>Spinner Gallery - 2D Scrollable Grid</title>
   <style>
     body {
       margin: 0;
-      font-family: sans-serif;
       background: #f0f0f0;
+      font-family: sans-serif;
       overflow: hidden;
     }
 
@@ -23,9 +23,13 @@
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
       grid-auto-rows: 250px;
+      grid-auto-flow: dense;
       gap: 12px;
       padding: 20px;
+      width: 3000px;    /* make it big horizontally */
+      height: 3000px;   /* make it big vertically */
       box-sizing: border-box;
+      position: relative;
     }
 
     .grid-item {
@@ -70,7 +74,7 @@
       "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/3detail.png"
     ];
 
-    const imageCount = 50;
+    const imageCount = 150;
 
     const roundedClasses = [
       'rounded-top-left',
@@ -108,7 +112,7 @@
       grid.appendChild(item);
     }
 
-    // Fade-in on scroll
+    // Fade-in on scroll (in both directions)
     const observer = new IntersectionObserver(
       entries => {
         entries.forEach(entry => {
