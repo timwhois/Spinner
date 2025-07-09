@@ -21,20 +21,14 @@
     }
 
     header {
+      position: relative;
+      z-index: 10;
+      background-color: var(--background-color);
+      border-bottom: 2px solid #ffffff33;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 20px 50px;
-      position: relative;
-      z-index: 1;
-      background-color: var(--background-color);
-      border-bottom: 2px solid #ffffff33;
-    }
-
-    .nav-left {
-      display: flex;
-      align-items: center;
-      gap: 20px;
+      padding: 20px 20px;
     }
 
     .menu-toggle {
@@ -44,14 +38,28 @@
       background: none;
       border: none;
       cursor: pointer;
+      z-index: 20;
     }
 
-    .nav-links {
+    .logo-center {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 15;
+    }
+
+    .logo-center img {
+      height: 100px;
+      width: auto;
+      max-width: 80vw;
+    }
+
+    .nav-overlay {
       display: flex;
       gap: 20px;
     }
 
-    .nav-links a {
+    .nav-overlay a {
       text-decoration: none;
       color: var(--accent-color);
       font-weight: 600;
@@ -61,60 +69,40 @@
       transition: background-color 0.3s;
     }
 
-    .nav-links a:hover {
+    .nav-overlay a:hover {
       background-color: rgba(255, 255, 255, 0.3);
     }
 
-    .logo-center {
+    /* Mobile dropdown overlay */
+    .mobile-nav {
+      display: none;
+      flex-direction: column;
+      gap: 15px;
       position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 2;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      background-color: var(--background-color);
+      padding: 20px;
+      border-top: 1px solid #ffffff33;
+      z-index: 5;
     }
 
-    .logo-center img {
-      height: 100px;
-      width: auto;
-      max-width: 80vw;
+    .mobile-nav.show {
+      display: flex;
     }
 
     @media (max-width: 768px) {
-      header {
-        flex-direction: column;
-        align-items: stretch;
-        padding: 15px 20px;
-      }
-
-      .nav-left {
-        justify-content: space-between;
-        width: 100%;
-      }
-
       .menu-toggle {
         display: block;
-        background: none;
-        border: none;
-        color: var(--accent-color);
-        font-size: 2rem;
       }
 
-      .nav-links {
+      .nav-overlay {
         display: none;
-        flex-direction: column;
-        gap: 15px;
-        margin-top: 10px;
-        padding: 10px 0;
-        background-color: var(--background-color);
       }
 
-      .nav-links.open {
-        display: flex;
-      }
-
-      .logo-center {
-        position: static;
-        transform: none;
-        margin-top: 10px;
+      header {
+        padding: 15px 20px;
       }
 
       .logo-center img {
@@ -173,19 +161,22 @@
 </head>
 <body>
   <header>
-    <div class="nav-left">
-      <button class="menu-toggle" aria-label="Menu">&#9776;</button>
-      <nav class="nav-links">
-        <a href="index.html">Home</a>
-        <a href="#">Shop</a>
-        <a href="#">Affirm</a>
-        <a href="#">News</a>
-      </nav>
-    </div>
+    <button class="menu-toggle" aria-label="Menu">&#9776;</button>
     <div class="logo-center">
       <img src="logo2.svg" alt="Third Axis Design Logo">
     </div>
-    <div class="nav-spacer"></div>
+    <nav class="nav-overlay">
+      <a href="index.html">Home</a>
+      <a href="#">Shop</a>
+      <a href="#">Affirm</a>
+      <a href="#">News</a>
+    </nav>
+    <nav class="mobile-nav" id="mobileNav">
+      <a href="index.html">Home</a>
+      <a href="#">Shop</a>
+      <a href="#">Affirm</a>
+      <a href="#">News</a>
+    </nav>
   </header>
 
   <div class="scroll-container">
@@ -249,10 +240,10 @@
 
     // Hamburger toggle
     const toggle = document.querySelector('.menu-toggle');
-    const navLinks = document.querySelector('.nav-links');
+    const mobileNav = document.getElementById('mobileNav');
 
     toggle.addEventListener('click', () => {
-      navLinks.classList.toggle('open');
+      mobileNav.classList.toggle('show');
     });
   </script>
 </body>
