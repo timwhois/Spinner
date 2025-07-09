@@ -3,33 +3,28 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Spinner Gallery - 2D Scrollable Grid</title>
+  <title>Spinner Gallery - Scrollable Grid</title>
   <style>
     body {
       margin: 0;
       background: #f0f0f0;
       font-family: sans-serif;
-      overflow: hidden;
     }
 
     .scroll-container {
       width: 100vw;
       height: 100vh;
-      overflow: auto;
+      overflow-y: auto;
       box-sizing: border-box;
+      padding: 20px;
     }
 
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-      grid-auto-rows: 250px;
-      grid-auto-flow: dense;
+      grid-auto-rows: auto;
       gap: 12px;
-      padding: 20px;
-      width: 3000px;    /* make it big horizontally */
-      height: 3000px;   /* make it big vertically */
       box-sizing: border-box;
-      position: relative;
     }
 
     .grid-item {
@@ -37,19 +32,19 @@
       overflow: hidden;
       background-color: #ccc;
       opacity: 0;
-      transform: scale(0.9);
+      transform: translateY(50px);
       transition: opacity 0.8s ease, transform 0.8s ease;
       display: flex;
+      flex-direction: column;
     }
 
     .grid-item.visible {
       opacity: 1;
-      transform: scale(1);
+      transform: translateY(0);
     }
 
     .grid-item img {
       width: 100%;
-      height: 100%;
       object-fit: cover;
       display: block;
     }
@@ -74,7 +69,7 @@
       "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/3detail.png"
     ];
 
-    const imageCount = 150;
+    const imageCount = 100;
 
     const roundedClasses = [
       'rounded-top-left',
@@ -85,11 +80,9 @@
 
     const grid = document.getElementById('grid');
 
-    // Define safe size options
-    const widthOptions = [250, 300, 350, 400, 450, 500];
-    const heightOptions = [250, 300, 350, 400, 450, 500];
+    const heightOptions = [200, 250, 300, 350, 400, 450];
 
-    // Build grid with random images and sizes
+    // Build grid
     for (let i = 0; i < imageCount; i++) {
       const item = document.createElement('div');
       item.classList.add('grid-item');
@@ -97,22 +90,20 @@
       // Random rounded corner
       item.classList.add(roundedClasses[Math.floor(Math.random() * roundedClasses.length)]);
 
-      // Random width and height
-      const randomWidth = widthOptions[Math.floor(Math.random() * widthOptions.length)];
-      const randomHeight = heightOptions[Math.floor(Math.random() * heightOptions.length)];
-      item.style.width = `${randomWidth}px`;
-      item.style.height = `${randomHeight}px`;
-
-      // Random image from your list
+      // Random image
       const img = document.createElement('img');
       img.src = imageUrls[Math.floor(Math.random() * imageUrls.length)];
       img.alt = `Image ${i + 1}`;
-      item.appendChild(img);
 
+      // Random height
+      const randomHeight = heightOptions[Math.floor(Math.random() * heightOptions.length)];
+      img.style.height = `${randomHeight}px`;
+
+      item.appendChild(img);
       grid.appendChild(item);
     }
 
-    // Fade-in on scroll (in both directions)
+    // Fade-in on vertical scroll
     const observer = new IntersectionObserver(
       entries => {
         entries.forEach(entry => {
