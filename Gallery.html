@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Spinner Gallery</title>
+  <title>Spinner Gallery - Random Widths</title>
   <style>
     body {
       margin: 0;
@@ -17,14 +17,12 @@
       height: 100vh;
       overflow-x: auto;
       overflow-y: hidden;
-      white-space: nowrap;
       box-sizing: border-box;
     }
 
     .grid {
       display: grid;
       grid-auto-flow: column;
-      grid-auto-columns: minmax(150px, 300px);
       grid-template-rows: repeat(3, 200px);
       gap: 12px;
       padding: 20px;
@@ -59,10 +57,9 @@
     .rounded-bottom-left { border-bottom-left-radius: 30px; }
     .rounded-bottom-right{ border-bottom-right-radius: 30px; }
 
-    /* Jigsaw-like sizing variations */
+    /* Jigsaw-like sizing variations for rows */
     .span2-rows { grid-row: span 2; }
     .span3-rows { grid-row: span 3; }
-    .span2-cols { grid-column: span 2; }
   </style>
 </head>
 <body>
@@ -88,11 +85,14 @@
       'rounded-bottom-right'
     ];
 
-    const sizeClasses = ['', 'span2-rows', 'span3-rows', 'span2-cols'];
+    const sizeClasses = ['', 'span2-rows', 'span3-rows'];
+
+    // Define safe width options
+    const widthOptions = [250, 300, 350, 400, 450, 500];
 
     const grid = document.getElementById('grid');
 
-    // Build grid with random images
+    // Build grid with random images and widths
     for (let i = 0; i < imageCount; i++) {
       const item = document.createElement('div');
       item.classList.add('grid-item');
@@ -100,9 +100,13 @@
       // Random rounded corner
       item.classList.add(roundedClasses[Math.floor(Math.random() * roundedClasses.length)]);
 
-      // Random grid size
+      // Random row span
       const sizeClass = sizeClasses[Math.floor(Math.random() * sizeClasses.length)];
       if (sizeClass) item.classList.add(sizeClass);
+
+      // Random width
+      const randomWidth = widthOptions[Math.floor(Math.random() * widthOptions.length)];
+      item.style.width = `${randomWidth}px`;
 
       // Random image from your list
       const img = document.createElement('img');
