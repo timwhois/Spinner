@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <title>Third Axis Design</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     :root {
       --background-color: #0D1B2A;
@@ -16,7 +17,113 @@
       height: 100%;
       background-color: var(--background-color);
       font-family: 'Helvetica Neue', Arial, sans-serif;
+      color: var(--text-color);
       overflow: hidden;
+    }
+
+    header {
+      position: relative;
+      z-index: 10;
+      background-color: var(--background-color);
+      border-bottom: 2px solid #ffffff33;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 70px 50px 20px;
+    }
+
+    .menu-toggle {
+      display: none;
+      font-size: 2rem;
+      color: var(--accent-color);
+      background: none;
+      border: none;
+      cursor: pointer;
+      z-index: 20;
+    }
+
+    .logo-center {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 15;
+    }
+
+    .logo-center img {
+      height: 180px;
+      width: auto;
+      max-width: 90vw;
+    }
+
+    .nav-overlay {
+      display: flex;
+      gap: 20px;
+    }
+
+    .nav-overlay a,
+    .mobile-nav a {
+      text-decoration: none;
+      color: var(--accent-color);
+      font-weight: 600;
+      padding: 6px 16px;
+      border-radius: 20px;
+      background-color: rgba(255, 255, 255, 0.1);
+      transition: background-color 0.3s;
+    }
+
+    .nav-overlay a:hover,
+    .mobile-nav a:hover {
+      background-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .nav-overlay a.active,
+    .mobile-nav a.active {
+      background-color: var(--accent-color);
+      color: var(--background-color);
+    }
+
+    .mobile-nav {
+      display: none;
+      flex-direction: column;
+      gap: 15px;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      background-color: var(--background-color);
+      padding: 20px;
+      border-top: 1px solid #ffffff33;
+      z-index: 5;
+    }
+
+    .mobile-nav.show {
+      display: flex;
+    }
+
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 20px;
+      }
+
+      .menu-toggle {
+        display: block;
+      }
+
+      .nav-overlay {
+        display: none;
+      }
+
+      .logo-center {
+        position: static;
+        transform: none;
+        margin-top: 10px;
+      }
+
+      .logo-center img {
+        height: 120px;
+      }
     }
 
     #three-canvas {
@@ -27,49 +134,6 @@
       height: 100vh;
       z-index: 0;
       background-color: var(--background-color);
-    }
-
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 70px 50px 20px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .nav-left,
-    .nav-spacer {
-      flex: 1;
-      display: flex;
-      gap: 20px;
-      align-items: center;
-    }
-
-    .nav-left a {
-      text-decoration: none;
-      color: var(--accent-color);
-      font-weight: 600;
-      padding: 6px 16px;
-      border-radius: 20px;
-      background-color: rgba(255, 255, 255, 0.1);
-      transition: background-color 0.3s;
-    }
-
-    .nav-left a:hover {
-      background-color: rgba(255, 255, 255, 0.3);
-    }
-
-    .logo-center {
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-    }
-
-    .logo-center img {
-      height: 180px;
-      width: auto;
-      max-width: 90vw;
     }
 
     .hero {
@@ -97,22 +161,6 @@
     }
 
     @media (max-width: 768px) {
-      header {
-        flex-direction: column;
-        gap: 15px;
-        padding: 20px;
-      }
-
-      .logo-center {
-        position: static;
-        transform: none;
-        margin-top: 10px;
-      }
-
-      .logo-center img {
-        height: 120px;
-      }
-
       .hero {
         padding: 0 20px 60px;
         height: auto;
@@ -146,17 +194,24 @@
   <canvas id="three-canvas"></canvas>
 
   <header>
-    <div class="nav-left">
-     <a href="index.html" class="active">Home</a>
-<a href="gallery.html">Gallery</a>
-<a href="#">Shop</a>
-<a href="#">Affirm</a>
-<a href="#">News</a>
-    </div>
+    <button class="menu-toggle" aria-label="Menu">&#9776;</button>
     <div class="logo-center">
       <img src="logo2.svg" alt="Third Axis Design Logo">
     </div>
-    <div class="nav-spacer"></div>
+    <nav class="nav-overlay">
+      <a href="index.html" class="active">Home</a>
+      <a href="gallery.html">Gallery</a>
+      <a href="#">Shop</a>
+      <a href="#">Affirm</a>
+      <a href="#">News</a>
+    </nav>
+    <nav class="mobile-nav" id="mobileNav">
+      <a href="index.html" class="active">Home</a>
+      <a href="gallery.html">Gallery</a>
+      <a href="#">Shop</a>
+      <a href="#">Affirm</a>
+      <a href="#">News</a>
+    </nav>
   </header>
 
   <section class="hero">
@@ -169,6 +224,12 @@
   <div id="camera-info"></div>
 
   <script type="module">
+    const toggle = document.querySelector('.menu-toggle');
+    const mobileNav = document.getElementById('mobileNav');
+    toggle.addEventListener('click', () => {
+      mobileNav.classList.toggle('show');
+    });
+
     import * as THREE from 'https://esm.sh/three';
     import { OrbitControls } from 'https://esm.sh/three/examples/jsm/controls/OrbitControls.js';
     import { GLTFLoader } from 'https://esm.sh/three/examples/jsm/loaders/GLTFLoader.js';
