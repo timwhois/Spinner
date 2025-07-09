@@ -6,151 +6,158 @@
 <title>Third Axis Design - Gallery</title>
 <style>
 :root {
---background-color: #0D1B2A;
---text-color: #FFFFFF;
---accent-color: #9CC9E2;
+  --background-color: #0D1B2A;
+  --text-color: #FFFFFF;
+  --accent-color: #9CC9E2;
 }
 
 html, body {
-margin: 0;
-padding: 0;
-height: 100%;
-background-color: var(--background-color);
-font-family: 'Helvetica Neue', Arial, sans-serif;
-color: var(--text-color);
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background-color: var(--background-color);
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  color: var(--text-color);
 }
 
 header {
-position: relative;
-z-index: 10;
-background-color: var(--background-color);
-border-bottom: 2px solid #ffffff33;
-display: flex;
-justify-content: space-between;
-align-items: center;
-padding: 20px 20px;
+  position: relative;
+  z-index: 10;
+  background-color: var(--background-color);
+  border-bottom: 2px solid #ffffff33;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 20px;
 }
 
 .menu-toggle {
-display: none;
-font-size: 2rem;
-color: var(--accent-color);
-background: none;
-border: none;
-cursor: pointer;
-z-index: 20;
+  display: none;
+  font-size: 2rem;
+  color: var(--accent-color);
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 20;
 }
 
 .logo-center {
-position: absolute;
-left: 50%;
-transform: translateX(-50%);
-z-index: 15;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 15;
 }
 
 .logo-center img {
-height: 100px;
-width: auto;
-max-width: 80vw;
+  height: 100px;
+  width: auto;
+  max-width: 80vw;
 }
 
 .nav-overlay {
-display: flex;
-gap: 20px;
+  display: flex;
+  gap: 20px;
 }
 
 .nav-overlay a {
-text-decoration: none;
-color: var(--accent-color);
-font-weight: 600;
-padding: 6px 16px;
-border-radius: 20px;
-background-color: rgba(255, 255, 255, 0.1);
-transition: background-color 0.3s;
+  text-decoration: none;
+  color: var(--accent-color);
+  font-weight: 600;
+  padding: 6px 16px;
+  border-radius: 20px;
+  background-color: rgba(255, 255, 255, 0.1);
+  transition: background-color 0.3s;
 }
 
 .nav-overlay a:hover {
-background-color: rgba(255, 255, 255, 0.3);
+  background-color: rgba(255, 255, 255, 0.3);
 }
 
 /* Mobile dropdown overlay */
 .mobile-nav {
-display: none;
-flex-direction: column;
-gap: 15px;
-position: absolute;
-top: 100%;
-left: 0;
-width: 100%;
-background-color: var(--background-color);
-padding: 20px;
-border-top: 1px solid #ffffff33;
-z-index: 5;
+  display: none;
+  flex-direction: column;
+  gap: 15px;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background-color: var(--background-color);
+  padding: 20px;
+  border-top: 1px solid #ffffff33;
+  z-index: 5;
 }
 
 .mobile-nav.show {
-display: flex;
+  display: flex;
 }
 
 @media (max-width: 768px) {
-.menu-toggle {
-display: block;
+  .menu-toggle {
+    display: block;
+  }
+
+  .nav-overlay {
+    display: none;
+  }
+
+  header {
+    padding: 15px 20px;
+  }
+
+  .logo-center img {
+    height: 80px;
+  }
 }
 
-.nav-overlay {
-display: none;
-}
-
-header {
-padding: 15px 20px;
-}
-
-.logo-center img {
-height: 80px;
-}
-}
-
+/* FIX: ensure gallery sits below header */
 .scroll-container {
-width: 100vw;
-height: calc(100vh - 150px);
-overflow: auto;
-box-sizing: border-box;
-padding: 20px;
-background-color: var(--background-color);
+  width: 100vw;
+  height: calc(100vh - 160px);
+  overflow: auto;
+  box-sizing: border-box;
+  padding: 20px;
+  background-color: var(--background-color);
+}
+
+@media (max-width: 768px) {
+  .scroll-container {
+    height: calc(100vh - 130px);
+  }
 }
 
 .grid {
-display: grid;
-grid-template-columns: repeat(25, 200px);
-grid-auto-rows: 200px;
-gap: 12px;
-grid-auto-flow: dense;
-box-sizing: border-box;
-position: relative;
+  display: grid;
+  grid-template-columns: repeat(25, 200px);
+  grid-auto-rows: 200px;
+  gap: 12px;
+  grid-auto-flow: dense;
+  box-sizing: border-box;
+  position: relative;
 }
 
 .grid-item {
-position: relative;
-overflow: hidden;
-background-color: #ccc;
-opacity: 0;
-transform: scale(0.9);
-transition: opacity 0.8s ease, transform 0.8s ease;
-display: flex;
-width: 100%;
-height: 100%;
+  position: relative;
+  overflow: hidden;
+  background-color: #ccc;
+  opacity: 0;
+  transform: scale(0.9);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+  display: flex;
+  width: 100%;
+  height: 100%;
 }
 
 .grid-item.visible {
-opacity: 1;
-transform: scale(1);
+  opacity: 1;
+  transform: scale(1);
 }
 
 .grid-item img {
-width: 100%;
-height: 100%;
-object-fit: cover;
-display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 .rounded-top-left    { border-top-left-radius: 30px; }
@@ -161,41 +168,40 @@ display: block;
 </head>
 <body>
 <header>
-<button class="menu-toggle" aria-label="Menu">&#9776;</button>
-<div class="logo-center">
-      <img src="logo2.svg" alt="Third Axis Design Logo">
-      <img src="logo2.png" alt="Third Axis Design Logo">
-</div>
-<nav class="nav-overlay">
-<a href="index.html">Home</a>
-<a href="#">Shop</a>
-<a href="#">Affirm</a>
-<a href="#">News</a>
-</nav>
-<nav class="mobile-nav" id="mobileNav">
-<a href="index.html">Home</a>
-<a href="#">Shop</a>
-<a href="#">Affirm</a>
-<a href="#">News</a>
-</nav>
+  <button class="menu-toggle" aria-label="Menu">&#9776;</button>
+  <div class="logo-center">
+    <img src="logo2.png" alt="Third Axis Design Logo">
+  </div>
+  <nav class="nav-overlay">
+    <a href="index.html">Home</a>
+    <a href="#">Shop</a>
+    <a href="#">Affirm</a>
+    <a href="#">News</a>
+  </nav>
+  <nav class="mobile-nav" id="mobileNav">
+    <a href="index.html">Home</a>
+    <a href="#">Shop</a>
+    <a href="#">Affirm</a>
+    <a href="#">News</a>
+  </nav>
 </header>
 
 <div class="scroll-container">
-<div class="grid" id="grid"></div>
+  <div class="grid" id="grid"></div>
 </div>
 
 <script>
 const imageUrls = [
-"https://raw.githubusercontent.com/timwhois/Spinner/main/Images/2.png",
-"https://raw.githubusercontent.com/timwhois/Spinner/main/Images/2detail.png",
-"https://raw.githubusercontent.com/timwhois/Spinner/main/Images/3detail.png"
+  "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/2.png",
+  "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/2detail.png",
+  "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/3detail.png"
 ];
 
 const roundedClasses = [
-'rounded-top-left',
-'rounded-top-right',
-'rounded-bottom-left',
-'rounded-bottom-right'
+  'rounded-top-left',
+  'rounded-top-right',
+  'rounded-bottom-left',
+  'rounded-bottom-right'
 ];
 
 const grid = document.getElementById('grid');
@@ -203,40 +209,40 @@ const totalItems = 300;
 const spanOptions = [1, 2];
 
 for (let i = 0; i < totalItems; i++) {
-const item = document.createElement('div');
-item.classList.add('grid-item');
-item.classList.add(roundedClasses[Math.floor(Math.random() * roundedClasses.length)]);
+  const item = document.createElement('div');
+  item.classList.add('grid-item');
+  item.classList.add(roundedClasses[Math.floor(Math.random() * roundedClasses.length)]);
 
-const colSpan = spanOptions[Math.floor(Math.random() * spanOptions.length)];
-const rowSpan = spanOptions[Math.floor(Math.random() * spanOptions.length)];
-item.style.gridColumn = `span ${colSpan}`;
-item.style.gridRow = `span ${rowSpan}`;
+  const colSpan = spanOptions[Math.floor(Math.random() * spanOptions.length)];
+  const rowSpan = spanOptions[Math.floor(Math.random() * spanOptions.length)];
+  item.style.gridColumn = `span ${colSpan}`;
+  item.style.gridRow = `span ${rowSpan}`;
 
-const img = document.createElement('img');
-img.src = imageUrls[Math.floor(Math.random() * imageUrls.length)];
-img.alt = `Image ${i + 1}`;
+  const img = document.createElement('img');
+  img.src = imageUrls[Math.floor(Math.random() * imageUrls.length)];
+  img.alt = `Image ${i + 1}`;
 
-item.appendChild(img);
-grid.appendChild(item);
+  item.appendChild(img);
+  grid.appendChild(item);
 }
 
 const observer = new IntersectionObserver(
-entries => {
-entries.forEach(entry => {
-if (entry.isIntersecting) {
-entry.target.classList.add('visible');
-observer.unobserve(entry.target);
-}
-});
-},
-{
-root: document.querySelector('.scroll-container'),
-threshold: 0.1
-}
+  entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  },
+  {
+    root: document.querySelector('.scroll-container'),
+    threshold: 0.1
+  }
 );
 
 document.querySelectorAll('.grid-item').forEach(item => {
-observer.observe(item);
+  observer.observe(item);
 });
 
 // Hamburger toggle
@@ -244,7 +250,7 @@ const toggle = document.querySelector('.menu-toggle');
 const mobileNav = document.getElementById('mobileNav');
 
 toggle.addEventListener('click', () => {
-mobileNav.classList.toggle('show');
+  mobileNav.classList.toggle('show');
 });
 </script>
 </body>
