@@ -20,6 +20,7 @@ html, body {
   color: var(--text-color);
 }
 
+/* HEADER - exactly matching Index */
 header {
   position: relative;
   z-index: 10;
@@ -28,7 +29,7 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 20px;
+  padding: 70px 50px 20px;
 }
 
 .menu-toggle {
@@ -49,9 +50,9 @@ header {
 }
 
 .logo-center img {
-  height: 100px;
+  height: 180px;
   width: auto;
-  max-width: 80vw;
+  max-width: 90vw;
 }
 
 .nav-overlay {
@@ -59,7 +60,8 @@ header {
   gap: 20px;
 }
 
-.nav-overlay a {
+.nav-overlay a,
+.mobile-nav a {
   text-decoration: none;
   color: var(--accent-color);
   font-weight: 600;
@@ -69,11 +71,17 @@ header {
   transition: background-color 0.3s;
 }
 
-.nav-overlay a:hover {
+.nav-overlay a:hover,
+.mobile-nav a:hover {
   background-color: rgba(255, 255, 255, 0.3);
 }
 
-/* Mobile dropdown overlay */
+.nav-overlay a.active,
+.mobile-nav a.active {
+  background-color: var(--accent-color);
+  color: var(--background-color);
+}
+
 .mobile-nav {
   display: none;
   flex-direction: column;
@@ -92,7 +100,14 @@ header {
   display: flex;
 }
 
+/* MOBILE HEADER overrides */
 @media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 20px;
+  }
+
   .menu-toggle {
     display: block;
   }
@@ -101,25 +116,28 @@ header {
     display: none;
   }
 
-  header {
-    padding: 15px 20px;
+  .logo-center {
+    position: static;
+    transform: none;
+    margin-top: 10px;
   }
 
   .logo-center img {
-    height: 80px;
+    height: 120px;
   }
 }
 
-/* FIX: ensure gallery sits below header */
+/* GALLERY GRID AREA */
 .scroll-container {
   width: 100vw;
-  height: calc(100vh - 160px);
+  height: calc(100vh - 180px);
   overflow: auto;
   box-sizing: border-box;
   padding: 20px;
   background-color: var(--background-color);
 }
 
+/* Mobile adjustment */
 @media (max-width: 768px) {
   .scroll-container {
     height: calc(100vh - 130px);
@@ -174,12 +192,14 @@ header {
   </div>
   <nav class="nav-overlay">
     <a href="index.html">Home</a>
+    <a href="#" class="active">Gallery</a>
     <a href="#">Shop</a>
     <a href="#">Affirm</a>
     <a href="#">News</a>
   </nav>
   <nav class="mobile-nav" id="mobileNav">
     <a href="index.html">Home</a>
+    <a href="#" class="active">Gallery</a>
     <a href="#">Shop</a>
     <a href="#">Affirm</a>
     <a href="#">News</a>
@@ -245,10 +265,8 @@ document.querySelectorAll('.grid-item').forEach(item => {
   observer.observe(item);
 });
 
-// Hamburger toggle
 const toggle = document.querySelector('.menu-toggle');
 const mobileNav = document.getElementById('mobileNav');
-
 toggle.addEventListener('click', () => {
   mobileNav.classList.toggle('show');
 });
