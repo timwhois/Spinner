@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Third Axis Design - Camera Debug Mode</title>
+  <title>Third Axis Design - Camera Debug with Zoom</title>
   <style>
     :root {
       --background-color: #0D1B2A;
@@ -171,7 +171,7 @@
     </h1>
   </section>
 
-  <div id="debugInfo">Position: <br>Rotation:</div>
+  <div id="debugInfo">Position:<br>Rotation:</div>
 
   <script type="module">
     import * as THREE from 'https://esm.sh/three';
@@ -212,7 +212,7 @@
       scene.add(object);
     });
 
-    // Simple mouse drag camera control
+    // Mouse Drag Rotation
     let isDragging = false;
     let prevX, prevY;
     document.addEventListener('mousedown', e => {
@@ -235,13 +235,23 @@
       prevY = e.clientY;
     });
 
+    // Scroll Wheel Zoom
+    document.addEventListener('wheel', e => {
+      e.preventDefault();
+      const direction = e.deltaY > 0 ? 1 : -1;
+      const zoomAmount = direction * 2;
+      const forward = new THREE.Vector3();
+      camera.getWorldDirection(forward);
+      camera.position.addScaledVector(forward, zoomAmount);
+    }, { passive: false });
+
     window.addEventListener('resize', () => {
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
     });
 
-    // Debug overlay
+    // Debug Info
     const debugDiv = document.getElementById('debugInfo');
     function updateDebug() {
       debugDiv.innerHTML = `
