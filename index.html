@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Third Axis Design - Camera Editor</title>
+  <title>Third Axis Design - Fixed Camera</title>
   <style>
     :root {
       --background-color: #0D1B2A;
@@ -26,21 +26,8 @@
       left: 0;
       width: 100vw;
       height: 100vh;
+      z-index: 0;
       background-color: #0D1B2A;
-      z-index: 5;
-    }
-
-    #camera-info {
-      position: fixed;
-      top: 10px;
-      left: 10px;
-      background-color: rgba(0,0,0,0.7);
-      color: #9CC9E2;
-      padding: 10px;
-      font-family: monospace;
-      font-size: 14px;
-      border-radius: 6px;
-      z-index: 10;
     }
 
     header {
@@ -143,18 +130,6 @@
 <body>
   <canvas id="three-canvas"></canvas>
 
-  <div id="camera-info">
-    Position:<br>
-    X: 0<br>
-    Y: 0<br>
-    Z: 0<br>
-    <br>
-    Rotation:<br>
-    X: 0<br>
-    Y: 0<br>
-    Z: 0
-  </div>
-
   <header>
     <div class="nav-left">
       <a href="#">Shop</a>
@@ -177,7 +152,6 @@
   <script type="module">
     import * as THREE from 'https://esm.sh/three';
     import { FBXLoader } from 'https://esm.sh/three/examples/jsm/loaders/FBXLoader.js';
-    import { OrbitControls } from 'https://esm.sh/three/examples/jsm/controls/OrbitControls.js';
 
     const canvas = document.getElementById('three-canvas');
     const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
@@ -187,17 +161,14 @@
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0x0D1B2A);
 
-    // Camera
+    // ✅ Fixed camera
     const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.set(0, 1.5, 5);
-    camera.lookAt(0, 0, 0);
-
-    // OrbitControls
-    const controls = new OrbitControls(camera, renderer.domElement);
-    controls.enableDamping = true;
-    controls.dampingFactor = 0.05;
-    controls.enablePan = true;
-    controls.enableZoom = true;
+    camera.position.set(56.10, 6.21, 1.97);
+    camera.rotation.set(
+      THREE.MathUtils.degToRad(72.44),
+      THREE.MathUtils.degToRad(83.38),
+      THREE.MathUtils.degToRad(72.33)
+    );
 
     // Lights
     scene.add(new THREE.AmbientLight(0xffffff, 0.8));
@@ -243,22 +214,9 @@
       }
     );
 
-    const camInfoDiv = document.getElementById('camera-info');
-
     function animate() {
       requestAnimationFrame(animate);
-      controls.update();
       renderer.render(scene, camera);
-
-      camInfoDiv.innerHTML =
-        `Position:<br>` +
-        `X: ${camera.position.x.toFixed(2)}<br>` +
-        `Y: ${camera.position.y.toFixed(2)}<br>` +
-        `Z: ${camera.position.z.toFixed(2)}<br><br>` +
-        `Rotation:<br>` +
-        `X: ${THREE.MathUtils.radToDeg(camera.rotation.x).toFixed(2)}°<br>` +
-        `Y: ${THREE.MathUtils.radToDeg(camera.rotation.y).toFixed(2)}°<br>` +
-        `Z: ${THREE.MathUtils.radToDeg(camera.rotation.z).toFixed(2)}°`;
     }
 
     window.addEventListener('resize', () => {
