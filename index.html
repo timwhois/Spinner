@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Third Axis Design</title>
+  <title>Third Axis Design - Fixed Layering</title>
   <style>
     :root {
       --background-color: #0D1B2A;
@@ -15,9 +15,9 @@
       padding: 0;
       height: 100%;
       background-color: var(--background-color);
-      overflow: hidden;
-      font-family: 'Helvetica Neue', Arial, sans-serif;
       color: var(--text-color);
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      overflow: hidden;
     }
 
     #three-canvas {
@@ -26,8 +26,9 @@
       left: 0;
       width: 100vw;
       height: 100vh;
-      z-index: -1;
-      background-color: var(--background-color);
+      z-index: 1;                       /* Moved above -1, behind content */
+      pointer-events: none;
+      background-color: transparent;    /* Transparent to show brand color */
     }
 
     header {
@@ -129,6 +130,20 @@
         font-size: 13vw;
       }
     }
+
+    /* Camera position debug overlay (if used) */
+    #camera-info {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: rgba(0,0,0,0.7);
+      padding: 10px 15px;
+      border-radius: 8px;
+      font-family: monospace;
+      font-size: 14px;
+      color: #9CC9E2;
+      z-index: 3;
+    }
   </style>
 </head>
 <body>
@@ -153,57 +168,38 @@
     </h1>
   </section>
 
+  <div id="camera-info"></div>
+
   <script type="module">
     import * as THREE from 'https://esm.sh/three';
     import { FBXLoader } from 'https://esm.sh/three/examples/jsm/loaders/FBXLoader.js';
 
-    // Renderer
     const canvas = document.getElementById('three-canvas');
-    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
 
-    // Scene
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x0D1B2A);
 
-    // Camera with locked position & rotation
-    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 2000);
+    // Default fallback camera
+    let camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
     camera.position.set(58.61, 4.67, 1.99);
-    camera.rotation.set(
-      THREE.MathUtils.degToRad(-16.94),
-      THREE.MathUtils.degToRad(77.52),
-      THREE.MathUtils.degToRad(16.56)
-    );
+    camera.rotation.set(THREE.MathUtils.degToRad(-16.94), THREE.MathUtils.degToRad(77.52), THREE.MathUtils.degToRad(16.56));
+    scene.add(camera);
 
-    // Bright Lighting
-    const ambientLight = new THREE.AmbientLight(0xffffff, 1.2);
-    scene.add(ambientLight);
-
-    const dirLight = new THREE.DirectionalLight(0xffffff, 2.5);
+    // Lights
+    scene.add(new THREE.AmbientLight(0xffffff, 0.8));
+    const dirLight = new THREE.DirectionalLight(0xffffff, 1.2);
     dirLight.position.set(10, 20, 10);
     scene.add(dirLight);
 
-    // FBX Loader
+    // FBX Load
     const loader = new FBXLoader();
     loader.load('My-Model.fbx',
       (object) => {
-        console.log('✅ FBX loaded:', object);
-
         object.scale.set(0.2, 0.2, 0.2);
-
-        // Force a bright material
-        object.traverse((child) => {
-          if (child.isMesh) {
-            child.material = new THREE.MeshStandardMaterial({
-              color: 0xffffff,
-              metalness: 0.2,
-              roughness: 0.5
-            });
-          }
-        });
-
         scene.add(object);
+        console.log('✅ FBX loaded:', object);
       },
       (xhr) => {
         console.log(`Loading FBX: ${(xhr.loaded / xhr.total * 100).toFixed(0)}%`);
@@ -213,16 +209,33 @@
       }
     );
 
-    // Handle resizing
+    // Window resize
     window.addEventListener('resize', () => {
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
     });
 
-    // Animate
+    // Show camera position & rotation
+    const infoBox = document.getElementById('camera-info');
+    function updateInfo() {
+      const pos = camera.position;
+      const rot = camera.rotation;
+      infoBox.innerHTML = `
+        Position:<br>
+        x: ${pos.x.toFixed(2)}<br>
+        y: ${pos.y.toFixed(2)}<br>
+        z: ${pos.z.toFixed(2)}<br><br>
+        Rotation:<br>
+        x: ${THREE.MathUtils.radToDeg(rot.x).toFixed(2)}<br>
+        y: ${THREE.MathUtils.radToDeg(rot.y).toFixed(2)}<br>
+        z: ${THREE.MathUtils.radToDeg(rot.z).toFixed(2)}
+      `;
+    }
+
     function animate() {
       requestAnimationFrame(animate);
+      updateInfo();
       renderer.render(scene, camera);
     }
 
