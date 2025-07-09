@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Third Axis Design - DEBUG VIEW</title>
+  <title>Third Axis Design - FIXED CAMERA</title>
   <style>
     html, body {
       margin: 0;
@@ -18,29 +18,14 @@
       display: block;
       background-color: #0D1B2A;
     }
-
-    #camera-info {
-      position: fixed;
-      top: 10px;
-      left: 10px;
-      background: rgba(0,0,0,0.7);
-      padding: 10px;
-      color: #9CC9E2;
-      font-family: monospace;
-      font-size: 12px;
-      z-index: 10;
-      white-space: pre;
-    }
   </style>
 </head>
 <body>
   <canvas id="three-canvas"></canvas>
-  <div id="camera-info"></div>
 
   <script type="module">
     import * as THREE from 'https://esm.sh/three';
     import { FBXLoader } from 'https://esm.sh/three/examples/jsm/loaders/FBXLoader.js';
-    import { OrbitControls } from 'https://esm.sh/three/examples/jsm/controls/OrbitControls.js';
 
     // Renderer
     const canvas = document.getElementById('three-canvas');
@@ -52,16 +37,16 @@
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0x0D1B2A);
 
-    // Camera
+    // Camera with your exact coordinates
     const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 2000);
-    camera.position.set(10, 5, 10);
+    camera.position.set(58.61, 4.67, 1.99);
+    camera.rotation.set(
+      THREE.MathUtils.degToRad(-16.94),
+      THREE.MathUtils.degToRad(77.52),
+      THREE.MathUtils.degToRad(16.56)
+    );
 
-    // Controls
-    const controls = new OrbitControls(camera, renderer.domElement);
-    controls.enableDamping = true;
-    controls.dampingFactor = 0.05;
-
-    // Lighting (bright for clarity!)
+    // Lighting (bright and clear)
     const ambientLight = new THREE.AmbientLight(0xffffff, 1.2);
     scene.add(ambientLight);
 
@@ -77,7 +62,7 @@
 
         object.scale.set(0.2, 0.2, 0.2);
 
-        // Give it a bright material to ensure it's visible
+        // Force bright standard material
         object.traverse((child) => {
           if (child.isMesh) {
             child.material = new THREE.MeshStandardMaterial({
@@ -105,24 +90,9 @@
       renderer.setSize(window.innerWidth, window.innerHeight);
     });
 
-    // Camera Info
-    const info = document.getElementById('camera-info');
-
+    // Animate
     function animate() {
       requestAnimationFrame(animate);
-      controls.update();
-
-      info.textContent =
-        `Position:
-  x: ${camera.position.x.toFixed(2)}
-  y: ${camera.position.y.toFixed(2)}
-  z: ${camera.position.z.toFixed(2)}
-
-Rotation:
-  x: ${(THREE.MathUtils.radToDeg(camera.rotation.x)).toFixed(2)}
-  y: ${(THREE.MathUtils.radToDeg(camera.rotation.y)).toFixed(2)}
-  z: ${(THREE.MathUtils.radToDeg(camera.rotation.z)).toFixed(2)}`;
-
       renderer.render(scene, camera);
     }
 
