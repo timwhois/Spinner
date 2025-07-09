@@ -138,7 +138,6 @@
     import * as THREE from 'https://esm.sh/three';
     import { FBXLoader } from 'https://esm.sh/three/examples/jsm/loaders/FBXLoader.js';
     import { RGBELoader } from 'https://esm.sh/three/examples/jsm/loaders/RGBELoader.js';
-    import { OrbitControls } from 'https://esm.sh/three/examples/jsm/controls/OrbitControls.js';
 
     const canvas = document.getElementById('three-canvas');
     const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
@@ -151,22 +150,22 @@
 
     const scene = new THREE.Scene();
 
-    let camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 2000);
-    camera.position.set(5, 5, 10);
+    // LOCKED CAMERA POSITION
+    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 2000);
+    camera.position.set(195.09, 158.04, 385.09);
+    camera.rotation.set(
+      THREE.MathUtils.degToRad(-22.35),
+      THREE.MathUtils.degToRad(36.67),
+      THREE.MathUtils.degToRad(0.00)
+    );
 
-    const controls = new OrbitControls(camera, renderer.domElement);
-    controls.enableDamping = true;
-    controls.dampingFactor = 0.05;
-    controls.target.set(0, 0, 0);
-    controls.update();
-
-    // Load HDR environment
+    // HDR ENVIRONMENT
     const pmremGenerator = new THREE.PMREMGenerator(renderer);
     pmremGenerator.compileEquirectangularShader();
 
     new RGBELoader()
       .setDataType(THREE.UnsignedByteType)
-      .load('golden_gate_hills_2k.exr', (texture) => {
+      .load('YOUR_HOSTED_HDRI_URL.hdr', (texture) => {
         const envMap = pmremGenerator.fromEquirectangular(texture).texture;
         scene.environment = envMap;
         scene.background = envMap;
@@ -174,7 +173,7 @@
         pmremGenerator.dispose();
       });
 
-    // Lighting
+    // LIGHTS
     const dirLight = new THREE.DirectionalLight(0xffffff, 2);
     dirLight.position.set(50, 100, 50);
     dirLight.castShadow = true;
@@ -182,10 +181,9 @@
     dirLight.shadow.mapSize.height = 2048;
     scene.add(dirLight);
 
-    const ambient = new THREE.AmbientLight(0xffffff, 0.3);
-    scene.add(ambient);
+    scene.add(new THREE.AmbientLight(0xffffff, 0.4));
 
-    // Ground plane for shadows
+    // GROUND PLANE FOR SHADOWS
     const groundGeo = new THREE.PlaneGeometry(1000, 1000);
     const groundMat = new THREE.ShadowMaterial({ opacity: 0.3 });
     const ground = new THREE.Mesh(groundGeo, groundMat);
@@ -194,7 +192,7 @@
     ground.receiveShadow = true;
     scene.add(ground);
 
-    // Load FBX
+    // FBX MODEL
     const loader = new FBXLoader();
     loader.load('My-Model.fbx',
       (object) => {
@@ -226,7 +224,6 @@
 
     function animate() {
       requestAnimationFrame(animate);
-      controls.update();
       renderer.render(scene, camera);
     }
     animate();
