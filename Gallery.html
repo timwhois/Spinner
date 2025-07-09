@@ -3,54 +3,74 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Spinner Gallery - 25x30 Grid</title>
+  <title>Third Axis Design - Gallery</title>
   <style>
-    body {
+    :root {
+      --background-color: #0D1B2A;
+      --text-color: #FFFFFF;
+      --accent-color: #9CC9E2;
+    }
+
+    html, body {
       margin: 0;
-      background: #0e1a40; /* dark blue background */
-      font-family: sans-serif;
-      color: #fff;
+      padding: 0;
+      height: 100%;
+      background-color: var(--background-color);
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      color: var(--text-color);
     }
 
     header {
-      background-color: #0e1a40;
-      padding: 20px;
       display: flex;
-      flex-wrap: wrap;
       justify-content: space-between;
       align-items: center;
-      border-bottom: 2px solid #fff;
+      padding: 40px 50px 20px;
+      position: relative;
+      z-index: 1;
+      background-color: var(--background-color);
     }
 
-    header h1 {
-      margin: 0;
-      font-size: 1.8rem;
-    }
-
-    nav ul {
-      list-style: none;
-      margin: 0;
-      padding: 0;
+    .nav-left,
+    .nav-spacer {
+      flex: 1;
       display: flex;
       gap: 20px;
+      align-items: center;
     }
 
-    nav a {
+    .nav-left a {
       text-decoration: none;
-      color: #fff;
-      font-weight: bold;
+      color: var(--accent-color);
+      font-weight: 600;
+      padding: 6px 16px;
+      border-radius: 20px;
+      background-color: rgba(255, 255, 255, 0.1);
+      transition: background-color 0.3s;
     }
 
-    nav a:hover {
-      text-decoration: underline;
+    .nav-left a:hover {
+      background-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .logo-center {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .logo-center img {
+      height: 120px;
+      width: auto;
+      max-width: 80vw;
     }
 
     .scroll-container {
       width: 100vw;
-      height: calc(100vh - 72px); /* subtract header height */
+      height: calc(100vh - 150px); /* subtract header space */
       overflow: auto;
       box-sizing: border-box;
       padding: 20px;
+      background-color: var(--background-color);
     }
 
     .grid {
@@ -87,7 +107,6 @@
       display: block;
     }
 
-    /* Rounded corner options */
     .rounded-top-left    { border-top-left-radius: 30px; }
     .rounded-top-right   { border-top-right-radius: 30px; }
     .rounded-bottom-left { border-bottom-left-radius: 30px; }
@@ -96,15 +115,18 @@
 </head>
 <body>
   <header>
-    <h1>Spinner</h1>
-    <nav>
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="gallery.html">Gallery</a></li>
-      </ul>
-    </nav>
+    <div class="nav-left">
+      <a href="index.html">Home</a>
+      <a href="#">Shop</a>
+      <a href="#">Affirm</a>
+      <a href="#">News</a>
+    </div>
+    <div class="logo-center">
+      <img src="logo2.svg" alt="Third Axis Design Logo">
+    </div>
+    <div class="nav-spacer"></div>
   </header>
-  
+
   <div class="scroll-container">
     <div class="grid" id="grid"></div>
   </div>
@@ -124,15 +146,12 @@
     ];
 
     const grid = document.getElementById('grid');
-
     const totalItems = 300;
-
     const spanOptions = [1, 2];
 
     for (let i = 0; i < totalItems; i++) {
       const item = document.createElement('div');
       item.classList.add('grid-item');
-
       item.classList.add(roundedClasses[Math.floor(Math.random() * roundedClasses.length)]);
 
       const colSpan = spanOptions[Math.floor(Math.random() * spanOptions.length)];
