@@ -3,151 +3,105 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Third Axis Design - Gallery</title>
+  <title>Gallery | Third Axis Design</title>
   <style>
     :root {
-      --background-color: #0D1B2A;
-      --text-color: #FFFFFF;
-      --accent-color: #9CC9E2;
+      --header-height: 100px;
+      --header-bg: #0a1b2a;
+      --nav-button-bg: #2a3b4c;
+      --nav-button-active-bg: #7aa5d2;
+      --nav-button-text: #cfd8e3;
     }
 
-    html, body {
+    * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
-      height: 100%;
-      background-color: var(--background-color);
-      font-family: 'Helvetica Neue', Arial, sans-serif;
-      color: var(--text-color);
     }
 
+    body {
+      font-family: sans-serif;
+      background: #f0f0f0;
+      overflow-x: hidden;
+    }
+
+    /* HEADER */
     header {
-      position: relative;
-      z-index: 10;
-      background-color: var(--background-color);
-      border-bottom: 2px solid #ffffff33;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: var(--header-height);
+      background-color: var(--header-bg);
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 70px 50px 20px;
-      margin-bottom: 40px;
+      padding: 0 20px;
+      z-index: 1000;
+      border-bottom: 1px solid #324050;
     }
 
-    .menu-toggle {
-      display: none;
-      font-size: 2rem;
-      color: var(--accent-color);
-      background: none;
+    .nav {
+      display: flex;
+      gap: 12px;
+    }
+
+    .nav button {
+      background-color: var(--nav-button-bg);
+      color: var(--nav-button-text);
       border: none;
-      cursor: pointer;
-      z-index: 20;
-    }
-
-    .logo-center {
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 15;
-    }
-
-    .logo-center img {
-      height: 180px;
-      width: auto;
-      max-width: 90vw;
-    }
-
-    .nav-overlay {
-      display: flex;
-      gap: 20px;
-    }
-
-    .nav-overlay a,
-    .mobile-nav a {
-      text-decoration: none;
-      color: var(--accent-color);
-      font-weight: 600;
-      padding: 6px 16px;
       border-radius: 20px;
-      background-color: rgba(255, 255, 255, 0.1);
-      transition: background-color 0.3s;
+      padding: 8px 16px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background-color 0.3s ease;
     }
 
-    .nav-overlay a:hover,
-    .mobile-nav a:hover {
-      background-color: rgba(255, 255, 255, 0.3);
+    .nav button:hover {
+      background-color: #41586b;
     }
 
-    .nav-overlay a.active,
-    .mobile-nav a.active {
-      background-color: var(--accent-color);
-      color: var(--background-color);
+    .nav .active {
+      background-color: var(--nav-button-active-bg);
+      color: #fff;
     }
 
-    .mobile-nav {
-      display: none;
-      flex-direction: column;
-      gap: 15px;
-      position: absolute;
-      top: 100%;
-      left: 0;
-      width: 100%;
-      background-color: var(--background-color);
-      padding: 20px;
-      border-top: 1px solid #ffffff33;
-      z-index: 5;
-    }
-
-    .mobile-nav.show {
+    .logo {
       display: flex;
+      align-items: center;
+      gap: 12px;
+      color: #cfd8e3;
+      font-size: 1.4rem;
+      font-weight: 700;
     }
 
-    @media (max-width: 768px) {
-      header {
-        flex-direction: column;
-        align-items: stretch;
-        padding: 20px;
-        margin-bottom: 20px;
-      }
-
-      .menu-toggle {
-        display: block;
-      }
-
-      .nav-overlay {
-        display: none;
-      }
-
-      .logo-center {
-        position: static;
-        transform: none;
-        margin-top: 10px;
-      }
-
-      .logo-center img {
-        height: 120px;
-      }
-
-      .scroll-container {
-        height: calc(100vh - 90px);
-      }
+    .logo svg {
+      width: 40px;
+      height: 40px;
     }
 
+    /* SPACER BELOW HEADER */
+    .header-spacer {
+      height: var(--header-height);
+    }
+
+    /* HORIZONTAL SCROLL CONTAINER */
     .scroll-container {
       width: 100vw;
-      height: calc(100vh - 110px);
-      overflow: auto;
-      box-sizing: border-box;
-      padding: 20px;
-      background-color: var(--background-color);
+      height: calc(100vh - var(--header-height));
+      overflow-x: auto;
+      overflow-y: hidden;
+      background-color: #f0f0f0;
     }
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(25, 200px);
-      grid-auto-rows: 200px;
+      grid-auto-flow: column;
+      grid-auto-columns: minmax(150px, 300px);
+      grid-template-rows: repeat(3, 200px);
       gap: 12px;
-      grid-auto-flow: dense;
-      box-sizing: border-box;
-      position: relative;
+      padding: 20px;
+      height: 100%;
     }
 
     .grid-item {
@@ -155,16 +109,14 @@
       overflow: hidden;
       background-color: #ccc;
       opacity: 0;
-      transform: scale(0.9);
+      transform: translateX(-50px);
       transition: opacity 0.8s ease, transform 0.8s ease;
       display: flex;
-      width: 100%;
-      height: 100%;
     }
 
     .grid-item.visible {
       opacity: 1;
-      transform: scale(1);
+      transform: translateX(0);
     }
 
     .grid-item img {
@@ -174,74 +126,91 @@
       display: block;
     }
 
+    /* Rounded corner options */
     .rounded-top-left    { border-top-left-radius: 30px; }
     .rounded-top-right   { border-top-right-radius: 30px; }
     .rounded-bottom-left { border-bottom-left-radius: 30px; }
     .rounded-bottom-right{ border-bottom-right-radius: 30px; }
+
+    /* Jigsaw-like sizing variations */
+    .span2-rows { grid-row: span 2; }
+    .span3-rows { grid-row: span 3; }
+    .span2-cols { grid-column: span 2; }
+
+    /* Scrollbar styling (optional) */
+    .scroll-container::-webkit-scrollbar {
+      height: 8px;
+    }
+    .scroll-container::-webkit-scrollbar-thumb {
+      background: #888;
+      border-radius: 4px;
+    }
+    .scroll-container::-webkit-scrollbar-track {
+      background: #ddd;
+    }
+
   </style>
 </head>
 <body>
   <header>
-    <button class="menu-toggle" aria-label="Menu">&#9776;</button>
-    <div class="logo-center">
-      <img src="logo2.svg" alt="Third Axis Design Logo">
+    <nav class="nav">
+      <button>Home</button>
+      <button class="active">Gallery</button>
+      <button>Shop</button>
+      <button>Affirm</button>
+      <button>News</button>
+    </nav>
+    <div class="logo">
+      <!-- Placeholder for your logo graphic -->
+      <svg viewBox="0 0 100 100">
+        <line x1="50" y1="0" x2="50" y2="100" stroke="blue" stroke-width="2"/>
+        <line x1="0" y1="50" x2="100" y2="50" stroke="green" stroke-width="2"/>
+        <line x1="0" y1="0" x2="100" y2="100" stroke="red" stroke-width="2"/>
+      </svg>
+      THIRD AXIS DESIGN
     </div>
-    <nav class="nav-overlay">
-      <a href="index.html">Home</a>
-      <a href="Gallery.html" class="active">Gallery</a>
-      <a href="#">Shop</a>
-      <a href="#">Affirm</a>
-      <a href="#">News</a>
-    </nav>
-    <nav class="mobile-nav" id="mobileNav">
-      <a href="index.html">Home</a>
-      <a href="Gallery.html" class="active">Gallery</a>
-      <a href="#">Shop</a>
-      <a href="#">Affirm</a>
-      <a href="#">News</a>
-    </nav>
   </header>
 
+  <div class="header-spacer"></div>
+
   <div class="scroll-container">
-    <div class="grid" id="grid"></div>
+    <div class="grid" id="grid">
+      <!-- Images will be injected here -->
+    </div>
   </div>
 
   <script>
-    const imageUrls = [
-      "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/2.png",
-      "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/2detail.png",
-      "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/3detail.png"
-    ];
-
+    const imageCount = 30;
     const roundedClasses = [
       'rounded-top-left',
       'rounded-top-right',
       'rounded-bottom-left',
       'rounded-bottom-right'
     ];
-
+    const sizeClasses = ['', 'span2-rows', 'span3-rows', 'span2-cols'];
     const grid = document.getElementById('grid');
-    const totalItems = 300;
-    const spanOptions = [1, 2];
 
-    for (let i = 0; i < totalItems; i++) {
+    for (let i = 0; i < imageCount; i++) {
       const item = document.createElement('div');
       item.classList.add('grid-item');
+
+      // Random rounded corner
       item.classList.add(roundedClasses[Math.floor(Math.random() * roundedClasses.length)]);
 
-      const colSpan = spanOptions[Math.floor(Math.random() * spanOptions.length)];
-      const rowSpan = spanOptions[Math.floor(Math.random() * spanOptions.length)];
-      item.style.gridColumn = `span ${colSpan}`;
-      item.style.gridRow = `span ${rowSpan}`;
+      // Random size
+      const sizeClass = sizeClasses[Math.floor(Math.random() * sizeClasses.length)];
+      if (sizeClass) item.classList.add(sizeClass);
 
+      // Random placeholder image
       const img = document.createElement('img');
-      img.src = imageUrls[Math.floor(Math.random() * imageUrls.length)];
+      img.src = `https://picsum.photos/300/300?random=${i + 1}`;
       img.alt = `Image ${i + 1}`;
-
       item.appendChild(img);
+
       grid.appendChild(item);
     }
 
+    // Intersection Observer for horizontal scroll
     const observer = new IntersectionObserver(
       entries => {
         entries.forEach(entry => {
@@ -253,19 +222,13 @@
       },
       {
         root: document.querySelector('.scroll-container'),
+        rootMargin: '0px',
         threshold: 0.1
       }
     );
 
     document.querySelectorAll('.grid-item').forEach(item => {
       observer.observe(item);
-    });
-
-    const toggle = document.querySelector('.menu-toggle');
-    const mobileNav = document.getElementById('mobileNav');
-
-    toggle.addEventListener('click', () => {
-      mobileNav.classList.toggle('show');
     });
   </script>
 </body>
