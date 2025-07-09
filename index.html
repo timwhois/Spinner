@@ -21,6 +21,7 @@
       overflow: hidden;
     }
 
+    /* HEADER (same as gallery.html) */
     header {
       position: relative;
       z-index: 10;
@@ -90,8 +91,9 @@
       top: 100%;
       left: 0;
       width: 100%;
-      background-color: var(--background-color);
       padding: 20px;
+      box-sizing: border-box;
+      background-color: var(--background-color);
       border-top: 1px solid #ffffff33;
       z-index: 5;
     }
@@ -100,6 +102,7 @@
       display: flex;
     }
 
+    /* MOBILE HEADER fixes */
     @media (max-width: 768px) {
       header {
         flex-direction: column;
@@ -118,11 +121,31 @@
       .logo-center {
         position: static;
         transform: none;
-        margin-top: 10px;
+        margin: 10px auto;
+        text-align: center;
       }
 
       .logo-center img {
         height: 120px;
+      }
+
+      .mobile-nav {
+        display: none;
+        flex-direction: column;
+        gap: 15px;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        padding: 20px;
+        box-sizing: border-box;
+        background-color: var(--background-color);
+        border-top: 1px solid #ffffff33;
+        z-index: 5;
+      }
+
+      .mobile-nav.show {
+        display: flex;
       }
     }
 
@@ -196,11 +219,11 @@
   <header>
     <button class="menu-toggle" aria-label="Menu">&#9776;</button>
     <div class="logo-center">
-      <img src="logo2.svg" alt="Third Axis Design Logo">
+      <img src="logo2.png" alt="Third Axis Design Logo">
     </div>
     <nav class="nav-overlay">
       <a href="index.html" class="active">Home</a>
-      <a href="Gallery.html">Gallery</a>
+      <a href="gallery.html">Gallery</a>
       <a href="#">Shop</a>
       <a href="#">Affirm</a>
       <a href="#">News</a>
@@ -246,7 +269,6 @@
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0x0D1B2A);
 
-    // Camera
     const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 2000);
     camera.position.set(195, 158, 385);
     camera.rotation.set(
@@ -261,7 +283,6 @@
     controls.rotateSpeed = 0.5;
     controls.zoomSpeed = 0.5;
 
-    // Lights
     const hemiLight = new THREE.HemisphereLight(0xffffff, 0x444444, 1.2);
     scene.add(hemiLight);
 
@@ -270,7 +291,6 @@
     dirLight.castShadow = true;
     scene.add(dirLight);
 
-    // HDRI Environment
     new RGBELoader()
       .setDataType(THREE.UnsignedByteType)
       .load('golden_gate_hills_2k.hdr', function(texture) {
@@ -278,7 +298,6 @@
         scene.environment = texture;
       });
 
-    // Load GLB model
     const loader = new GLTFLoader();
     loader.load('My-Model.glb',
       (gltf) => {
