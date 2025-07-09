@@ -28,7 +28,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 20px 20px;
+      padding: 70px 50px 20px;
     }
 
     .menu-toggle {
@@ -73,7 +73,6 @@
       background-color: rgba(255, 255, 255, 0.3);
     }
 
-    /* Mobile dropdown overlay */
     .mobile-nav {
       display: none;
       flex-direction: column;
@@ -93,6 +92,12 @@
     }
 
     @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 20px;
+      }
+
       .menu-toggle {
         display: block;
       }
@@ -101,18 +106,24 @@
         display: none;
       }
 
-      header {
-        padding: 15px 20px;
+      .logo-center {
+        position: static;
+        transform: none;
+        margin-top: 10px;
       }
 
       .logo-center img {
         height: 80px;
       }
+
+      .scroll-container {
+        height: calc(100vh - 90px);
+      }
     }
 
     .scroll-container {
       width: 100vw;
-      height: calc(100vh - 150px);
+      height: calc(100vh - 110px);
       overflow: auto;
       box-sizing: border-box;
       padding: 20px;
@@ -163,7 +174,7 @@
   <header>
     <button class="menu-toggle" aria-label="Menu">&#9776;</button>
     <div class="logo-center">
-      <img src="logo2.png" alt="Third Axis Design Logo">
+      <img src="logo2.svg" alt="Third Axis Design Logo">
     </div>
     <nav class="nav-overlay">
       <a href="index.html">Home</a>
