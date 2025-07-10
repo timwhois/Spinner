@@ -163,34 +163,44 @@
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.outputEncoding = THREE.sRGBEncoding;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.0;
+    renderer.toneMappingExposure = 0.6; // Darker for HDRI
+
     renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
     // Scene
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0x0D1B2A);
 
-    // Default Camera
-    let activeCamera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 2000);
-    activeCamera.position.set(0, 2, 5);
-    scene.add(activeCamera);
+    // Camera
+    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 2000);
+    camera.position.set(195, 158, 385);
+    camera.rotation.set(
+      THREE.MathUtils.degToRad(-22),
+      THREE.MathUtils.degToRad(36),
+      THREE.MathUtils.degToRad(0)
+    );
+    scene.add(camera);
 
     // Controls
-    const controls = new OrbitControls(activeCamera, renderer.domElement);
+    const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
     controls.dampingFactor = 0.05;
+    controls.enablePan = false;
+    controls.minDistance = 50;
+    controls.maxDistance = 1000;
 
     // Lights
     scene.add(new THREE.AmbientLight(0xffffff, 0.6));
 
-    const dirLight = new THREE.DirectionalLight(0xffffff, 1.5);
-    dirLight.position.set(50, 100, 50);
+    const dirLight = new THREE.DirectionalLight(0xffffff, 1.2);
+    dirLight.position.set(100, 200, 100);
     dirLight.castShadow = true;
     dirLight.shadow.mapSize.width = 2048;
     dirLight.shadow.mapSize.height = 2048;
     scene.add(dirLight);
 
-    // HDRI Environment (for reflections only)
+    // HDRI Environment (for reflections)
     new RGBELoader()
       .setDataType(THREE.UnsignedByteType)
       .load('https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/golden_gate_hills_1k.hdr', function(texture) {
@@ -198,50 +208,36 @@
         scene.environment = texture;
       });
 
-    // Load GLB with embedded camera
+    // Load GLB
     const loader = new GLTFLoader();
     loader.load('My-Model.glb',
       (gltf) => {
         console.log('✅ GLB loaded');
-        scene.add(gltf.scene);
-
-        let foundCamera = null;
-        gltf.scene.traverse(child => {
-          if (child.isCamera) {
-            foundCamera = child;
-          }
+        const model = gltf.scene;
+        model.traverse(child => {
           if (child.isMesh) {
             child.castShadow = true;
             child.receiveShadow = true;
           }
         });
-
-        if (foundCamera) {
-          console.log('✅ Using embedded camera from GLB');
-          activeCamera = foundCamera;
-          controls.object = activeCamera;
-        } else {
-          console.log('⚠️ No embedded camera found, using default');
-        }
-
-        controls.update();
+        scene.add(model);
       },
       (xhr) => console.log(`Loading: ${(xhr.loaded / xhr.total * 100).toFixed(0)}%`),
       (error) => console.error('❌ Error loading model:', error)
     );
 
-    // Handle resize
+    // Resize
     window.addEventListener('resize', () => {
-      activeCamera.aspect = window.innerWidth / window.innerHeight;
-      activeCamera.updateProjectionMatrix();
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
     });
 
-    // Animation loop
+    // Animate
     function animate() {
       requestAnimationFrame(animate);
       controls.update();
-      renderer.render(scene, activeCamera);
+      renderer.render(scene, camera);
     }
 
     animate();
