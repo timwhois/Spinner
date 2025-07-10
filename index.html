@@ -24,7 +24,7 @@
       width: 100vw;
       height: 100vh;
       z-index: 0;
-      background-color: var(--background-color);
+      background-color: #0D1B2A;
     }
     header {
       display: flex;
@@ -83,6 +83,16 @@
       font-weight: 800;
       font-size: 9vw;
     }
+    #loading {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: var(--accent-color);
+      font-size: 1.5rem;
+      z-index: 3;
+      display: none;
+    }
     @media (max-width: 768px) {
       header {
         flex-direction: column;
@@ -111,6 +121,7 @@
   </style>
 </head>
 <body>
+  <div id="loading">Loading model...</div>
   <canvas id="three-canvas"></canvas>
   <header>
     <div class="nav-left">
@@ -132,12 +143,13 @@
     import { GLTFLoader } from 'https://esm.sh/three/examples/jsm/loaders/GLTFLoader.js';
 
     const canvas = document.getElementById('three-canvas');
+    const loadingEl = document.getElementById('loading');
+    loadingEl.style.display = 'block';
+
     const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.outputEncoding = THREE.sRGBEncoding;
-    renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1;
 
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0x0D1B2A);
@@ -148,11 +160,13 @@
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
     controls.dampingFactor = 0.05;
-    controls.minDistance = 1;
-    controls.maxDistance = 5000;
+    controls.enablePan = true;
+    controls.screenSpacePanning = true;
 
-    // Lighting
+    // Lights
     scene.add(new THREE.AmbientLight(0xffffff, 0.6));
+    const hemiLight = new THREE.HemisphereLight(0xffffff, 0x444444, 0.5);
+    scene.add(hemiLight);
     const dirLight = new THREE.DirectionalLight(0xffffff, 1);
     dirLight.position.set(5, 10, 5);
     dirLight.castShadow = true;
@@ -162,6 +176,7 @@
     const loader = new GLTFLoader();
     loader.load('My-Model.glb',
       (gltf) => {
+        loadingEl.style.display = 'none';
         const model = gltf.scene;
         model.traverse(child => {
           if (child.isMesh) {
@@ -170,28 +185,36 @@
             if(child.material) {
               child.material.metalness = 0.2;
               child.material.roughness = 0.7;
+              child.material.needsUpdate = true;
             }
           }
         });
         scene.add(model);
 
-        // Auto-center and frame
+        // Center and fit
         const box = new THREE.Box3().setFromObject(model);
         const size = box.getSize(new THREE.Vector3()).length();
         const center = box.getCenter(new THREE.Vector3());
-        
+
+        console.log('Bounding Box:', box);
+        console.log('Size:', size, 'Center:', center);
+
         controls.target.copy(center);
         camera.near = 0.1;
         camera.far = size * 20;
         camera.updateProjectionMatrix();
 
-        // Position camera far enough to see whole model
         const distance = size * 1.5;
         camera.position.copy(center).add(new THREE.Vector3(distance, distance, distance));
         controls.update();
       },
-      xhr => console.log(`Loading: ${(xhr.loaded / xhr.total * 100).toFixed(0)}%`),
-      error => console.error('❌ Error loading model:', error)
+      (xhr) => {
+        loadingEl.innerText = `Loading model... ${(xhr.loaded / xhr.total * 100).toFixed(0)}%`;
+      },
+      (error) => {
+        loadingEl.innerText = 'Failed to load model.';
+        console.error('Error loading model:', error);
+      }
     );
 
     window.addEventListener('resize', () => {
