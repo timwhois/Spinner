@@ -14,18 +14,22 @@
       padding: 0;
       height: 100%;
       background-color: var(--background-color);
+      color: var(--text-color);
       font-family: 'Helvetica Neue', Arial, sans-serif;
       overflow: hidden;
     }
+
     #three-canvas {
       position: fixed;
       top: 0;
       left: 0;
       width: 100vw;
       height: 100vh;
-      z-index: 0;
+      z-index: -1;
+      pointer-events: none;
       background-color: #0D1B2A;
     }
+
     header {
       display: flex;
       justify-content: space-between;
@@ -34,12 +38,15 @@
       position: relative;
       z-index: 2;
     }
-    .nav-left, .nav-spacer {
+
+    .nav-left,
+    .nav-spacer {
       flex: 1;
       display: flex;
       gap: 20px;
       align-items: center;
     }
+
     .nav-left a {
       text-decoration: none;
       color: var(--accent-color);
@@ -49,19 +56,23 @@
       background-color: rgba(255, 255, 255, 0.1);
       transition: background-color 0.3s;
     }
+
     .nav-left a:hover {
       background-color: rgba(255, 255, 255, 0.3);
     }
+
     .logo-center {
       position: absolute;
       left: 50%;
       transform: translateX(-50%);
     }
+
     .logo-center img {
       height: 180px;
       width: auto;
       max-width: 90vw;
     }
+
     .hero {
       display: flex;
       flex-direction: column;
@@ -69,30 +80,38 @@
       height: calc(100vh - 260px);
       padding: 0 50px 100px;
       position: relative;
-      z-index: 1;
-      color: var(--text-color);
+      z-index: 2;
     }
+
     .hero h1 {
       font-size: 8vw;
       font-weight: 200;
+      letter-spacing: -1px;
       margin: 0;
       line-height: 1.1;
+      max-width: 90vw;
     }
+
     .hero span {
       display: block;
       font-weight: 800;
       font-size: 9vw;
+      letter-spacing: 0;
     }
+
     #loading {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      color: var(--accent-color);
-      font-size: 1.5rem;
-      z-index: 3;
-      display: none;
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      background-color: rgba(0,0,0,0.7);
+      color: var(--text-color);
+      padding: 8px 12px;
+      border-radius: 5px;
+      font-family: monospace;
+      font-size: 14px;
+      z-index: 1000;
     }
+
     @media (max-width: 768px) {
       header {
         flex-direction: column;
@@ -121,8 +140,9 @@
   </style>
 </head>
 <body>
-  <div id="loading">Loading model...</div>
   <canvas id="three-canvas"></canvas>
+  <div id="loading">Loading model...</div>
+
   <header>
     <div class="nav-left">
       <a href="Gallery.html">Gallery</a>
@@ -134,13 +154,19 @@
     </div>
     <div class="nav-spacer"></div>
   </header>
+
   <section class="hero">
-    <h1>Making Ideas <br><span>A REALITY</span></h1>
+    <h1>
+      Making Ideas <br>
+      <span>A REALITY</span>
+    </h1>
   </section>
+
   <script type="module">
     import * as THREE from 'https://esm.sh/three';
     import { OrbitControls } from 'https://esm.sh/three/examples/jsm/controls/OrbitControls.js';
     import { GLTFLoader } from 'https://esm.sh/three/examples/jsm/loaders/GLTFLoader.js';
+    import { DRACOLoader } from 'https://esm.sh/three/examples/jsm/loaders/DRACOLoader.js';
 
     const canvas = document.getElementById('three-canvas');
     const loadingEl = document.getElementById('loading');
@@ -172,8 +198,13 @@
     dirLight.castShadow = true;
     scene.add(dirLight);
 
-    // Load Model
+    // Setup GLTF + DRACO
     const loader = new GLTFLoader();
+    const dracoLoader = new DRACOLoader();
+    dracoLoader.setDecoderPath('https://www.gstatic.com/draco/v1/decoders/');
+    loader.setDRACOLoader(dracoLoader);
+
+    // Load Model
     loader.load('My-Model.glb',
       (gltf) => {
         loadingEl.style.display = 'none';
@@ -195,9 +226,6 @@
         const box = new THREE.Box3().setFromObject(model);
         const size = box.getSize(new THREE.Vector3()).length();
         const center = box.getCenter(new THREE.Vector3());
-
-        console.log('Bounding Box:', box);
-        console.log('Size:', size, 'Center:', center);
 
         controls.target.copy(center);
         camera.near = 0.1;
