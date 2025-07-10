@@ -9,7 +9,6 @@
       --text-color: #FFFFFF;
       --accent-color: #9CC9E2;
     }
-
     html, body {
       margin: 0;
       padding: 0;
@@ -18,7 +17,6 @@
       font-family: 'Helvetica Neue', Arial, sans-serif;
       overflow: hidden;
     }
-
     #three-canvas {
       position: fixed;
       top: 0;
@@ -28,24 +26,20 @@
       z-index: 0;
       background-color: var(--background-color);
     }
-
     header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 70px 50px 20px;
       position: relative;
-      z-index: 1;
+      z-index: 2;
     }
-
-    .nav-left,
-    .nav-spacer {
+    .nav-left, .nav-spacer {
       flex: 1;
       display: flex;
       gap: 20px;
       align-items: center;
     }
-
     .nav-left a {
       text-decoration: none;
       color: var(--accent-color);
@@ -55,23 +49,19 @@
       background-color: rgba(255, 255, 255, 0.1);
       transition: background-color 0.3s;
     }
-
     .nav-left a:hover {
       background-color: rgba(255, 255, 255, 0.3);
     }
-
     .logo-center {
       position: absolute;
       left: 50%;
       transform: translateX(-50%);
     }
-
     .logo-center img {
       height: 180px;
       width: auto;
       max-width: 90vw;
     }
-
     .hero {
       display: flex;
       flex-direction: column;
@@ -82,46 +72,38 @@
       z-index: 1;
       color: var(--text-color);
     }
-
     .hero h1 {
       font-size: 8vw;
       font-weight: 200;
       margin: 0;
       line-height: 1.1;
     }
-
     .hero span {
       display: block;
       font-weight: 800;
       font-size: 9vw;
     }
-
     @media (max-width: 768px) {
       header {
         flex-direction: column;
         gap: 15px;
         padding: 20px;
       }
-
       .logo-center {
         position: static;
         transform: none;
         margin-top: 10px;
       }
-
       .logo-center img {
         height: 120px;
       }
-
       .hero {
         padding: 0 20px 60px;
         height: auto;
       }
-
       .hero h1 {
         font-size: 12vw;
       }
-
       .hero span {
         font-size: 13vw;
       }
@@ -130,7 +112,6 @@
 </head>
 <body>
   <canvas id="three-canvas"></canvas>
-
   <header>
     <div class="nav-left">
       <a href="Gallery.html">Gallery</a>
@@ -142,31 +123,21 @@
     </div>
     <div class="nav-spacer"></div>
   </header>
-
   <section class="hero">
-    <h1>
-      Making Ideas <br>
-      <span>A REALITY</span>
-    </h1>
+    <h1>Making Ideas <br><span>A REALITY</span></h1>
   </section>
-
   <script type="module">
     import * as THREE from 'https://esm.sh/three';
     import { OrbitControls } from 'https://esm.sh/three/examples/jsm/controls/OrbitControls.js';
     import { GLTFLoader } from 'https://esm.sh/three/examples/jsm/loaders/GLTFLoader.js';
-    import { RGBELoader } from 'https://esm.sh/three/examples/jsm/loaders/RGBELoader.js';
 
-    // Renderer
     const canvas = document.getElementById('three-canvas');
     const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.outputEncoding = THREE.sRGBEncoding;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 0.6; // Darker for HDRI
-
-    renderer.shadowMap.enabled = true;
-    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.toneMappingExposure = window.innerWidth < 768 ? 0.7 : 1;
 
     // Scene
     const scene = new THREE.Scene();
@@ -174,56 +145,53 @@
 
     // Camera
     const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 2000);
-    camera.position.set(195, 158, 385);
-    camera.rotation.set(
-      THREE.MathUtils.degToRad(-22),
-      THREE.MathUtils.degToRad(36),
-      THREE.MathUtils.degToRad(0)
-    );
-    scene.add(camera);
+    if(window.innerWidth < 768) {
+      camera.position.set(200, 200, 500);
+    } else {
+      camera.position.set(195, 158, 385);
+    }
 
     // Controls
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
     controls.dampingFactor = 0.05;
     controls.enablePan = false;
-    controls.minDistance = 50;
-    controls.maxDistance = 1000;
+    controls.minDistance = 100;
+    controls.maxDistance = 1500;
 
     // Lights
-    scene.add(new THREE.AmbientLight(0xffffff, 0.6));
-
+    scene.add(new THREE.AmbientLight(0xffffff, 0.7));
     const dirLight = new THREE.DirectionalLight(0xffffff, 1.2);
-    dirLight.position.set(100, 200, 100);
+    dirLight.position.set(200, 300, 100);
     dirLight.castShadow = true;
-    dirLight.shadow.mapSize.width = 2048;
-    dirLight.shadow.mapSize.height = 2048;
     scene.add(dirLight);
 
-    // HDRI Environment (for reflections)
-    new RGBELoader()
-      .setDataType(THREE.UnsignedByteType)
-      .load('https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/golden_gate_hills_1k.hdr', function(texture) {
-        texture.mapping = THREE.EquirectangularReflectionMapping;
-        scene.environment = texture;
-      });
+    // Ground plane to catch shadows
+    const ground = new THREE.Mesh(
+      new THREE.PlaneGeometry(5000, 5000),
+      new THREE.ShadowMaterial({ opacity: 0.2 })
+    );
+    ground.rotation.x = -Math.PI / 2;
+    ground.receiveShadow = true;
+    scene.add(ground);
 
     // Load GLB
     const loader = new GLTFLoader();
     loader.load('My-Model.glb',
       (gltf) => {
-        console.log('✅ GLB loaded');
         const model = gltf.scene;
         model.traverse(child => {
           if (child.isMesh) {
             child.castShadow = true;
             child.receiveShadow = true;
+            child.material.metalness = 0.1;
+            child.material.roughness = 0.7;
           }
         });
         scene.add(model);
       },
-      (xhr) => console.log(`Loading: ${(xhr.loaded / xhr.total * 100).toFixed(0)}%`),
-      (error) => console.error('❌ Error loading model:', error)
+      xhr => console.log(`Loading: ${(xhr.loaded / xhr.total * 100).toFixed(0)}%`),
+      error => console.error('❌ Error loading model:', error)
     );
 
     // Resize
@@ -239,7 +207,6 @@
       controls.update();
       renderer.render(scene, camera);
     }
-
     animate();
   </script>
 </body>
