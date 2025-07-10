@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8" />
   <title>Third Axis Design</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     :root {
       --background-color: #0D1B2A;
@@ -17,136 +16,7 @@
       height: 100%;
       background-color: var(--background-color);
       font-family: 'Helvetica Neue', Arial, sans-serif;
-      color: var(--text-color);
       overflow: hidden;
-    }
-
-    /* HEADER (same as gallery.html) */
-    header {
-      position: relative;
-      z-index: 10;
-      background-color: var(--background-color);
-      border-bottom: 2px solid #ffffff33;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 70px 50px 20px;
-    }
-
-    .menu-toggle {
-      display: none;
-      font-size: 2rem;
-      color: var(--accent-color);
-      background: none;
-      border: none;
-      cursor: pointer;
-      z-index: 20;
-    }
-
-    .logo-center {
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 15;
-    }
-
-    .logo-center img {
-      height: 180px;
-      width: auto;
-      max-width: 90vw;
-    }
-
-    .nav-overlay {
-      display: flex;
-      gap: 20px;
-    }
-
-    .nav-overlay a,
-    .mobile-nav a {
-      text-decoration: none;
-      color: var(--accent-color);
-      font-weight: 600;
-      padding: 6px 16px;
-      border-radius: 20px;
-      background-color: rgba(255, 255, 255, 0.1);
-      transition: background-color 0.3s;
-    }
-
-    .nav-overlay a:hover,
-    .mobile-nav a:hover {
-      background-color: rgba(255, 255, 255, 0.3);
-    }
-
-    .nav-overlay a.active,
-    .mobile-nav a.active {
-      background-color: var(--accent-color);
-      color: var(--background-color);
-    }
-
-    .mobile-nav {
-      display: none;
-      flex-direction: column;
-      gap: 15px;
-      position: absolute;
-      top: 100%;
-      left: 0;
-      width: 100%;
-      padding: 20px;
-      box-sizing: border-box;
-      background-color: var(--background-color);
-      border-top: 1px solid #ffffff33;
-      z-index: 5;
-    }
-
-    .mobile-nav.show {
-      display: flex;
-    }
-
-    /* MOBILE HEADER fixes */
-    @media (max-width: 768px) {
-      header {
-        flex-direction: column;
-        align-items: stretch;
-        padding: 20px;
-      }
-
-      .menu-toggle {
-        display: block;
-      }
-
-      .nav-overlay {
-        display: none;
-      }
-
-      .logo-center {
-        position: static;
-        transform: none;
-        margin: 10px auto;
-        text-align: center;
-      }
-
-      .logo-center img {
-        height: 120px;
-      }
-
-      .mobile-nav {
-        display: none;
-        flex-direction: column;
-        gap: 15px;
-        position: absolute;
-        top: 100%;
-        left: 0;
-        width: 100%;
-        padding: 20px;
-        box-sizing: border-box;
-        background-color: var(--background-color);
-        border-top: 1px solid #ffffff33;
-        z-index: 5;
-      }
-
-      .mobile-nav.show {
-        display: flex;
-      }
     }
 
     #three-canvas {
@@ -157,6 +27,49 @@
       height: 100vh;
       z-index: 0;
       background-color: var(--background-color);
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 70px 50px 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .nav-left,
+    .nav-spacer {
+      flex: 1;
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .nav-left a {
+      text-decoration: none;
+      color: var(--accent-color);
+      font-weight: 600;
+      padding: 6px 16px;
+      border-radius: 20px;
+      background-color: rgba(255, 255, 255, 0.1);
+      transition: background-color 0.3s;
+    }
+
+    .nav-left a:hover {
+      background-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .logo-center {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .logo-center img {
+      height: 180px;
+      width: auto;
+      max-width: 90vw;
     }
 
     .hero {
@@ -184,6 +97,22 @@
     }
 
     @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        gap: 15px;
+        padding: 20px;
+      }
+
+      .logo-center {
+        position: static;
+        transform: none;
+        margin-top: 10px;
+      }
+
+      .logo-center img {
+        height: 120px;
+      }
+
       .hero {
         padding: 0 20px 60px;
         height: auto;
@@ -197,44 +126,21 @@
         font-size: 13vw;
       }
     }
-
-    #camera-info {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      background: rgba(0,0,0,0.7);
-      color: #9CC9E2;
-      font-family: monospace;
-      padding: 10px;
-      border-radius: 8px;
-      font-size: 14px;
-      z-index: 2;
-      white-space: pre;
-    }
   </style>
 </head>
 <body>
   <canvas id="three-canvas"></canvas>
 
   <header>
-    <button class="menu-toggle" aria-label="Menu">&#9776;</button>
+    <div class="nav-left">
+      <a href="Gallery.html">Gallery</a>
+      <a href="#">Affirm</a>
+      <a href="#">News</a>
+    </div>
     <div class="logo-center">
       <img src="logo2.png" alt="Third Axis Design Logo">
     </div>
-    <nav class="nav-overlay">
-      <a href="index.html" class="active">Home</a>
-      <a href="Gallery.html">Gallery</a>
-      <a href="#">Shop</a>
-      <a href="#">Affirm</a>
-      <a href="#">News</a>
-    </nav>
-    <nav class="mobile-nav" id="mobileNav">
-      <a href="index.html" class="active">Home</a>
-      <a href="Gallery.html">Gallery</a>
-      <a href="#">Shop</a>
-      <a href="#">Affirm</a>
-      <a href="#">News</a>
-    </nav>
+    <div class="nav-spacer"></div>
   </header>
 
   <section class="hero">
@@ -244,20 +150,13 @@
     </h1>
   </section>
 
-  <div id="camera-info"></div>
-
   <script type="module">
-    const toggle = document.querySelector('.menu-toggle');
-    const mobileNav = document.getElementById('mobileNav');
-    toggle.addEventListener('click', () => {
-      mobileNav.classList.toggle('show');
-    });
-
     import * as THREE from 'https://esm.sh/three';
     import { OrbitControls } from 'https://esm.sh/three/examples/jsm/controls/OrbitControls.js';
     import { GLTFLoader } from 'https://esm.sh/three/examples/jsm/loaders/GLTFLoader.js';
     import { RGBELoader } from 'https://esm.sh/three/examples/jsm/loaders/RGBELoader.js';
 
+    // Renderer
     const canvas = document.getElementById('three-canvas');
     const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
@@ -265,79 +164,84 @@
     renderer.outputEncoding = THREE.sRGBEncoding;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.0;
+    renderer.shadowMap.enabled = true;
 
+    // Scene
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0x0D1B2A);
 
-    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 2000);
-    camera.position.set(195, 158, 385);
-    camera.rotation.set(
-      THREE.MathUtils.degToRad(-22.35),
-      THREE.MathUtils.degToRad(36.67),
-      THREE.MathUtils.degToRad(0)
-    );
+    // Default Camera
+    let activeCamera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 2000);
+    activeCamera.position.set(0, 2, 5);
+    scene.add(activeCamera);
 
-    const controls = new OrbitControls(camera, renderer.domElement);
+    // Controls
+    const controls = new OrbitControls(activeCamera, renderer.domElement);
     controls.enableDamping = true;
     controls.dampingFactor = 0.05;
-    controls.rotateSpeed = 0.5;
-    controls.zoomSpeed = 0.5;
 
-    const hemiLight = new THREE.HemisphereLight(0xffffff, 0x444444, 1.2);
-    scene.add(hemiLight);
+    // Lights
+    scene.add(new THREE.AmbientLight(0xffffff, 0.6));
 
-    const dirLight = new THREE.DirectionalLight(0xffffff, 2);
-    dirLight.position.set(100, 200, 100);
+    const dirLight = new THREE.DirectionalLight(0xffffff, 1.5);
+    dirLight.position.set(50, 100, 50);
     dirLight.castShadow = true;
+    dirLight.shadow.mapSize.width = 2048;
+    dirLight.shadow.mapSize.height = 2048;
     scene.add(dirLight);
 
+    // HDRI Environment (for reflections only)
     new RGBELoader()
       .setDataType(THREE.UnsignedByteType)
-      .load('golden_gate_hills_2k.hdr', function(texture) {
+      .load('https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/golden_gate_hills_1k.hdr', function(texture) {
         texture.mapping = THREE.EquirectangularReflectionMapping;
         scene.environment = texture;
       });
 
+    // Load GLB with embedded camera
     const loader = new GLTFLoader();
     loader.load('My-Model.glb',
       (gltf) => {
+        console.log('✅ GLB loaded');
+        scene.add(gltf.scene);
+
+        let foundCamera = null;
         gltf.scene.traverse(child => {
+          if (child.isCamera) {
+            foundCamera = child;
+          }
           if (child.isMesh) {
             child.castShadow = true;
             child.receiveShadow = true;
           }
         });
-        gltf.scene.scale.set(1, 1, 1);
-        scene.add(gltf.scene);
+
+        if (foundCamera) {
+          console.log('✅ Using embedded camera from GLB');
+          activeCamera = foundCamera;
+          controls.object = activeCamera;
+        } else {
+          console.log('⚠️ No embedded camera found, using default');
+        }
+
+        controls.update();
       },
       (xhr) => console.log(`Loading: ${(xhr.loaded / xhr.total * 100).toFixed(0)}%`),
       (error) => console.error('❌ Error loading model:', error)
     );
 
+    // Handle resize
     window.addEventListener('resize', () => {
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
+      activeCamera.aspect = window.innerWidth / window.innerHeight;
+      activeCamera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
     });
 
-    const cameraInfo = document.getElementById('camera-info');
-    function updateCameraInfo() {
-      cameraInfo.innerText = `Position:
-x: ${camera.position.x.toFixed(2)}
-y: ${camera.position.y.toFixed(2)}
-z: ${camera.position.z.toFixed(2)}
-
-Rotation:
-x: ${(THREE.MathUtils.radToDeg(camera.rotation.x)).toFixed(2)}°
-y: ${(THREE.MathUtils.radToDeg(camera.rotation.y)).toFixed(2)}°
-z: ${(THREE.MathUtils.radToDeg(camera.rotation.z)).toFixed(2)}°`;
-    }
-
+    // Animation loop
     function animate() {
       requestAnimationFrame(animate);
       controls.update();
-      updateCameraInfo();
-      renderer.render(scene, camera);
+      renderer.render(scene, activeCamera);
     }
 
     animate();
