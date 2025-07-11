@@ -2,147 +2,129 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Third Axis Design - Camera Explorer</title>
+  <title>Third Axis Design - 3D Viewer</title>
   <style>
-    body, html {
+    html, body {
       margin: 0;
-      padding: 0;
       height: 100%;
       background-color: #0D1B2A;
-      color: #FFFFFF;
-      font-family: monospace;
       overflow: hidden;
     }
     #three-canvas {
-      position: fixed;
-      top: 0;
-      left: 0;
       width: 100vw;
       height: 100vh;
-      z-index: 0;
-      background-color: #0D1B2A;
+      display: block;
     }
-    #info {
+    #overlay {
       position: absolute;
       top: 10px;
-      right: 10px;
-      background: rgba(0,0,0,0.7);
-      padding: 12px;
-      border-radius: 6px;
-      font-size: 14px;
-      line-height: 1.5;
+      left: 10px;
+      color: #9CC9E2;
+      font-family: monospace;
+      background: rgba(0, 0, 0, 0.6);
+      padding: 10px;
+      border-radius: 5px;
       z-index: 10;
     }
   </style>
 </head>
 <body>
+  <div id="overlay">Loading...</div>
   <canvas id="three-canvas"></canvas>
-  <div id="info">Loading model...</div>
 
   <script type="module">
-    import * as THREE from 'https://esm.sh/three';
-    import { OrbitControls } from 'https://esm.sh/three/examples/jsm/controls/OrbitControls.js';
-    import { GLTFLoader } from 'https://esm.sh/three/examples/jsm/loaders/GLTFLoader.js';
-    import { DRACOLoader } from 'https://esm.sh/three/examples/jsm/loaders/DRACOLoader.js';
+    import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.155/build/three.module.js';
+    import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@0.155/examples/jsm/controls/OrbitControls.js';
+    import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.155/examples/jsm/loaders/GLTFLoader.js';
+    import { RGBELoader } from 'https://cdn.jsdelivr.net/npm/three@0.155/examples/jsm/loaders/RGBELoader.js';
 
-    const infoEl = document.getElementById('info');
+    // Scene & Renderer
     const canvas = document.getElementById('three-canvas');
-
-    // Renderer
-    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.outputEncoding = THREE.sRGBEncoding;
+    renderer.shadowMap.enabled = true;
+    document.body.appendChild(renderer.domElement);
 
-    // Scene
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x0D1B2A);
 
     // Camera
-    const camera = new THREE.PerspectiveCamera(45, window.innerWidth/window.innerHeight, 0.1, 5000);
-    camera.position.set(0, 0, 5);
+    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 2000);
+    camera.position.set(37.25, 1.57, -27.36);
+    camera.rotation.set(THREE.MathUtils.degToRad(-176.60), THREE.MathUtils.degToRad(42.23), THREE.MathUtils.degToRad(177.71));
 
     // Controls
     const controls = new OrbitControls(camera, renderer.domElement);
-    controls.enableDamping = true;
-    controls.dampingFactor = 0.05;
-    controls.screenSpacePanning = true;
     controls.target.set(0, 0, 0);
+    controls.update();
 
-    // Lighting
-    scene.add(new THREE.AmbientLight(0xffffff, 0.7));
-    const hemi = new THREE.HemisphereLight(0xffffff, 0x444444, 0.5);
-    scene.add(hemi);
-    const dirLight = new THREE.DirectionalLight(0xffffff, 1);
-    dirLight.position.set(5, 10, 5);
+    // Lights
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+    scene.add(ambientLight);
+
+    const dirLight = new THREE.DirectionalLight(0xffffff, 2);
+    dirLight.position.set(10, 20, 10);
     dirLight.castShadow = true;
+    dirLight.shadow.mapSize.set(2048, 2048);
     scene.add(dirLight);
 
-    // Load Model
-    const loader = new GLTFLoader();
-    const dracoLoader = new DRACOLoader();
-    dracoLoader.setDecoderPath('https://www.gstatic.com/draco/v1/decoders/');
-    loader.setDRACOLoader(dracoLoader);
+    // Load Environment
+    new RGBELoader()
+      .load('golden_gate_hills_1k.hdr', (texture) => {
+        texture.mapping = THREE.EquirectangularReflectionMapping;
+        scene.environment = texture;
+        scene.background = texture;
+      });
 
-    loader.load('My-Model.glb',
+    // Load GLB Model
+    const overlay = document.getElementById('overlay');
+    const gltfLoader = new GLTFLoader();
+    gltfLoader.load('your_model.glb',
       (gltf) => {
-        infoEl.innerText = 'Use mouse to explore.\nCamera position & rotation below.';
-        const model = gltf.scene;
-
-        model.traverse((child) => {
+        gltf.scene.traverse((child) => {
           if (child.isMesh) {
             child.castShadow = true;
             child.receiveShadow = true;
-            child.material.metalness = 0.2;
-            child.material.roughness = 0.7;
-            child.material.needsUpdate = true;
+            child.material.metalness = 1.0;  // force metallic if desired
+            child.material.roughness = 0.3;  // tweak for shininess
           }
         });
-
-        scene.add(model);
-
-        // Center and Frame
-        const box = new THREE.Box3().setFromObject(model);
-        const center = box.getCenter(new THREE.Vector3());
-        const size = box.getSize(new THREE.Vector3()).length();
-        controls.target.copy(center);
-        camera.near = 0.1;
-        camera.far = size * 20;
-        camera.updateProjectionMatrix();
-        camera.position.copy(center).add(new THREE.Vector3(size, size, size));
-        controls.update();
+        scene.add(gltf.scene);
+        overlay.style.display = 'none';
       },
       (xhr) => {
-        infoEl.innerText = `Loading model... ${(xhr.loaded / xhr.total * 100).toFixed(0)}%`;
+        overlay.textContent = `Loading: ${(xhr.loaded / xhr.total * 100).toFixed(0)}%`;
       },
-      (err) => {
-        infoEl.innerText = 'Error loading model.';
-        console.error('Error loading model:', err);
+      (error) => {
+        overlay.textContent = 'Error loading model.';
+        console.error(error);
       }
     );
 
+    // Resize
     window.addEventListener('resize', () => {
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
     });
 
-    // Animation Loop
+    // Animation
     function animate() {
       requestAnimationFrame(animate);
-      controls.update();
-
-      infoEl.innerText = 
-        `Position:\n` +
-        `x: ${camera.position.x.toFixed(2)}\n` +
-        `y: ${camera.position.y.toFixed(2)}\n` +
-        `z: ${camera.position.z.toFixed(2)}\n\n` +
-        `Rotation:\n` +
-        `x: ${(THREE.MathUtils.radToDeg(camera.rotation.x)).toFixed(2)}°\n` +
-        `y: ${(THREE.MathUtils.radToDeg(camera.rotation.y)).toFixed(2)}°\n` +
-        `z: ${(THREE.MathUtils.radToDeg(camera.rotation.z)).toFixed(2)}°`;
-
       renderer.render(scene, camera);
+      // Optional overlay
+      overlay.innerHTML = `
+        Position:<br>
+        x: ${camera.position.x.toFixed(2)}<br>
+        y: ${camera.position.y.toFixed(2)}<br>
+        z: ${camera.position.z.toFixed(2)}<br><br>
+        Rotation:<br>
+        x: ${THREE.MathUtils.radToDeg(camera.rotation.x).toFixed(2)}°<br>
+        y: ${THREE.MathUtils.radToDeg(camera.rotation.y).toFixed(2)}°<br>
+        z: ${THREE.MathUtils.radToDeg(camera.rotation.z).toFixed(2)}°
+      `;
     }
     animate();
   </script>
