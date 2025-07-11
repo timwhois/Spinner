@@ -23,22 +23,16 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 70px 50px 20px;
+      padding: 110px 50px 20px;
       background-color: var(--background-color);
       position: relative;
       z-index: 10;
     }
-    .logo-center {
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 15;
-    }
     .logo-center img {
-      height: 140px;
+      height: 120px;
       width: auto;
       max-width: 90vw;
-      margin-top: 60px;
+      margin-top: 40px;
     }
     .nav-left {
       display: flex;
@@ -118,7 +112,7 @@
     scene.background = new THREE.Color(0x0d1b2a);
 
     const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.set(1.5, 2.2, 4.5);
+    camera.position.set(1.5, 2.2, 6.5);
 
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
     scene.add(ambientLight);
