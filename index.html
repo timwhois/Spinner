@@ -32,17 +32,24 @@
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
 
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
-    scene.add(ambientLight);
+    // Ambient light
+    scene.add(new THREE.AmbientLight(0xffffff, 0.3));
 
-    const areaLight = new THREE.RectAreaLight(0xffffff, 400, 500, 500);
-    areaLight.position.set(0, 150, 0);
-    areaLight.lookAt(0, 0, 0);
-    scene.add(areaLight);
+    // Directional lights from multiple directions
+    const lightPositions = [
+      [0, 100, 0],     // Top
+      [0, -100, 0],    // Bottom
+      [100, 0, 0],     // Right
+      [-100, 0, 0],    // Left
+      [0, 0, 100],     // Front
+      [0, 0, -100]     // Back
+    ];
 
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 4);
-    directionalLight.position.set(50, 100, 50);
-    scene.add(directionalLight);
+    lightPositions.forEach(pos => {
+      const dirLight = new THREE.DirectionalLight(0xffffff, 1.5);
+      dirLight.position.set(...pos);
+      scene.add(dirLight);
+    });
 
     const dracoLoader = new DRACOLoader();
     dracoLoader.setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.4.3/');
