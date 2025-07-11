@@ -31,24 +31,28 @@
     scene.background = new THREE.Color(0x0D1B2A);
 
     const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 2000);
-    camera.position.set(50, 50, 100);
+    camera.position.set(-24.59, 13.60, 22.55);
+    camera.rotation.set(THREE.MathUtils.degToRad(-26.36), THREE.MathUtils.degToRad(-44.19), THREE.MathUtils.degToRad(-19.05));
+
+    // Mouse movement for subtle parallax
+    let targetOffsetX = 0;
+    let targetOffsetY = 0;
+    document.addEventListener('mousemove', (event) => {
+      targetOffsetX = (event.clientX / window.innerWidth - 0.5) * 2;
+      targetOffsetY = (event.clientY / window.innerHeight - 0.5) * 2;
+    });
 
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
+    controls.enableRotate = false;
+    controls.enableZoom = false;
+    controls.enablePan = false;
 
-    // Ambient light
     scene.add(new THREE.AmbientLight(0xffffff, 0.3));
 
-    // Directional lights from multiple directions
     const lightPositions = [
-      [0, 100, 0],
-      [0, -100, 0],
-      [100, 0, 0],
-      [-100, 0, 0],
-      [0, 0, 100],
-      [0, 0, -100]
+      [0, 100, 0], [0, -100, 0], [100, 0, 0], [-100, 0, 0], [0, 0, 100], [0, 0, -100]
     ];
-
     lightPositions.forEach(pos => {
       const dirLight = new THREE.DirectionalLight(0xffffff, 1.5);
       dirLight.position.set(...pos);
@@ -81,10 +85,11 @@
 
     function animate() {
       requestAnimationFrame(animate);
+      camera.position.x += (targetOffsetX * 2 - camera.position.x) * 0.02;
+      camera.position.y += (targetOffsetY * 2 + 13.60 - camera.position.y) * 0.02;
+      camera.lookAt(0, 0, 0);
       controls.update();
-
       info.innerHTML = `Position:<br>x: ${camera.position.x.toFixed(2)}<br>y: ${camera.position.y.toFixed(2)}<br>z: ${camera.position.z.toFixed(2)}<br><br>Rotation:<br>x: ${(THREE.MathUtils.radToDeg(camera.rotation.x)).toFixed(2)}°<br>y: ${(THREE.MathUtils.radToDeg(camera.rotation.y)).toFixed(2)}°<br>z: ${(THREE.MathUtils.radToDeg(camera.rotation.z)).toFixed(2)}°`;
-
       renderer.render(scene, camera);
     }
     animate();
