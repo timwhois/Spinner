@@ -4,7 +4,123 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Third Axis Design</title>
-  <link rel="stylesheet" href="styles.css" />
+  <style>
+    :root {
+      --background-color: #0D1B2A;
+      --text-color: #FFFFFF;
+      --accent-color: #9CC9E2;
+    }
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background-color: var(--background-color);
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      color: var(--text-color);
+      overflow: hidden;
+    }
+    header {
+      position: relative;
+      z-index: 10;
+      background-color: var(--background-color);
+      border-bottom: 2px solid #ffffff33;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 50px;
+    }
+    .menu-toggle {
+      display: none;
+      font-size: 2rem;
+      color: var(--accent-color);
+      background: none;
+      border: none;
+      cursor: pointer;
+      z-index: 20;
+    }
+    .logo-center {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 15;
+    }
+    .logo-center img {
+      height: 120px;
+      width: auto;
+      max-width: 90vw;
+    }
+    .nav-overlay {
+      display: flex;
+      gap: 20px;
+    }
+    .nav-overlay a,
+    .mobile-nav a {
+      text-decoration: none;
+      color: var(--accent-color);
+      font-weight: 600;
+      padding: 6px 16px;
+      border-radius: 20px;
+      background-color: rgba(255, 255, 255, 0.1);
+      transition: background-color 0.3s;
+    }
+    .nav-overlay a:hover,
+    .mobile-nav a:hover {
+      background-color: rgba(255, 255, 255, 0.3);
+    }
+    .nav-overlay a.active,
+    .mobile-nav a.active {
+      background-color: var(--accent-color);
+      color: var(--background-color);
+    }
+    .mobile-nav {
+      display: none;
+      flex-direction: column;
+      gap: 15px;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      padding: 20px;
+      box-sizing: border-box;
+      background-color: var(--background-color);
+      border-top: 1px solid #ffffff33;
+      z-index: 5;
+    }
+    .mobile-nav.show {
+      display: flex;
+    }
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 20px;
+      }
+      .menu-toggle {
+        display: block;
+      }
+      .nav-overlay {
+        display: none;
+      }
+      .logo-center {
+        position: static;
+        transform: none;
+        margin: 10px auto;
+        text-align: center;
+      }
+      .logo-center img {
+        height: 100px;
+      }
+    }
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 1;
+      pointer-events: none;
+    }
+  </style>
 </head>
 <body>
   <header>
@@ -27,38 +143,36 @@
       <a href="#">News</a>
     </nav>
   </header>
-
   <canvas id="three-canvas"></canvas>
-
   <script type="module">
-    import * as THREE from 'https://esm.sh/three';
-    import { GLTFLoader } from 'https://esm.sh/three/examples/jsm/loaders/GLTFLoader.js';
-    import { DRACOLoader } from 'https://esm.sh/three/examples/jsm/loaders/DRACOLoader.js';
+    import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.150.1/build/three.module.js';
+    import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.150.1/examples/jsm/loaders/GLTFLoader.js';
+    import { DRACOLoader } from 'https://cdn.jsdelivr.net/npm/three@0.150.1/examples/jsm/loaders/DRACOLoader.js';
 
     const canvas = document.getElementById('three-canvas');
-    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+    const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
 
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x0d1b2a);
 
     const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 2000);
-    camera.position.set(-24.59, 13.60, 22.55);
+    camera.position.set(-24.59, 15.60, 22.55);
     camera.rotation.set(-0.46, -0.77, -0.33);
 
-    // Lights from all around
+    // 6 Directional Lights
     const lightPositions = [
       [0, 50, 0], [0, -50, 0],
       [50, 0, 0], [-50, 0, 0],
       [0, 0, 50], [0, 0, -50]
     ];
     lightPositions.forEach(pos => {
-      const light = new THREE.DirectionalLight(0xffffff, 2);
+      const light = new THREE.DirectionalLight(0xffffff, 2.5);
       light.position.set(...pos);
       scene.add(light);
     });
 
+    // Draco
     const dracoLoader = new DRACOLoader();
     dracoLoader.setDecoderPath('https://www.gstatic.com/draco/v1/decoders/');
     const loader = new GLTFLoader();
@@ -72,6 +186,15 @@
         }
       });
       scene.add(gltf.scene);
+    });
+
+    // Animate with subtle parallax
+    document.addEventListener('mousemove', (event) => {
+      const mouseX = (event.clientX / window.innerWidth - 0.5) * 0.1;
+      const mouseY = (event.clientY / window.innerHeight - 0.5) * 0.1;
+      camera.position.x += (mouseX - camera.position.x) * 0.05;
+      camera.position.y += (mouseY - camera.position.y) * 0.05;
+      camera.lookAt(scene.position);
     });
 
     function animate() {
