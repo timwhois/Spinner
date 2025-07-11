@@ -31,10 +31,9 @@
     scene.background = new THREE.Color(0x0D1B2A);
 
     const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 2000);
-    camera.position.set(-24.59, 13.60, 22.55);
+    camera.position.set(-30, 13.60, 30);
     camera.rotation.set(THREE.MathUtils.degToRad(-26.36), THREE.MathUtils.degToRad(-44.19), THREE.MathUtils.degToRad(-19.05));
 
-    // Mouse movement for subtle parallax
     let targetOffsetX = 0;
     let targetOffsetY = 0;
     document.addEventListener('mousemove', (event) => {
