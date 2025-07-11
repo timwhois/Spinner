@@ -7,13 +7,12 @@
   <style>
     html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; background-color: #0D1B2A; }
     body { position: relative; font-family: 'Helvetica Neue', Arial, sans-serif; color: #FFFFFF; }
-    #three-canvas { position: absolute; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 5; pointer-events: none; }
+    #three-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1; pointer-events: none; }
 
     header {
       position: relative;
       z-index: 10;
-      background-color: #0D1B2A;
-      border-bottom: 2px solid #ffffff33;
+      background-color: transparent;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -52,6 +51,8 @@
   </style>
 </head>
 <body>
+  <canvas id="three-canvas"></canvas>
+
   <header>
     <button class="menu-toggle" aria-label="Menu">&#9776;</button>
     <div class="logo-center">
@@ -72,8 +73,6 @@
       <a href="#">News</a>
     </nav>
   </header>
-
-  <canvas id="three-canvas"></canvas>
 
   <script>
     const toggle = document.querySelector('.menu-toggle');
