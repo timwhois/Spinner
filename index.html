@@ -4,22 +4,13 @@
   <meta charset="UTF-8" />
   <title>Third Axis Design - Viewer</title>
   <style>
-    :root {
-      --background-color: #0D1B2A;
-      --text-color: #FFFFFF;
-      --accent-color: #9CC9E2;
-    }
-
     html, body {
       margin: 0;
       padding: 0;
       height: 100%;
-      background-color: var(--background-color);
-      color: var(--text-color);
-      font-family: 'Helvetica Neue', Arial, sans-serif;
+      background-color: #0D1B2A;
       overflow: hidden;
     }
-
     #three-canvas {
       position: fixed;
       top: 0;
@@ -27,18 +18,13 @@
       width: 100vw;
       height: 100vh;
       z-index: 0;
-      background-color: var(--background-color);
+      background-color: #0D1B2A;
     }
-
-    header, .hero {
-      display: none;
-    }
-
     #camera-info {
       position: absolute;
       top: 10px;
       right: 10px;
-      background: rgba(0, 0, 0, 0.8);
+      background: rgba(0,0,0,0.8);
       color: #9CC9E2;
       padding: 10px;
       font-family: monospace;
@@ -53,14 +39,14 @@
   <div id="camera-info"></div>
 
   <script type="module">
-    import * as THREE from 'https://unpkg.com/three@0.160.0/build/three.module.js';
-    import { GLTFLoader } from 'https://unpkg.com/three@0.160.0/examples/jsm/loaders/GLTFLoader.js';
-    import { DRACOLoader } from 'https://unpkg.com/three@0.160.0/examples/jsm/loaders/DRACOLoader.js';
-    import { OrbitControls } from 'https://unpkg.com/three@0.160.0/examples/jsm/controls/OrbitControls.js';
+    import * as THREE from 'https://esm.sh/three@0.160.0';
+    import { OrbitControls } from 'https://esm.sh/three@0.160.0/examples/jsm/controls/OrbitControls.js';
+    import { GLTFLoader } from 'https://esm.sh/three@0.160.0/examples/jsm/loaders/GLTFLoader.js';
+    import { DRACOLoader } from 'https://esm.sh/three@0.160.0/examples/jsm/loaders/DRACOLoader.js';
 
     // Renderer
     const canvas = document.getElementById('three-canvas');
-    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
     renderer.setClearColor(0x0D1B2A);
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
@@ -81,13 +67,12 @@
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
     scene.add(ambientLight);
 
-    const dirLight = new THREE.DirectionalLight(0xffffff, 5);
-    dirLight.position.set(0, 5.293, 0);
-    dirLight.target.position.set(0, 0, 0);
-    scene.add(dirLight);
-    scene.add(dirLight.target);
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 5);
+    directionalLight.position.set(0, 5.293, 0); 
+    directionalLight.castShadow = false;
+    scene.add(directionalLight);
 
-    // Load GLB
+    // Load DRACO-enabled GLB
     const loader = new GLTFLoader();
     const dracoLoader = new DRACOLoader();
     dracoLoader.setDecoderPath('https://www.gstatic.com/draco/v1/decoders/');
@@ -112,7 +97,7 @@
       }
     );
 
-    // HUD for camera info
+    // Camera Info
     const cameraInfo = document.getElementById('camera-info');
     function updateCameraInfo() {
       cameraInfo.innerHTML = `
@@ -127,7 +112,7 @@
       `;
     }
 
-    // Responsive
+    // Resize
     window.addEventListener('resize', () => {
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
