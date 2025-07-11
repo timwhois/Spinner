@@ -6,16 +6,20 @@
   <style>
     html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; background-color: #0D1B2A; }
     #three-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; display: block; }
+    #info { position: fixed; top: 10px; right: 10px; background: rgba(0,0,0,0.8); color: white; padding: 10px; font-family: monospace; font-size: 14px; }
   </style>
 </head>
 <body>
   <canvas id="three-canvas"></canvas>
+  <div id="info"></div>
 
   <script type="module">
     import * as THREE from 'https://esm.sh/three';
     import { OrbitControls } from 'https://esm.sh/three/examples/jsm/controls/OrbitControls.js';
     import { GLTFLoader } from 'https://esm.sh/three/examples/jsm/loaders/GLTFLoader.js';
     import { DRACOLoader } from 'https://esm.sh/three/examples/jsm/loaders/DRACOLoader.js';
+
+    const info = document.getElementById('info');
 
     const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('three-canvas'), antialias: true });
     renderer.outputEncoding = THREE.sRGBEncoding;
@@ -37,12 +41,12 @@
 
     // Directional lights from multiple directions
     const lightPositions = [
-      [0, 100, 0],     // Top
-      [0, -100, 0],    // Bottom
-      [100, 0, 0],     // Right
-      [-100, 0, 0],    // Left
-      [0, 0, 100],     // Front
-      [0, 0, -100]     // Back
+      [0, 100, 0],
+      [0, -100, 0],
+      [100, 0, 0],
+      [-100, 0, 0],
+      [0, 0, 100],
+      [0, 0, -100]
     ];
 
     lightPositions.forEach(pos => {
@@ -64,7 +68,6 @@
           child.material.roughness = 0.2;
         }
       });
-      gltf.scene.scale.set(1, 1, 1);
       scene.add(gltf.scene);
     }, undefined, (error) => {
       console.error('Error loading GLB:', error);
@@ -79,6 +82,9 @@
     function animate() {
       requestAnimationFrame(animate);
       controls.update();
+
+      info.innerHTML = `Position:<br>x: ${camera.position.x.toFixed(2)}<br>y: ${camera.position.y.toFixed(2)}<br>z: ${camera.position.z.toFixed(2)}<br><br>Rotation:<br>x: ${(THREE.MathUtils.radToDeg(camera.rotation.x)).toFixed(2)}°<br>y: ${(THREE.MathUtils.radToDeg(camera.rotation.y)).toFixed(2)}°<br>z: ${(THREE.MathUtils.radToDeg(camera.rotation.z)).toFixed(2)}°`;
+
       renderer.render(scene, camera);
     }
     animate();
