@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Third Axis Design - GLB Viewer</title>
+  <title>Third Axis Design Viewer</title>
   <style>
     html, body {
       margin: 0;
@@ -10,120 +10,110 @@
       background-color: #0D1B2A;
       overflow: hidden;
     }
-
     #three-canvas {
-      position: fixed;
-      top: 0;
-      left: 0;
       width: 100vw;
       height: 100vh;
-      z-index: 0;
-      background-color: #0D1B2A;
+      display: block;
     }
-
-    .overlay {
-      position: absolute;
+    #camera-info {
+      position: fixed;
       top: 10px;
       right: 10px;
+      background: rgba(0,0,0,0.8);
       color: #9CC9E2;
-      background-color: rgba(0, 0, 0, 0.8);
       padding: 10px;
       font-family: monospace;
       font-size: 14px;
-      z-index: 2;
+      z-index: 10;
     }
   </style>
 </head>
 <body>
   <canvas id="three-canvas"></canvas>
-  <div class="overlay" id="camera-stats"></div>
+  <div id="camera-info"></div>
 
   <script type="module">
-    import * as THREE from 'https://esm.sh/three';
-    import { GLTFLoader } from 'https://esm.sh/three/examples/jsm/loaders/GLTFLoader.js';
-    import { OrbitControls } from 'https://esm.sh/three/examples/jsm/controls/OrbitControls.js';
+    import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
+    import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/loaders/GLTFLoader.js';
+    import { DRACOLoader } from 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/loaders/DRACOLoader.js';
+    import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/controls/OrbitControls.js';
 
     // Renderer
     const canvas = document.getElementById('three-canvas');
-    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
-    renderer.setClearColor(0x0d1b2a);
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
-    renderer.shadowMap.enabled = true;
+    renderer.outputEncoding = THREE.sRGBEncoding;
 
     // Scene
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x0d1b2a);
+    scene.background = new THREE.Color(0x0D1B2A);
 
     // Camera
-    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.set(37.25, 1.57, -27.36);
-    camera.rotation.set(THREE.MathUtils.degToRad(-176.60), THREE.MathUtils.degToRad(42.23), THREE.MathUtils.degToRad(177.71));
-    scene.add(camera);
+    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 2000);
+    camera.position.set(50, 50, 100);
 
     // Controls
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
-    controls.dampingFactor = 0.05;
-    controls.screenSpacePanning = false;
 
-    // Lighting (no HDR, just area + ambient)
-    const ambient = new THREE.AmbientLight(0xffffff, 0.2);
+    // Lighting
+    const ambient = new THREE.AmbientLight(0xffffff, 0.4);
     scene.add(ambient);
 
-    const areaLight = new THREE.RectAreaLight(0xffffff, 5, 10, 10);
-    areaLight.position.set(0, 10, 0);
-    areaLight.lookAt(0, 0, 0);
-    scene.add(areaLight);
+    const dirLight = new THREE.DirectionalLight(0xffffff, 1);
+    dirLight.position.set(0, 100, 0);
+    dirLight.castShadow = true;
+    scene.add(dirLight);
 
-    // Load GLB Model
+    // Load Model with DRACO support
     const loader = new GLTFLoader();
+    const dracoLoader = new DRACOLoader();
+    dracoLoader.setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.5.6/');
+    loader.setDRACOLoader(dracoLoader);
+
     loader.load('My-Model.glb',
       (gltf) => {
-        const model = gltf.scene;
-        model.traverse(child => {
+        console.log('✅ Model loaded:', gltf.scene);
+        gltf.scene.traverse((child) => {
           if (child.isMesh) {
             child.castShadow = true;
             child.receiveShadow = true;
           }
         });
-        scene.add(model);
+        gltf.scene.position.set(0, 0, 0);
+        scene.add(gltf.scene);
       },
-      (xhr) => {
-        console.log(`Loading: ${(xhr.loaded / xhr.total * 100).toFixed(0)}%`);
-      },
-      (error) => {
-        console.error('Error loading GLB:', error);
-      }
+      (xhr) => console.log(`Loading: ${((xhr.loaded / xhr.total) * 100).toFixed(0)}%`),
+      (error) => console.error('❌ Error loading model:', error)
     );
 
-    // Resize
+    // Overlay
+    const cameraInfo = document.getElementById('camera-info');
+
     window.addEventListener('resize', () => {
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
     });
 
-    // Camera stats
-    const statsEl = document.getElementById('camera-stats');
-
     function animate() {
       requestAnimationFrame(animate);
       controls.update();
       renderer.render(scene, camera);
 
-      statsEl.innerHTML = `
-Position:<br>
-x: ${camera.position.x.toFixed(2)}<br>
-y: ${camera.position.y.toFixed(2)}<br>
-z: ${camera.position.z.toFixed(2)}<br><br>
-Rotation:<br>
-x: ${(THREE.MathUtils.radToDeg(camera.rotation.x)).toFixed(2)}°<br>
-y: ${(THREE.MathUtils.radToDeg(camera.rotation.y)).toFixed(2)}°<br>
-z: ${(THREE.MathUtils.radToDeg(camera.rotation.z)).toFixed(2)}°
-      `;
-    }
+      cameraInfo.innerHTML = `
+Position:
+x: ${camera.position.x.toFixed(2)}
+y: ${camera.position.y.toFixed(2)}
+z: ${camera.position.z.toFixed(2)}
 
+Rotation:
+x: ${(THREE.MathUtils.radToDeg(camera.rotation.x)).toFixed(2)}°
+y: ${(THREE.MathUtils.radToDeg(camera.rotation.y)).toFixed(2)}°
+z: ${(THREE.MathUtils.radToDeg(camera.rotation.z)).toFixed(2)}°
+`;
+    }
     animate();
   </script>
 </body>
