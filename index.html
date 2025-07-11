@@ -32,15 +32,15 @@
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
 
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.2);
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
     scene.add(ambientLight);
 
-    const areaLight = new THREE.RectAreaLight(0xffffff, 200, 300, 300);
+    const areaLight = new THREE.RectAreaLight(0xffffff, 400, 500, 500);
     areaLight.position.set(0, 150, 0);
     areaLight.lookAt(0, 0, 0);
     scene.add(areaLight);
 
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 2);
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 4);
     directionalLight.position.set(50, 100, 50);
     scene.add(directionalLight);
 
