@@ -2,29 +2,49 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Third Axis Design Viewer</title>
+  <title>Third Axis Design - Viewer</title>
   <style>
+    :root {
+      --background-color: #0D1B2A;
+      --text-color: #FFFFFF;
+      --accent-color: #9CC9E2;
+    }
+
     html, body {
       margin: 0;
+      padding: 0;
       height: 100%;
-      background-color: #0D1B2A;
+      background-color: var(--background-color);
+      color: var(--text-color);
+      font-family: 'Helvetica Neue', Arial, sans-serif;
       overflow: hidden;
     }
+
     #three-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
       width: 100vw;
       height: 100vh;
-      display: block;
+      z-index: 0;
+      background-color: var(--background-color);
     }
+
+    header, .hero {
+      display: none;
+    }
+
     #camera-info {
-      position: fixed;
+      position: absolute;
       top: 10px;
       right: 10px;
-      background: rgba(0,0,0,0.8);
+      background: rgba(0, 0, 0, 0.8);
       color: #9CC9E2;
       padding: 10px;
       font-family: monospace;
       font-size: 14px;
       z-index: 10;
+      border-radius: 4px;
     }
   </style>
 </head>
@@ -33,17 +53,17 @@
   <div id="camera-info"></div>
 
   <script type="module">
-    import * as THREE from 'https://esm.sh/three';
-    import { OrbitControls } from 'https://esm.sh/three/examples/jsm/controls/OrbitControls.js';
-    import { GLTFLoader } from 'https://esm.sh/three/examples/jsm/loaders/GLTFLoader.js';
-    import { DRACOLoader } from 'https://esm.sh/three/examples/jsm/loaders/DRACOLoader.js';
+    import * as THREE from 'https://unpkg.com/three@0.160.0/build/three.module.js';
+    import { GLTFLoader } from 'https://unpkg.com/three@0.160.0/examples/jsm/loaders/GLTFLoader.js';
+    import { DRACOLoader } from 'https://unpkg.com/three@0.160.0/examples/jsm/loaders/DRACOLoader.js';
+    import { OrbitControls } from 'https://unpkg.com/three@0.160.0/examples/jsm/controls/OrbitControls.js';
 
     // Renderer
     const canvas = document.getElementById('three-canvas');
-    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
+    renderer.setClearColor(0x0D1B2A);
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
-    renderer.outputEncoding = THREE.sRGBEncoding;
 
     // Scene
     const scene = new THREE.Scene();
@@ -51,73 +71,77 @@
 
     // Camera
     const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 2000);
-    camera.position.set(50, 50, 100);
+    camera.position.set(50, 50, 50);
 
     // Controls
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
 
-    // Lighting (no HDRI)
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
+    // Lights
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
     scene.add(ambientLight);
 
-    const spotLight = new THREE.SpotLight(0xffffff, 1);
-    spotLight.position.set(0, 100, 0);
-    spotLight.angle = Math.PI / 4;
-    spotLight.penumbra = 0.3;
-    spotLight.castShadow = true;
-    scene.add(spotLight);
+    const dirLight = new THREE.DirectionalLight(0xffffff, 5);
+    dirLight.position.set(0, 5.293, 0);
+    dirLight.target.position.set(0, 0, 0);
+    scene.add(dirLight);
+    scene.add(dirLight.target);
 
-    // DRACO support
+    // Load GLB
+    const loader = new GLTFLoader();
     const dracoLoader = new DRACOLoader();
     dracoLoader.setDecoderPath('https://www.gstatic.com/draco/v1/decoders/');
-
-    // GLTF Loader with DRACO
-    const loader = new GLTFLoader();
     loader.setDRACOLoader(dracoLoader);
 
     loader.load('My-Model.glb',
       (gltf) => {
-        console.log('✅ Model loaded:', gltf.scene);
-        gltf.scene.traverse((child) => {
+        console.log('✅ GLB loaded:', gltf.scene);
+        gltf.scene.traverse(child => {
           if (child.isMesh) {
-            child.castShadow = true;
-            child.receiveShadow = true;
-            child.material.side = THREE.FrontSide;
+            child.castShadow = false;
+            child.receiveShadow = false;
           }
         });
         scene.add(gltf.scene);
       },
-      (xhr) => console.log(`Loading: ${((xhr.loaded / xhr.total) * 100).toFixed(0)}%`),
-      (error) => console.error('❌ Error loading model:', error)
+      (xhr) => {
+        console.log(`Loading GLB: ${(xhr.loaded / xhr.total * 100).toFixed(0)}%`);
+      },
+      (error) => {
+        console.error('❌ Error loading GLB:', error);
+      }
     );
 
-    // Camera overlay
+    // HUD for camera info
     const cameraInfo = document.getElementById('camera-info');
+    function updateCameraInfo() {
+      cameraInfo.innerHTML = `
+        Position:<br>
+        x: ${camera.position.x.toFixed(2)}<br>
+        y: ${camera.position.y.toFixed(2)}<br>
+        z: ${camera.position.z.toFixed(2)}<br><br>
+        Rotation:<br>
+        x: ${(THREE.MathUtils.radToDeg(camera.rotation.x)).toFixed(2)}°<br>
+        y: ${(THREE.MathUtils.radToDeg(camera.rotation.y)).toFixed(2)}°<br>
+        z: ${(THREE.MathUtils.radToDeg(camera.rotation.z)).toFixed(2)}°
+      `;
+    }
 
+    // Responsive
     window.addEventListener('resize', () => {
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
     });
 
+    // Animate
     function animate() {
       requestAnimationFrame(animate);
       controls.update();
+      updateCameraInfo();
       renderer.render(scene, camera);
-
-      cameraInfo.innerHTML = `
-Position:
-x: ${camera.position.x.toFixed(2)}
-y: ${camera.position.y.toFixed(2)}
-z: ${camera.position.z.toFixed(2)}
-
-Rotation:
-x: ${(THREE.MathUtils.radToDeg(camera.rotation.x)).toFixed(2)}°
-y: ${(THREE.MathUtils.radToDeg(camera.rotation.y)).toFixed(2)}°
-z: ${(THREE.MathUtils.radToDeg(camera.rotation.z)).toFixed(2)}°
-`;
     }
+
     animate();
   </script>
 </body>
