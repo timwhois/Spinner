@@ -4,69 +4,23 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Third Axis Design</title>
-  <style>
-    html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; background-color: #0D1B2A; }
-    body { position: relative; font-family: 'Helvetica Neue', Arial, sans-serif; color: #FFFFFF; }
-    #three-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1; pointer-events: none; }
-
-    header {
-      position: relative;
-      z-index: 10;
-      background-color: transparent;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 70px 50px 20px;
-    }
-    .menu-toggle { display: none; font-size: 2rem; color: #9CC9E2; background: none; border: none; cursor: pointer; z-index: 20; }
-    .logo-center { position: absolute; left: 50%; transform: translateX(-50%); z-index: 15; }
-    .logo-center img { height: 180px; width: auto; max-width: 90vw; }
-    .nav-overlay { display: flex; gap: 20px; }
-    .nav-overlay a, .mobile-nav a {
-      text-decoration: none; color: #9CC9E2;
-      font-weight: 600; padding: 6px 16px; border-radius: 20px;
-      background-color: rgba(255, 255, 255, 0.1);
-      transition: background-color 0.3s;
-    }
-    .nav-overlay a:hover, .mobile-nav a:hover { background-color: rgba(255, 255, 255, 0.3); }
-    .nav-overlay a.active, .mobile-nav a.active {
-      background-color: #9CC9E2;
-      color: #0D1B2A;
-    }
-    .mobile-nav {
-      display: none; flex-direction: column; gap: 15px;
-      position: absolute; top: 100%; left: 0; width: 100%;
-      padding: 20px; box-sizing: border-box;
-      background-color: #0D1B2A;
-      border-top: 1px solid #ffffff33; z-index: 5;
-    }
-    .mobile-nav.show { display: flex; }
-    @media (max-width: 768px) {
-      header { flex-direction: column; align-items: stretch; padding: 20px; }
-      .menu-toggle { display: block; }
-      .nav-overlay { display: none; }
-      .logo-center { position: static; transform: none; margin: 10px auto; text-align: center; }
-      .logo-center img { height: 120px; }
-    }
-  </style>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <canvas id="three-canvas"></canvas>
-
   <header>
     <button class="menu-toggle" aria-label="Menu">&#9776;</button>
     <div class="logo-center">
       <img src="logo2.png" alt="Third Axis Design Logo">
     </div>
     <nav class="nav-overlay">
-      <a href="#" class="active">Home</a>
+      <a href="index.html" class="active">Home</a>
       <a href="Gallery.html">Gallery</a>
       <a href="#">Shop</a>
       <a href="#">Affirm</a>
       <a href="#">News</a>
     </nav>
     <nav class="mobile-nav" id="mobileNav">
-      <a href="#" class="active">Home</a>
+      <a href="index.html" class="active">Home</a>
       <a href="Gallery.html">Gallery</a>
       <a href="#">Shop</a>
       <a href="#">Affirm</a>
@@ -74,11 +28,66 @@
     </nav>
   </header>
 
-  <script>
-    const toggle = document.querySelector('.menu-toggle');
-    const mobileNav = document.getElementById('mobileNav');
-    toggle.addEventListener('click', () => {
-      mobileNav.classList.toggle('show');
+  <canvas id="three-canvas"></canvas>
+
+  <script type="module">
+    import * as THREE from 'https://esm.sh/three';
+    import { GLTFLoader } from 'https://esm.sh/three/examples/jsm/loaders/GLTFLoader.js';
+    import { DRACOLoader } from 'https://esm.sh/three/examples/jsm/loaders/DRACOLoader.js';
+
+    const canvas = document.getElementById('three-canvas');
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(window.devicePixelRatio);
+
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x0d1b2a);
+
+    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 2000);
+    camera.position.set(-24.59, 13.60, 22.55);
+    camera.rotation.set(-0.46, -0.77, -0.33);
+
+    // Lights from all around
+    const lightPositions = [
+      [0, 50, 0], [0, -50, 0],
+      [50, 0, 0], [-50, 0, 0],
+      [0, 0, 50], [0, 0, -50]
+    ];
+    lightPositions.forEach(pos => {
+      const light = new THREE.DirectionalLight(0xffffff, 2);
+      light.position.set(...pos);
+      scene.add(light);
+    });
+
+    const dracoLoader = new DRACOLoader();
+    dracoLoader.setDecoderPath('https://www.gstatic.com/draco/v1/decoders/');
+    const loader = new GLTFLoader();
+    loader.setDRACOLoader(dracoLoader);
+
+    loader.load('My-Model.glb', (gltf) => {
+      gltf.scene.traverse(child => {
+        if (child.isMesh) {
+          child.material.metalness = 1;
+          child.material.roughness = 0.2;
+        }
+      });
+      scene.add(gltf.scene);
+    });
+
+    function animate() {
+      requestAnimationFrame(animate);
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    document.querySelector('.menu-toggle').addEventListener('click', () => {
+      document.getElementById('mobileNav').classList.toggle('show');
     });
   </script>
 </body>
