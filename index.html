@@ -31,7 +31,7 @@
     scene.background = new THREE.Color(0x0D1B2A);
 
     const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 2000);
-    camera.position.set(-30, 13.60, 30);
+    camera.position.set(-24.59, 16.60, 22.55);
     camera.rotation.set(THREE.MathUtils.degToRad(-26.36), THREE.MathUtils.degToRad(-44.19), THREE.MathUtils.degToRad(-19.05));
 
     let targetOffsetX = 0;
@@ -65,6 +65,7 @@
     loader.setDRACOLoader(dracoLoader);
 
     loader.load('My-Model.glb', (gltf) => {
+      gltf.scene.rotation.y = THREE.MathUtils.degToRad(20);
       gltf.scene.traverse((child) => {
         if (child.isMesh) {
           child.material.metalness = 1.0;
@@ -85,7 +86,7 @@
     function animate() {
       requestAnimationFrame(animate);
       camera.position.x += (targetOffsetX * 2 - camera.position.x) * 0.02;
-      camera.position.y += (targetOffsetY * 2 + 13.60 - camera.position.y) * 0.02;
+      camera.position.y += (targetOffsetY * 2 + 16.60 - camera.position.y) * 0.02;
       camera.lookAt(0, 0, 0);
       controls.update();
       info.innerHTML = `Position:<br>x: ${camera.position.x.toFixed(2)}<br>y: ${camera.position.y.toFixed(2)}<br>z: ${camera.position.z.toFixed(2)}<br><br>Rotation:<br>x: ${(THREE.MathUtils.radToDeg(camera.rotation.x)).toFixed(2)}°<br>y: ${(THREE.MathUtils.radToDeg(camera.rotation.y)).toFixed(2)}°<br>z: ${(THREE.MathUtils.radToDeg(camera.rotation.z)).toFixed(2)}°`;
