@@ -2,98 +2,89 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Third Axis Design</title>
   <style>
-    html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; background-color: #0D1B2A; }
-    #three-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; display: block; }
-    #info { position: fixed; top: 10px; right: 10px; background: rgba(0,0,0,0.8); color: white; padding: 10px; font-family: monospace; font-size: 14px; }
+    :root {
+      --background-color: #0D1B2A;
+      --text-color: #FFFFFF;
+      --accent-color: #9CC9E2;
+    }
+    html, body { margin: 0; padding: 0; height: 100%; background-color: var(--background-color); overflow: hidden; font-family: 'Helvetica Neue', Arial, sans-serif; color: var(--text-color); }
+    #three-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; display: block; z-index: 0; }
+
+    header {
+      position: relative;
+      z-index: 10;
+      background-color: var(--background-color);
+      border-bottom: 2px solid #ffffff33;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 70px 50px 20px;
+    }
+    .menu-toggle { display: none; font-size: 2rem; color: var(--accent-color); background: none; border: none; cursor: pointer; z-index: 20; }
+    .logo-center { position: absolute; left: 50%; transform: translateX(-50%); z-index: 15; }
+    .logo-center img { height: 180px; width: auto; max-width: 90vw; }
+    .nav-overlay { display: flex; gap: 20px; }
+    .nav-overlay a, .mobile-nav a {
+      text-decoration: none; color: var(--accent-color);
+      font-weight: 600; padding: 6px 16px; border-radius: 20px;
+      background-color: rgba(255, 255, 255, 0.1);
+      transition: background-color 0.3s;
+    }
+    .nav-overlay a:hover, .mobile-nav a:hover {
+      background-color: rgba(255, 255, 255, 0.3);
+    }
+    .nav-overlay a.active, .mobile-nav a.active {
+      background-color: var(--accent-color);
+      color: var(--background-color);
+    }
+    .mobile-nav {
+      display: none; flex-direction: column; gap: 15px;
+      position: absolute; top: 100%; left: 0; width: 100%;
+      padding: 20px; box-sizing: border-box;
+      background-color: var(--background-color);
+      border-top: 1px solid #ffffff33; z-index: 5;
+    }
+    .mobile-nav.show { display: flex; }
+    @media (max-width: 768px) {
+      header { flex-direction: column; align-items: stretch; padding: 20px; }
+      .menu-toggle { display: block; }
+      .nav-overlay { display: none; }
+      .logo-center { position: static; transform: none; margin: 10px auto; text-align: center; }
+      .logo-center img { height: 120px; }
+    }
   </style>
 </head>
 <body>
   <canvas id="three-canvas"></canvas>
-  <div id="info"></div>
-
-  <script type="module">
-    import * as THREE from 'https://esm.sh/three';
-    import { OrbitControls } from 'https://esm.sh/three/examples/jsm/controls/OrbitControls.js';
-    import { GLTFLoader } from 'https://esm.sh/three/examples/jsm/loaders/GLTFLoader.js';
-    import { DRACOLoader } from 'https://esm.sh/three/examples/jsm/loaders/DRACOLoader.js';
-
-    const info = document.getElementById('info');
-
-    const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('three-canvas'), antialias: true });
-    renderer.outputEncoding = THREE.sRGBEncoding;
-    renderer.physicallyCorrectLights = true;
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(window.devicePixelRatio);
-
-    const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x0D1B2A);
-
-    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 2000);
-    camera.position.set(-24.59, 18.60, 22.55);
-    camera.rotation.set(THREE.MathUtils.degToRad(-26.36), THREE.MathUtils.degToRad(-44.19), THREE.MathUtils.degToRad(-19.05));
-
-    let targetOffsetX = 0;
-    let targetOffsetY = 0;
-    document.addEventListener('mousemove', (event) => {
-      targetOffsetX = (event.clientX / window.innerWidth - 0.5) * 2;
-      targetOffsetY = (event.clientY / window.innerHeight - 0.5) * 2;
+  <header>
+    <button class="menu-toggle" aria-label="Menu">&#9776;</button>
+    <div class="logo-center">
+      <img src="logo2.png" alt="Third Axis Design Logo">
+    </div>
+    <nav class="nav-overlay">
+      <a href="#" class="active">Home</a>
+      <a href="Gallery.html">Gallery</a>
+      <a href="#">Shop</a>
+      <a href="#">Affirm</a>
+      <a href="#">News</a>
+    </nav>
+    <nav class="mobile-nav" id="mobileNav">
+      <a href="#" class="active">Home</a>
+      <a href="Gallery.html">Gallery</a>
+      <a href="#">Shop</a>
+      <a href="#">Affirm</a>
+      <a href="#">News</a>
+    </nav>
+  </header>
+  <script>
+    const toggle = document.querySelector('.menu-toggle');
+    const mobileNav = document.getElementById('mobileNav');
+    toggle.addEventListener('click', () => {
+      mobileNav.classList.toggle('show');
     });
-
-    const controls = new OrbitControls(camera, renderer.domElement);
-    controls.enableDamping = true;
-    controls.enableRotate = false;
-    controls.enableZoom = false;
-    controls.enablePan = false;
-
-    scene.add(new THREE.AmbientLight(0xffffff, 0.3));
-
-    const lightPositions = [
-      [0, 100, 0], [0, -100, 0], [100, 0, 0], [-100, 0, 0], [0, 0, 100], [0, 0, -100]
-    ];
-    lightPositions.forEach(pos => {
-      const dirLight = new THREE.DirectionalLight(0xffffff, 1.5);
-      dirLight.position.set(...pos);
-      scene.add(dirLight);
-    });
-
-    const dracoLoader = new DRACOLoader();
-    dracoLoader.setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.4.3/');
-
-    const loader = new GLTFLoader();
-    loader.setDRACOLoader(dracoLoader);
-
-    loader.load('My-Model.glb', (gltf) => {
-      gltf.scene.position.y = -5;
-      gltf.scene.rotation.y = THREE.MathUtils.degToRad(40);
-      gltf.scene.traverse((child) => {
-        if (child.isMesh) {
-          child.material.metalness = 1.0;
-          child.material.roughness = 0.2;
-        }
-      });
-      scene.add(gltf.scene);
-    }, undefined, (error) => {
-      console.error('Error loading GLB:', error);
-    });
-
-    window.addEventListener('resize', () => {
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
-    });
-
-    function animate() {
-      requestAnimationFrame(animate);
-      camera.position.x += (targetOffsetX * 2 - camera.position.x) * 0.02;
-      camera.position.y += (targetOffsetY * 2 + 18.60 - camera.position.y) * 0.02;
-      camera.lookAt(0, 0, 0);
-      controls.update();
-      info.innerHTML = `Position:<br>x: ${camera.position.x.toFixed(2)}<br>y: ${camera.position.y.toFixed(2)}<br>z: ${camera.position.z.toFixed(2)}<br><br>Rotation:<br>x: ${(THREE.MathUtils.radToDeg(camera.rotation.x)).toFixed(2)}°<br>y: ${(THREE.MathUtils.radToDeg(camera.rotation.y)).toFixed(2)}°<br>z: ${(THREE.MathUtils.radToDeg(camera.rotation.z)).toFixed(2)}°`;
-      renderer.render(scene, camera);
-    }
-    animate();
   </script>
 </body>
 </html>
