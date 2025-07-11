@@ -2,131 +2,98 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Third Axis Design - Viewer</title>
+  <title>Third Axis Design</title>
   <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      background-color: #0D1B2A;
-      overflow: hidden;
-    }
-    #three-canvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      z-index: 0;
-      background-color: #0D1B2A;
-    }
-    #camera-info {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      background: rgba(0,0,0,0.8);
-      color: #9CC9E2;
-      padding: 10px;
-      font-family: monospace;
-      font-size: 14px;
-      z-index: 10;
-      border-radius: 4px;
-    }
+    html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; background-color: #0D1B2A; }
+    #three-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; display: block; }
+    #info { position: absolute; top: 10px; right: 10px; padding: 8px 12px; background: rgba(0,0,0,0.8); color: #9CC9E2; font-family: monospace; font-size: 14px; line-height: 1.4; z-index: 10; pointer-events: none; }
   </style>
 </head>
 <body>
   <canvas id="three-canvas"></canvas>
-  <div id="camera-info"></div>
+  <div id="info"></div>
 
   <script type="module">
-    import * as THREE from 'https://esm.sh/three@0.160.0';
-    import { OrbitControls } from 'https://esm.sh/three@0.160.0/examples/jsm/controls/OrbitControls.js';
-    import { GLTFLoader } from 'https://esm.sh/three@0.160.0/examples/jsm/loaders/GLTFLoader.js';
-    import { DRACOLoader } from 'https://esm.sh/three@0.160.0/examples/jsm/loaders/DRACOLoader.js';
+    import * as THREE from 'https://esm.sh/three';
+    import { OrbitControls } from 'https://esm.sh/three/examples/jsm/controls/OrbitControls.js';
+    import { GLTFLoader } from 'https://esm.sh/three/examples/jsm/loaders/GLTFLoader.js';
+    import { DRACOLoader } from 'https://esm.sh/three/examples/jsm/loaders/DRACOLoader.js';
 
-    // Renderer
     const canvas = document.getElementById('three-canvas');
     const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
-    renderer.setClearColor(0x0D1B2A);
+    renderer.outputEncoding = THREE.sRGBEncoding;
+    renderer.physicallyCorrectLights = true;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.25;
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
 
-    // Scene
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0x0D1B2A);
 
-    // Camera
     const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 2000);
-    camera.position.set(50, 50, 50);
+    camera.position.set(50, 50, 100);
 
-    // Controls
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
 
-    // Lights
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
+    // LIGHTING
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
     scene.add(ambientLight);
 
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 5);
-    directionalLight.position.set(0, 5.293, 0); 
-    directionalLight.castShadow = false;
-    scene.add(directionalLight);
+    const areaLight = new THREE.RectAreaLight(0xffffff, 100, 50, 50);
+    areaLight.position.set(0, 100, 0);
+    areaLight.lookAt(0,0,0);
+    scene.add(areaLight);
 
-    // Load DRACO-enabled GLB
-    const loader = new GLTFLoader();
+    // DRACO LOADER
     const dracoLoader = new DRACOLoader();
-    dracoLoader.setDecoderPath('https://www.gstatic.com/draco/v1/decoders/');
+    dracoLoader.setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.4.3/');
+
+    // GLTF LOADER
+    const loader = new GLTFLoader();
     loader.setDRACOLoader(dracoLoader);
 
-    loader.load('My-Model.glb',
-      (gltf) => {
-        console.log('✅ GLB loaded:', gltf.scene);
-        gltf.scene.traverse(child => {
-          if (child.isMesh) {
-            child.castShadow = false;
-            child.receiveShadow = false;
-          }
-        });
-        scene.add(gltf.scene);
-      },
-      (xhr) => {
-        console.log(`Loading GLB: ${(xhr.loaded / xhr.total * 100).toFixed(0)}%`);
-      },
-      (error) => {
-        console.error('❌ Error loading GLB:', error);
-      }
-    );
+    loader.load('My-Model.glb', (gltf) => {
+      gltf.scene.traverse((child) => {
+        if (child.isMesh) {
+          child.material.metalness = 1.0;
+          child.material.roughness = 0.2;
+        }
+      });
+      gltf.scene.scale.set(1, 1, 1);
+      scene.add(gltf.scene);
+    }, 
+    (xhr) => {
+      console.log(`Loading GLB: ${(xhr.loaded / xhr.total * 100).toFixed(0)}%`);
+    }, 
+    (error) => {
+      console.error('❌ Error loading GLB:', error);
+    });
 
-    // Camera Info
-    const cameraInfo = document.getElementById('camera-info');
-    function updateCameraInfo() {
-      cameraInfo.innerHTML = `
-        Position:<br>
-        x: ${camera.position.x.toFixed(2)}<br>
-        y: ${camera.position.y.toFixed(2)}<br>
-        z: ${camera.position.z.toFixed(2)}<br><br>
-        Rotation:<br>
-        x: ${(THREE.MathUtils.radToDeg(camera.rotation.x)).toFixed(2)}°<br>
-        y: ${(THREE.MathUtils.radToDeg(camera.rotation.y)).toFixed(2)}°<br>
-        z: ${(THREE.MathUtils.radToDeg(camera.rotation.z)).toFixed(2)}°
-      `;
-    }
-
-    // Resize
     window.addEventListener('resize', () => {
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
     });
 
-    // Animate
+    const info = document.getElementById('info');
+
     function animate() {
       requestAnimationFrame(animate);
       controls.update();
-      updateCameraInfo();
+      info.innerHTML = `
+        Position:<br>
+        x: ${camera.position.x.toFixed(2)}<br>
+        y: ${camera.position.y.toFixed(2)}<br>
+        z: ${camera.position.z.toFixed(2)}<br><br>
+        Rotation:<br>
+        x: ${THREE.MathUtils.radToDeg(camera.rotation.x).toFixed(2)}°<br>
+        y: ${THREE.MathUtils.radToDeg(camera.rotation.y).toFixed(2)}°<br>
+        z: ${THREE.MathUtils.radToDeg(camera.rotation.z).toFixed(2)}°
+      `;
       renderer.render(scene, camera);
     }
-
     animate();
   </script>
 </body>
