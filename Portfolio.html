@@ -6,100 +6,79 @@
   <title>Third Axis Creative – Gallery</title>
   <style>
     :root {
-      --bg-color: #111;
-      --text-color: #fff;
+      --background-color: #0D1B2A;
+      --text-color: #FFFFFF;
       --accent-color: #f5c518;
-      --light-bg: #222;
     }
 
-    * {
+    html, body {
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      font-family: Arial, sans-serif;
-      background-color: var(--bg-color);
+      height: 100%;
+      background-color: var(--background-color);
+      font-family: 'Helvetica Neue', Arial, sans-serif;
       color: var(--text-color);
-      line-height: 1.6;
     }
 
-    /* NAVIGATION - centered */
-    nav {
-      position: fixed;
-      top: 0;
-      width: 100%;
-      background-color: rgba(0, 0, 0, 0.85);
+    /* HEADER */
+    header {
+      position: relative;
+      z-index: 10;
+      background-color: var(--background-color);
+      border-bottom: 2px solid #ffffff33;
       display: flex;
       justify-content: center;
-      padding: 1rem 2rem;
-      z-index: 100;
+      align-items: center;
+      padding: 40px 20px 20px;
     }
 
-    .nav-links {
+    nav {
       display: flex;
-      gap: 1.5rem;
+      gap: 20px;
     }
 
-    .nav-links a {
-      color: var(--text-color);
+    nav a {
       text-decoration: none;
-      text-transform: uppercase;
-      font-size: 0.9rem;
-      font-weight: 500;
-      letter-spacing: 1px;
-      padding: 6px 14px;
-      border-radius: 20px;
-      transition: background-color 0.3s, color 0.3s;
-    }
-
-    .nav-links a:hover {
-      background-color: rgba(255, 255, 255, 0.1);
-    }
-
-    .nav-links a.active {
-      background-color: var(--accent-color);
-      color: var(--bg-color);
-    }
-
-    /* PAGE HEADER */
-    .page-header {
-      margin-top: 100px;
-      text-align: center;
-      padding: 3rem 1rem 1rem;
-    }
-
-    .page-header h1 {
-      font-size: 3rem;
       color: var(--accent-color);
-      margin-bottom: 0.5rem;
+      font-weight: 600;
+      padding: 6px 16px;
+      border-radius: 20px;
+      background-color: rgba(255, 255, 255, 0.1);
+      transition: background-color 0.3s;
     }
 
-    .page-header p {
-      font-size: 1.2rem;
-      color: #ccc;
+    nav a:hover {
+      background-color: rgba(255, 255, 255, 0.3);
     }
 
-    /* SCROLL CONTAINER */
+    nav a.active {
+      background-color: var(--accent-color);
+      color: var(--background-color);
+    }
+
+    /* GALLERY SCROLL CONTAINER */
     .scroll-container {
-      width: 100%;
-      padding: 40px 20px;
+      width: 100vw;
+      height: calc(100vh - 140px);
+      overflow: auto;
       box-sizing: border-box;
-      background-color: var(--bg-color);
-      overflow-y: auto;
+      padding: 20px;
+      background-color: var(--background-color);
     }
 
-    /* GALLERY GRID */
+    @media (max-width: 768px) {
+      .scroll-container {
+        height: calc(100vh - 110px);
+      }
+    }
+
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-      gap: 16px;
-      margin-top: 30px;
+      grid-template-columns: repeat(25, 200px);
+      grid-auto-rows: 200px;
+      gap: 12px;
+      grid-auto-flow: dense;
+      position: relative;
     }
 
     .grid-item {
@@ -109,7 +88,10 @@
       opacity: 0;
       transform: scale(0.9);
       transition: opacity 0.8s ease, transform 0.8s ease;
-      border-radius: 12px;
+      display: flex;
+      width: 100%;
+      height: 100%;
+      border-radius: 20px;
     }
 
     .grid-item.visible {
@@ -123,72 +105,85 @@
       object-fit: cover;
       display: block;
     }
+
+    .rounded-top-left    { border-top-left-radius: 30px; }
+    .rounded-top-right   { border-top-right-radius: 30px; }
+    .rounded-bottom-left { border-bottom-left-radius: 30px; }
+    .rounded-bottom-right{ border-bottom-right-radius: 30px; }
   </style>
 </head>
 <body>
 
-  <!-- NAVIGATION -->
+<header>
   <nav>
-    <div class="nav-links">
-      <a href="index.html">Home</a>
-      <a href="#" class="active">Gallery</a>
-      <a href="#">Shop</a>
-      <a href="#">News</a>
-      <a href="#">Contact</a>
-    </div>
+    <a href="index.html">Home</a>
+    <a href="#" class="active">Gallery</a>
+    <a href="#">Shop</a>
+    <a href="#">News</a>
+    <a href="#">Contact</a>
   </nav>
+</header>
 
-  <!-- HEADER SECTION -->
-  <header class="page-header">
-    <h1>Our Gallery</h1>
-    <p>Explore our creative world – visual experiences, bold designs, and inspiring concepts.</p>
-  </header>
+<div class="scroll-container">
+  <div class="grid" id="grid"></div>
+</div>
 
-  <!-- IMAGE GALLERY -->
-  <div class="scroll-container">
-    <div class="grid" id="grid"></div>
-  </div>
+<script>
+  const imageUrls = [
+    "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/2.png",
+    "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/2detail.png",
+    "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/3detail.png",
+    "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/Bolt0019.png",
+    "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/Forest%20road.png",
+    "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/Perfume%20Bubbles_V1.png",
+    "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/Screw.png",
+    "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/cool%20sphere.png",
+    "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/grass.png"
+  ];
 
-  <!-- SCRIPT: ADD IMAGES + SCROLL REVEAL -->
-  <script>
-    const imageUrls = [
-      "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/2.png",
-      "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/2detail.png",
-      "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/3detail.png",
-      "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/Bolt0019.png",
-      "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/Forest%20road.png",
-      "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/Perfume%20Bubbles_V1.png",
-      "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/Screw.png",
-      "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/cool%20sphere.png",
-      "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/grass.png"
-    ];
+  const roundedClasses = [
+    'rounded-top-left',
+    'rounded-top-right',
+    'rounded-bottom-left',
+    'rounded-bottom-right'
+  ];
 
-    const grid = document.getElementById('grid');
-    const totalItems = 60;
+  const grid = document.getElementById('grid');
+  const totalItems = 100;
+  const spanOptions = [1, 2];
 
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.1 });
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, {
+    root: document.querySelector('.scroll-container'),
+    threshold: 0.1
+  });
 
-    for (let i = 0; i < totalItems; i++) {
-      const item = document.createElement('div');
-      item.classList.add('grid-item');
+  for (let i = 0; i < totalItems; i++) {
+    const item = document.createElement('div');
+    item.classList.add('grid-item');
+    item.classList.add(roundedClasses[Math.floor(Math.random() * roundedClasses.length)]);
 
-      const img = document.createElement('img');
-      img.src = imageUrls[Math.floor(Math.random() * imageUrls.length)];
-      img.alt = `Image ${i + 1}`;
+    const colSpan = spanOptions[Math.floor(Math.random() * spanOptions.length)];
+    const rowSpan = spanOptions[Math.floor(Math.random() * spanOptions.length)];
+    item.style.gridColumn = `span ${colSpan}`;
+    item.style.gridRow = `span ${rowSpan}`;
 
-      item.appendChild(img);
-      grid.appendChild(item);
+    const img = document.createElement('img');
+    img.src = imageUrls[Math.floor(Math.random() * imageUrls.length)];
+    img.alt = `Image ${i + 1}`;
 
-      observer.observe(item); // ✅ Attach observer as each item is added
-    }
-  </script>
+    item.appendChild(img);
+    grid.appendChild(item);
+
+    observer.observe(item); // ✅ Works again now
+  }
+</script>
 
 </body>
 </html>
