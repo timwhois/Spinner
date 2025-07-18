@@ -67,7 +67,7 @@
       color: var(--bg-color);
     }
 
-    /* HEADER TITLE */
+    /* PAGE HEADER */
     .page-header {
       margin-top: 100px;
       text-align: center;
@@ -127,66 +127,68 @@
 </head>
 <body>
 
-<nav>
-  <div class="nav-links">
-    <a href="index.html">Home</a>
-    <a href="#" class="active">Gallery</a>
-    <a href="#">Shop</a>
-    <a href="#">News</a>
-    <a href="#">Contact</a>
+  <!-- NAVIGATION -->
+  <nav>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="#" class="active">Gallery</a>
+      <a href="#">Shop</a>
+      <a href="#">News</a>
+      <a href="#">Contact</a>
+    </div>
+  </nav>
+
+  <!-- HEADER SECTION -->
+  <header class="page-header">
+    <h1>Our Gallery</h1>
+    <p>Explore our creative world – visual experiences, bold designs, and inspiring concepts.</p>
+  </header>
+
+  <!-- IMAGE GALLERY -->
+  <div class="scroll-container">
+    <div class="grid" id="grid"></div>
   </div>
-</nav>
 
-<header class="page-header">
-  <h1>Our Gallery</h1>
-  <p>Explore our creative world – visual experiences, bold designs, and inspiring concepts.</p>
-</header>
+  <!-- SCRIPT: ADD IMAGES + SCROLL REVEAL -->
+  <script>
+    const imageUrls = [
+      "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/2.png",
+      "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/2detail.png",
+      "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/3detail.png",
+      "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/Bolt0019.png",
+      "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/Forest%20road.png",
+      "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/Perfume%20Bubbles_V1.png",
+      "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/Screw.png",
+      "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/cool%20sphere.png",
+      "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/grass.png"
+    ];
 
-<div class="scroll-container">
-  <div class="grid" id="grid"></div>
-</div>
+    const grid = document.getElementById('grid');
+    const totalItems = 60;
 
-<script>
-  const imageUrls = [
-    "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/2.png",
-    "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/2detail.png",
-    "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/3detail.png",
-    "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/Bolt0019.png",
-    "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/Forest%20road.png",
-    "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/Perfume%20Bubbles_V1.png",
-    "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/Screw.png",
-    "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/cool%20sphere.png",
-    "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/grass.png"
-  ];
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
 
-  const grid = document.getElementById('grid');
-  const totalItems = 60;
+    for (let i = 0; i < totalItems; i++) {
+      const item = document.createElement('div');
+      item.classList.add('grid-item');
 
-  for (let i = 0; i < totalItems; i++) {
-    const item = document.createElement('div');
-    item.classList.add('grid-item');
+      const img = document.createElement('img');
+      img.src = imageUrls[Math.floor(Math.random() * imageUrls.length)];
+      img.alt = `Image ${i + 1}`;
 
-    const img = document.createElement('img');
-    img.src = imageUrls[Math.floor(Math.random() * imageUrls.length)];
-    img.alt = `Image ${i + 1}`;
+      item.appendChild(img);
+      grid.appendChild(item);
 
-    item.appendChild(img);
-    grid.appendChild(item);
-  }
-
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.1 });
-
-  document.querySelectorAll('.grid-item').forEach(item => {
-    observer.observe(item);
-  });
-</script>
+      observer.observe(item); // ✅ Attach observer as each item is added
+    }
+  </script>
 
 </body>
 </html>
