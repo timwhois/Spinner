@@ -134,26 +134,23 @@
     #portfolio {
       background-color: var(--light-bg);
       width: 100%;
-      overflow: hidden;
     }
     .portfolio-scroll-wrap {
-      display: flex;
-      flex-wrap: nowrap;
       overflow-x: auto;
       overflow-y: hidden;
-      gap: 1rem;
+      white-space: nowrap;
       max-width: 100vw;
       padding: 1rem;
     }
     .portfolio-grid {
       display: flex;
-      flex-wrap: wrap;
+      flex-wrap: nowrap;
       gap: 1rem;
     }
     .portfolio-tile {
-      flex: 0 0 auto;
-      width: 150px;
-      height: 150px;
+      display: inline-block;
+      width: 160px;
+      height: 160px;
       position: relative;
       overflow: hidden;
     }
@@ -169,15 +166,14 @@
     .round-br { border-bottom-right-radius: 20px; }
     @media (max-width: 768px) {
       .portfolio-scroll-wrap {
-        max-height: 45vh;
+        height: 40vh;
       }
       .portfolio-grid {
         flex-wrap: wrap;
-        row-gap: 1rem;
       }
       .portfolio-tile {
-        width: 140px;
-        height: 140px;
+        width: 45vw;
+        height: 45vw;
       }
     }
     form input, form textarea {
@@ -285,17 +281,11 @@
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           entry.target.classList.add("visible");
-
-          if (navigator.vibrate) {
-            navigator.vibrate(10);
-          }
+          if (navigator.vibrate) navigator.vibrate(10);
         }
       });
     }, { threshold: 0.6 });
-
-    document.querySelectorAll("section").forEach(section => {
-      observer.observe(section);
-    });
+    document.querySelectorAll("section").forEach(section => observer.observe(section));
 
     const imageUrls = [
       "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/2.png",
@@ -308,19 +298,15 @@
       "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/cool%20sphere.png",
       "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/grass.png"
     ];
-
     const grid = document.getElementById("portfolioGrid");
     const corners = ["round-tl", "round-tr", "round-bl", "round-br"];
-
-    for (let i = 0; i < 30; i++) {
+    for (let i = 0; i < 40; i++) {
       const tile = document.createElement("div");
       tile.classList.add("portfolio-tile");
       tile.classList.add(corners[Math.floor(Math.random() * corners.length)]);
-
       const img = document.createElement("img");
       img.src = imageUrls[Math.floor(Math.random() * imageUrls.length)];
       img.alt = `Preview ${i + 1}`;
-
       tile.appendChild(img);
       grid.appendChild(tile);
     }
@@ -328,22 +314,15 @@
     const lightbox = document.getElementById("lightbox");
     const lightboxImg = document.getElementById("lightboxImage");
     const lightboxClose = document.getElementById("lightboxClose");
-
     document.addEventListener("click", e => {
       if (e.target.matches(".portfolio-tile img")) {
         lightboxImg.src = e.target.src;
         lightbox.classList.add("active");
       }
     });
-
-    lightboxClose.addEventListener("click", () => {
-      lightbox.classList.remove("active");
-    });
-
+    lightboxClose.addEventListener("click", () => lightbox.classList.remove("active"));
     lightbox.addEventListener("click", e => {
-      if (e.target === lightbox) {
-        lightbox.classList.remove("active");
-      }
+      if (e.target === lightbox) lightbox.classList.remove("active");
     });
   });
 </script>
