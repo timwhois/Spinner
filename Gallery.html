@@ -1,234 +1,180 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Third Axis Design - Gallery</title>
-<style>
-:root {
-  --background-color: #0D1B2A;
-  --text-color: #FFFFFF;
-  --accent-color: #9CC9E2;
-}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Third Axis Creative – Gallery</title>
+  <style>
+    :root {
+      --background-color: #0D1B2A;
+      --text-color: #FFFFFF;
+      --accent-color: #f5c518;
+    }
 
-html, body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  background-color: var(--background-color);
-  font-family: 'Helvetica Neue', Arial, sans-serif;
-  color: var(--text-color);
-}
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background-color: var(--background-color);
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      color: var(--text-color);
+    }
 
-/* HEADER - same as index.html */
-header {
-  position: relative;
-  z-index: 10;
-  background-color: var(--background-color);
-  border-bottom: 2px solid #ffffff33;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 70px 50px 20px;
-}
+    /* HEADER */
+    header {
+      position: relative;
+      z-index: 10;
+      background-color: var(--background-color);
+      border-bottom: 2px solid #ffffff33;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px 20px 20px;
+    }
 
-.menu-toggle {
-  display: none;
-  font-size: 2rem;
-  color: var(--accent-color);
-  background: none;
-  border: none;
-  cursor: pointer;
-  z-index: 20;
-}
+    nav {
+      display: flex;
+      gap: 20px;
+    }
 
-.logo-center {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 15;
-}
+    nav a {
+      text-decoration: none;
+      color: var(--accent-color);
+      font-weight: 600;
+      padding: 6px 16px;
+      border-radius: 20px;
+      background-color: rgba(255, 255, 255, 0.1);
+      transition: background-color 0.3s;
+    }
 
-.logo-center img {
-  height: 180px;
-  width: auto;
-  max-width: 90vw;
-}
+    nav a:hover {
+      background-color: rgba(255, 255, 255, 0.3);
+    }
 
-.nav-overlay {
-  display: flex;
-  gap: 20px;
-}
+    nav a.active {
+      background-color: var(--accent-color);
+      color: var(--background-color);
+    }
 
-.nav-overlay a,
-.mobile-nav a {
-  text-decoration: none;
-  color: var(--accent-color);
-  font-weight: 600;
-  padding: 6px 16px;
-  border-radius: 20px;
-  background-color: rgba(255, 255, 255, 0.1);
-  transition: background-color 0.3s;
-}
+    /* GALLERY SCROLL CONTAINER */
+    .scroll-container {
+      width: 100vw;
+      height: calc(100vh - 140px);
+      overflow: auto;
+      box-sizing: border-box;
+      padding: 20px;
+      background-color: var(--background-color);
+    }
 
-.nav-overlay a:hover,
-.mobile-nav a:hover {
-  background-color: rgba(255, 255, 255, 0.3);
-}
+    @media (max-width: 768px) {
+      .scroll-container {
+        height: calc(100vh - 110px);
+      }
+    }
 
-.nav-overlay a.active,
-.mobile-nav a.active {
-  background-color: var(--accent-color);
-  color: var(--background-color);
-}
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(25, 200px);
+      grid-auto-rows: 200px;
+      gap: 12px;
+      grid-auto-flow: dense;
+      position: relative;
+    }
 
-/* Mobile dropdown overlay */
-.mobile-nav {
-  display: none;
-  flex-direction: column;
-  gap: 15px;
-  position: absolute;
-  top: 100%;
-  left: 0;
-  width: 100%;
-  padding: 20px;
-  box-sizing: border-box;
-  background-color: var(--background-color);
-  border-top: 1px solid #ffffff33;
-  z-index: 5;
-}
+    .grid-item {
+      position: relative;
+      overflow: hidden;
+      background-color: #333;
+      opacity: 0;
+      transform: scale(0.9);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+      display: flex;
+      width: 100%;
+      height: 100%;
+      border-radius: 20px;
+    }
 
-.mobile-nav.show {
-  display: flex;
-}
+    .grid-item.visible {
+      opacity: 1;
+      transform: scale(1);
+    }
 
-/* MOBILE HEADER fixes */
-@media (max-width: 768px) {
-  header {
-    flex-direction: column;
-    align-items: stretch;
-    padding: 20px;
-  }
+    .grid-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      cursor: pointer;
+    }
 
-  .menu-toggle {
-    display: block;
-  }
+    .rounded-top-left    { border-top-left-radius: 30px; }
+    .rounded-top-right   { border-top-right-radius: 30px; }
+    .rounded-bottom-left { border-bottom-left-radius: 30px; }
+    .rounded-bottom-right{ border-bottom-right-radius: 30px; }
 
-  .nav-overlay {
-    display: none;
-  }
+    /* LIGHTBOX STYLES */
+    .lightbox-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(0,0,0,0.85);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
 
-  .logo-center {
-    position: static;
-    transform: none;
-    margin: 10px auto;
-    text-align: center;
-  }
+    .lightbox-overlay.active {
+      display: flex;
+    }
 
-  .logo-center img {
-    height: 120px;
-  }
+    .lightbox-overlay img {
+      max-width: 90vw;
+      max-height: 90vh;
+      border-radius: 10px;
+      box-shadow: 0 0 30px rgba(0,0,0,0.6);
+    }
 
-  .mobile-nav {
-    display: none;
-    flex-direction: column;
-    gap: 15px;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    padding: 20px;
-    box-sizing: border-box;
-    background-color: var(--background-color);
-    border-top: 1px solid #ffffff33;
-    z-index: 5;
-  }
+    .lightbox-overlay::after {
+      content: "×";
+      position: absolute;
+      top: 30px;
+      right: 40px;
+      font-size: 3rem;
+      color: white;
+      cursor: pointer;
+    }
 
-  .mobile-nav.show {
-    display: flex;
-  }
-}
-
-/* GALLERY GRID AREA - lowered ~20px extra */
-.scroll-container {
-  width: 100vw;
-  height: calc(100vh - 180px);
-  overflow: auto;
-  box-sizing: border-box;
-  padding: 20px;
-  background-color: var(--background-color);
-}
-
-@media (max-width: 768px) {
-  .scroll-container {
-    height: calc(100vh - 130px);
-  }
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(25, 200px);
-  grid-auto-rows: 200px;
-  gap: 12px;
-  grid-auto-flow: dense;
-  box-sizing: border-box;
-  position: relative;
-}
-
-.grid-item {
-  position: relative;
-  overflow: hidden;
-  background-color: #ccc;
-  opacity: 0;
-  transform: scale(0.9);
-  transition: opacity 0.8s ease, transform 0.8s ease;
-  display: flex;
-  width: 100%;
-  height: 100%;
-}
-
-.grid-item.visible {
-  opacity: 1;
-  transform: scale(1);
-}
-
-.grid-item img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-.rounded-top-left    { border-top-left-radius: 30px; }
-.rounded-top-right   { border-top-right-radius: 30px; }
-.rounded-bottom-left { border-bottom-left-radius: 30px; }
-.rounded-bottom-right{ border-bottom-right-radius: 30px; }
-</style>
+    @media (max-width: 600px) {
+      .lightbox-overlay::after {
+        font-size: 2rem;
+        top: 20px;
+        right: 25px;
+      }
+    }
+  </style>
 </head>
 <body>
+
 <header>
-  <button class="menu-toggle" aria-label="Menu">&#9776;</button>
-  <div class="logo-center">
-    <img src="logo2.png" alt="Third Axis Design Logo">
-  </div>
-  <nav class="nav-overlay">
+  <nav>
     <a href="index.html">Home</a>
     <a href="#" class="active">Gallery</a>
     <a href="#">Shop</a>
-    <a href="#">Affirm</a>
     <a href="#">News</a>
-  </nav>
-  <nav class="mobile-nav" id="mobileNav">
-    <a href="index.html">Home</a>
-    <a href="#" class="active">Gallery</a>
-    <a href="#">Shop</a>
-    <a href="#">Affirm</a>
-    <a href="#">News</a>
+    <a href="#">Contact</a>
   </nav>
 </header>
 
 <div class="scroll-container">
   <div class="grid" id="grid"></div>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox-overlay" id="lightbox">
+  <img src="" alt="Lightbox Image" id="lightbox-img">
 </div>
 
 <script>
@@ -244,23 +190,17 @@ header {
     "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/grass.png"
   ];
 
+  const roundedClasses = [
+    'rounded-top-left',
+    'rounded-top-right',
+    'rounded-bottom-left',
+    'rounded-bottom-right'
+  ];
+
   const grid = document.getElementById('grid');
-  const totalItems = 60;
+  const totalItems = 100;
+  const spanOptions = [1, 2];
 
-  // Build grid items first
-  for (let i = 0; i < totalItems; i++) {
-    const item = document.createElement('div');
-    item.classList.add('grid-item');
-
-    const img = document.createElement('img');
-    img.src = imageUrls[Math.floor(Math.random() * imageUrls.length)];
-    img.alt = `Image ${i + 1}`;
-
-    item.appendChild(img);
-    grid.appendChild(item);
-  }
-
-  // Setup observer AFTER all grid items are in the DOM
   const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -269,14 +209,55 @@ header {
       }
     });
   }, {
-    root: null, // uses viewport
+    root: document.querySelector('.scroll-container'),
     threshold: 0.1
   });
 
-  // Observe each grid item now that they exist in DOM
-  document.querySelectorAll('.grid-item').forEach(item => {
+  for (let i = 0; i < totalItems; i++) {
+    const item = document.createElement('div');
+    item.classList.add('grid-item');
+    item.classList.add(roundedClasses[Math.floor(Math.random() * roundedClasses.length)]);
+
+    const colSpan = spanOptions[Math.floor(Math.random() * spanOptions.length)];
+    const rowSpan = spanOptions[Math.floor(Math.random() * spanOptions.length)];
+    item.style.gridColumn = `span ${colSpan}`;
+    item.style.gridRow = `span ${rowSpan}`;
+
+    const img = document.createElement('img');
+    img.src = imageUrls[Math.floor(Math.random() * imageUrls.length)];
+    img.alt = `Image ${i + 1}`;
+
+    item.appendChild(img);
+    grid.appendChild(item);
+
     observer.observe(item);
+  }
+
+  // LIGHTBOX FUNCTIONALITY
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightbox-img');
+
+  document.addEventListener('click', e => {
+    if (e.target.tagName === 'IMG' && e.target.closest('.grid-item')) {
+      lightboxImg.src = e.target.src;
+      lightbox.classList.add('active');
+    }
+
+    if (e.target === lightbox || e.target === lightboxImg || e.target === document.querySelector('.lightbox-overlay::after')) {
+      return;
+    }
+
+    if (e.target.classList.contains('lightbox-overlay') || e.target === lightbox) {
+      lightbox.classList.remove('active');
+    }
+  });
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      lightbox.classList.remove('active');
+    }
   });
 </script>
+
 </body>
 </html>
