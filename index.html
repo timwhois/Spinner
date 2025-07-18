@@ -12,34 +12,29 @@
       --accent-color: #a8e6cf;
       --light-bg: #222;
     }
-
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
-
     html {
       scroll-behavior: smooth;
     }
-
     body {
       font-family: Arial, sans-serif;
       background-color: var(--bg-color);
       color: var(--text-color);
     }
-
     section {
       opacity: 0;
       transform: translateY(50px);
       transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+      padding: 4rem 2rem;
     }
-
     section.visible {
       opacity: 1;
       transform: translateY(0);
     }
-
     nav {
       position: fixed;
       top: 0;
@@ -50,7 +45,6 @@
       padding: 1rem;
       z-index: 100;
     }
-
     nav a {
       color: var(--text-color);
       margin: 0 1rem;
@@ -60,11 +54,9 @@
       letter-spacing: 1px;
       transition: color 0.3s ease;
     }
-
     nav a:hover {
       color: var(--accent-color);
     }
-
     header {
       height: 100vh;
       background: url('https://source.unsplash.com/1600x900/?design,abstract') center/cover no-repeat;
@@ -75,7 +67,6 @@
       text-align: center;
       position: relative;
     }
-
     header::after {
       content: '';
       position: absolute;
@@ -83,24 +74,20 @@
       width: 100%; height: 100%;
       background-color: rgba(0, 0, 0, 0.6);
     }
-
     header img,
     header p {
       position: relative;
       z-index: 1;
     }
-
     header img {
       max-width: 300px;
       height: auto;
     }
-
     header p {
       font-size: 1.5rem;
       max-width: 600px;
       color: var(--text-color);
     }
-
     section h2 {
       text-align: center;
       margin-bottom: 2rem;
@@ -109,21 +96,15 @@
       letter-spacing: 2px;
       color: var(--accent-color);
     }
-
     #about {
       background-color: var(--light-bg);
       text-align: center;
-      padding: 4rem 2rem;
-      max-width: 1200px;
-      margin: 0 auto;
     }
-
     #about p {
       max-width: 800px;
       margin: 0 auto;
       font-size: 1.2rem;
     }
-
     #showcase {
       background-color: #181818;
       min-height: 100vh;
@@ -131,16 +112,8 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      padding: 4rem 2rem;
       box-sizing: border-box;
     }
-
-    @media (max-width: 768px) {
-      #showcase {
-        padding-bottom: 6rem;
-      }
-    }
-
     .models-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -148,12 +121,89 @@
       width: 100%;
       max-width: 1200px;
     }
-
     model-viewer {
       width: 100%;
       height: 300px;
       background: #000;
       border-radius: 12px;
+    }
+    .portfolio-scroll-wrap {
+      overflow-x: auto;
+      white-space: nowrap;
+      display: block;
+    }
+    .portfolio-grid {
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: minmax(150px, 1fr);
+      grid-auto-rows: minmax(100px, auto);
+      gap: 1rem;
+    }
+    .portfolio-tile {
+      position: relative;
+      overflow: hidden;
+    }
+    .portfolio-tile img {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+    .round-tl { border-top-left-radius: 20px; }
+    .round-tr { border-top-right-radius: 20px; }
+    .round-bl { border-bottom-left-radius: 20px; }
+    .round-br { border-bottom-right-radius: 20px; }
+    form input, form textarea {
+      width: 100%;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+    form button {
+      padding: 1rem 2rem;
+      background-color: var(--accent-color);
+      color: #000;
+      font-weight: bold;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    footer {
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.9rem;
+      background-color: #000;
+      color: #777;
+    }
+    .lightbox-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.9);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 200;
+    }
+    .lightbox-overlay.active {
+      display: flex;
+    }
+    .lightbox-overlay img {
+      max-width: 90%;
+      max-height: 90%;
+    }
+    .lightbox-close {
+      position: absolute;
+      top: 1rem;
+      right: 2rem;
+      font-size: 2rem;
+      color: white;
+      cursor: pointer;
     }
   </style>
 </head>
@@ -164,19 +214,16 @@
     <a href="#portfolio">Portfolio</a>
     <a href="#contact">Contact</a>
   </nav>
-
   <header>
     <img src="logo2.png" alt="Third Axis Creative" />
     <p>Designing bold, modern, and memorable experiences.</p>
   </header>
-
   <section id="about">
     <h2>About Us</h2>
     <p>
       Third Axis Creative is a multidisciplinary design studio focused on delivering impactful creative solutions. We work at the intersection of strategy, design, and technology to help brands stand out.
     </p>
   </section>
-
   <section id="showcase">
     <h2>3D Showreel</h2>
     <div class="models-grid">
@@ -186,99 +233,28 @@
       <model-viewer src="Wheel.glb" auto-rotate camera-controls></model-viewer>
     </div>
   </section>
-
   <section id="portfolio">
-  <h2>Portfolio Preview</h2>
-  <div class="portfolio-scroll-wrap">
-    <div class="portfolio-grid" id="portfolioGrid"></div>
+    <h2>Portfolio Preview</h2>
+    <div class="portfolio-scroll-wrap">
+      <div class="portfolio-grid" id="portfolioGrid"></div>
+    </div>
+  </section>
+  <section id="contact">
+    <h2>Contact Us</h2>
+    <form>
+      <input type="text" placeholder="Your Name" required>
+      <input type="email" placeholder="Your Email" required>
+      <textarea rows="5" placeholder="Your Message" required></textarea>
+      <button type="submit">Send Message</button>
+    </form>
+  </section>
+  <footer>
+    &copy; 2025 Third Axis Creative. All rights reserved.
+  </footer>
+  <div class="lightbox-overlay" id="lightbox">
+    <span class="lightbox-close" id="lightboxClose">&times;</span>
+    <img id="lightboxImage" src="" alt="Preview enlarged">
   </div>
-</section>
-
-<section id="contact">
-  <h2>Contact Us</h2>
-  <form>
-    <input type="text" placeholder="Your Name" required>
-    <input type="email" placeholder="Your Email" required>
-    <textarea rows="5" placeholder="Your Message" required></textarea>
-    <button type="submit">Send Message</button>
-  </form>
-</section>
-
-<footer>
-  &copy; 2025 Third Axis Creative. All rights reserved.
-</footer>
-
-<div class="lightbox-overlay" id="lightbox">
-  <span class="lightbox-close" id="lightboxClose">&times;</span>
-  <img id="lightboxImage" src="" alt="Preview enlarged">
-</div>
-
-<script>
-  const miniImageUrls = [
-    "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/2.png",
-    "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/2detail.png",
-    "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/3detail.png",
-    "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/Bolt0019.png",
-    "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/Forest%20road.png",
-    "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/Perfume%20Bubbles_V1.png",
-    "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/Screw.png",
-    "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/cool%20sphere.png",
-    "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/grass.png"
-  ];
-
-  const portfolioGrid = document.getElementById('portfolioGrid');
-  const spanOptions = [1, 2];
-  const corners = ['round-tl', 'round-tr', 'round-bl', 'round-br'];
-
-  for (let i = 0; i < 40; i++) {
-    const tile = document.createElement('div');
-    tile.classList.add('portfolio-tile');
-
-    const rowSpan = spanOptions[Math.floor(Math.random() * spanOptions.length)];
-    const colSpan = spanOptions[Math.floor(Math.random() * spanOptions.length)];
-    tile.style.gridRow = `span ${rowSpan}`;
-    tile.style.gridColumn = `span ${colSpan}`;
-
-    tile.classList.add(corners[Math.floor(Math.random() * corners.length)]);
-
-    const img = document.createElement('img');
-    img.src = miniImageUrls[Math.floor(Math.random() * miniImageUrls.length)];
-    img.alt = `Preview ${i + 1}`;
-
-    tile.appendChild(img);
-    portfolioGrid.appendChild(tile);
-  }
-
-  const scrollWrap = document.querySelector('.portfolio-scroll-wrap');
-  scrollWrap.addEventListener('wheel', function (e) {
-    if (!e.shiftKey) {
-      e.preventDefault();
-      scrollWrap.scrollLeft += e.deltaY;
-    }
-  }, { passive: false });
-
-  const lightbox = document.getElementById('lightbox');
-  const lightboxImg = document.getElementById('lightboxImage');
-  const lightboxClose = document.getElementById('lightboxClose');
-
-  document.addEventListener('click', function (e) {
-    if (e.target.matches('.portfolio-tile img')) {
-      lightboxImg.src = e.target.src;
-      lightbox.classList.add('active');
-    }
-  });
-
-  lightboxClose.addEventListener('click', () => {
-    lightbox.classList.remove('active');
-  });
-
-  lightbox.addEventListener('click', e => {
-    if (e.target === lightbox) {
-      lightbox.classList.remove('active');
-    }
-  });
-</script>
-
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       const observer = new IntersectionObserver(
@@ -291,9 +267,71 @@
         },
         { threshold: 0.1 }
       );
-
       document.querySelectorAll("section").forEach((section) => {
         observer.observe(section);
+      });
+
+      const imageUrls = [
+        "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/2.png",
+        "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/2detail.png",
+        "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/3detail.png",
+        "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/Bolt0019.png",
+        "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/Forest%20road.png",
+        "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/Perfume%20Bubbles_V1.png",
+        "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/Screw.png",
+        "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/cool%20sphere.png",
+        "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/grass.png"
+      ];
+      const grid = document.getElementById("portfolioGrid");
+      const spanOptions = [1, 2];
+      const corners = ['round-tl', 'round-tr', 'round-bl', 'round-br'];
+
+      for (let i = 0; i < 40; i++) {
+        const tile = document.createElement("div");
+        tile.classList.add("portfolio-tile");
+
+        const rowSpan = spanOptions[Math.floor(Math.random() * spanOptions.length)];
+        const colSpan = spanOptions[Math.floor(Math.random() * spanOptions.length)];
+        tile.style.gridRow = `span ${rowSpan}`;
+        tile.style.gridColumn = `span ${colSpan}`;
+
+        tile.classList.add(corners[Math.floor(Math.random() * corners.length)]);
+
+        const img = document.createElement("img");
+        img.src = imageUrls[Math.floor(Math.random() * imageUrls.length)];
+        img.alt = `Preview ${i + 1}`;
+
+        tile.appendChild(img);
+        grid.appendChild(tile);
+      }
+
+      const scrollWrap = document.querySelector(".portfolio-scroll-wrap");
+      scrollWrap.addEventListener("wheel", function (e) {
+        if (!e.shiftKey) {
+          e.preventDefault();
+          scrollWrap.scrollLeft += e.deltaY;
+        }
+      }, { passive: false });
+
+      const lightbox = document.getElementById("lightbox");
+      const lightboxImg = document.getElementById("lightboxImage");
+      const lightboxClose = document.getElementById("lightboxClose");
+
+      document.addEventListener("click", function (e) {
+        if (e.target.matches(".portfolio-tile img")) {
+          lightboxImg.src = e.target.src;
+          lightbox.classList.add("active");
+        }
+      });
+
+      lightboxClose.addEventListener("click", () => {
+        lightbox.classList.remove("active");
+      });
+
+      lightbox.addEventListener("click", (e) => {
+        if (e.target === lightbox) {
+          lightbox.classList.remove("active");
+        }
       });
     });
   </script>
