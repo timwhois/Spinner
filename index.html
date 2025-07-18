@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Third Axis Creative</title>
   <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
   <style>
@@ -24,16 +24,6 @@
       font-family: Arial, sans-serif;
       background-color: var(--bg-color);
       color: var(--text-color);
-    }
-    section {
-      opacity: 0;
-      transform: translateY(50px);
-      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-      padding: 4rem 2rem;
-    }
-    section.visible {
-      opacity: 1;
-      transform: translateY(0);
     }
     nav {
       position: fixed;
@@ -70,8 +60,10 @@
     header::after {
       content: '';
       position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       background-color: rgba(0, 0, 0, 0.6);
     }
     header img,
@@ -87,6 +79,17 @@
       font-size: 1.5rem;
       max-width: 600px;
       color: var(--text-color);
+    }
+    section {
+      min-height: 100vh;
+      padding: 4rem 2rem;
+      opacity: 0;
+      transform: translateY(50px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+    section.visible {
+      opacity: 1;
+      transform: translateY(0);
     }
     section h2 {
       text-align: center;
@@ -107,12 +110,10 @@
     }
     #showcase {
       background-color: #181818;
-      min-height: 100vh;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      box-sizing: border-box;
     }
     .models-grid {
       display: grid;
@@ -131,6 +132,7 @@
       overflow-x: auto;
       white-space: nowrap;
       display: block;
+      max-height: 80vh;
     }
     .portfolio-grid {
       display: grid;
@@ -154,6 +156,16 @@
     .round-tr { border-top-right-radius: 20px; }
     .round-bl { border-bottom-left-radius: 20px; }
     .round-br { border-bottom-right-radius: 20px; }
+    @media (max-width: 768px) {
+      .portfolio-scroll-wrap {
+        max-height: 60vh;
+        padding-bottom: 1rem;
+      }
+      .portfolio-grid {
+        grid-auto-columns: minmax(120px, 1fr);
+        gap: 0.5rem;
+      }
+    }
     form input, form textarea {
       width: 100%;
       padding: 1rem;
@@ -215,14 +227,12 @@
     <a href="#contact">Contact</a>
   </nav>
   <header>
-    <img src="logo2.png" alt="Third Axis Creative" />
+    <img src="logo2.png" alt="Third Axis Creative">
     <p>Designing bold, modern, and memorable experiences.</p>
   </header>
   <section id="about">
     <h2>About Us</h2>
-    <p>
-      Third Axis Creative is a multidisciplinary design studio focused on delivering impactful creative solutions. We work at the intersection of strategy, design, and technology to help brands stand out.
-    </p>
+    <p>Third Axis Creative is a multidisciplinary design studio focused on delivering impactful creative solutions. We work at the intersection of strategy, design, and technology to help brands stand out.</p>
   </section>
   <section id="showcase">
     <h2>3D Showreel</h2>
@@ -257,17 +267,14 @@
   </div>
   <script>
     document.addEventListener("DOMContentLoaded", () => {
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add("visible");
-            }
-          });
-        },
-        { threshold: 0.1 }
-      );
-      document.querySelectorAll("section").forEach((section) => {
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+          }
+        });
+      }, { threshold: 0.1 });
+      document.querySelectorAll("section").forEach(section => {
         observer.observe(section);
       });
 
@@ -284,51 +291,41 @@
       ];
       const grid = document.getElementById("portfolioGrid");
       const spanOptions = [1, 2];
-      const corners = ['round-tl', 'round-tr', 'round-bl', 'round-br'];
-
+      const corners = ["round-tl", "round-tr", "round-bl", "round-br"];
       for (let i = 0; i < 40; i++) {
         const tile = document.createElement("div");
         tile.classList.add("portfolio-tile");
-
         const rowSpan = spanOptions[Math.floor(Math.random() * spanOptions.length)];
         const colSpan = spanOptions[Math.floor(Math.random() * spanOptions.length)];
         tile.style.gridRow = `span ${rowSpan}`;
         tile.style.gridColumn = `span ${colSpan}`;
-
         tile.classList.add(corners[Math.floor(Math.random() * corners.length)]);
-
         const img = document.createElement("img");
         img.src = imageUrls[Math.floor(Math.random() * imageUrls.length)];
         img.alt = `Preview ${i + 1}`;
-
         tile.appendChild(img);
         grid.appendChild(tile);
       }
-
       const scrollWrap = document.querySelector(".portfolio-scroll-wrap");
-      scrollWrap.addEventListener("wheel", function (e) {
+      scrollWrap.addEventListener("wheel", e => {
         if (!e.shiftKey) {
           e.preventDefault();
           scrollWrap.scrollLeft += e.deltaY;
         }
       }, { passive: false });
-
       const lightbox = document.getElementById("lightbox");
       const lightboxImg = document.getElementById("lightboxImage");
       const lightboxClose = document.getElementById("lightboxClose");
-
-      document.addEventListener("click", function (e) {
+      document.addEventListener("click", e => {
         if (e.target.matches(".portfolio-tile img")) {
           lightboxImg.src = e.target.src;
           lightbox.classList.add("active");
         }
       });
-
       lightboxClose.addEventListener("click", () => {
         lightbox.classList.remove("active");
       });
-
-      lightbox.addEventListener("click", (e) => {
+      lightbox.addEventListener("click", e => {
         if (e.target === lightbox) {
           lightbox.classList.remove("active");
         }
