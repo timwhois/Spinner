@@ -126,7 +126,6 @@
       font-size: 1.2rem;
     }
 
-    /* --- PORTFOLIO PREVIEW --- */
     #portfolio {
       background-color: var(--bg-color);
     }
@@ -135,7 +134,7 @@
       overflow-x: auto;
       overflow-y: hidden;
       white-space: nowrap;
-      height: 70vh;
+      height: calc(100vh - 220px);
       padding: 0 2rem;
     }
 
@@ -149,11 +148,10 @@
     }
 
     .portfolio-tile {
-      position: relative;
       background-color: #333;
       overflow: hidden;
-      border-radius: 12px;
       height: 100%;
+      position: relative;
     }
 
     .portfolio-tile img {
@@ -168,6 +166,11 @@
     .portfolio-tile:hover img {
       transform: scale(1.05);
     }
+
+    .round-tl { border-top-left-radius: 16px; }
+    .round-tr { border-top-right-radius: 16px; }
+    .round-bl { border-bottom-left-radius: 16px; }
+    .round-br { border-bottom-right-radius: 16px; }
 
     .portfolio-scroll-wrap::-webkit-scrollbar {
       height: 10px;
@@ -225,6 +228,38 @@
       color: #777;
     }
 
+    .lightbox-overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.85);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+    }
+
+    .lightbox-overlay img {
+      max-width: 90%;
+      max-height: 90%;
+      border-radius: 12px;
+      box-shadow: 0 0 40px rgba(0,0,0,0.6);
+    }
+
+    .lightbox-overlay.active {
+      display: flex;
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      font-size: 2rem;
+      color: var(--accent-color);
+      cursor: pointer;
+      z-index: 1000;
+    }
+
     @media (max-width: 768px) {
       header img {
         max-width: 220px;
@@ -256,30 +291,23 @@
   </style>
 </head>
 <body>
-
-  <!-- NAVIGATION -->
   <nav>
     <a href="#about">About</a>
     <a href="#portfolio">Portfolio</a>
     <a href="#contact">Contact</a>
   </nav>
 
-  <!-- HERO -->
   <header id="home">
     <img src="logo2.png" alt="Third Axis Creative" />
     <p>Designing bold, modern, and memorable experiences.</p>
   </header>
 
   <main>
-    <!-- ABOUT SECTION -->
     <section id="about">
       <h2>About Us</h2>
-      <p>
-        Third Axis Creative is a multidisciplinary design studio focused on delivering impactful creative solutions. We work at the intersection of strategy, design, and technology to help brands stand out.
-      </p>
+      <p>Third Axis Creative is a multidisciplinary design studio focused on delivering impactful creative solutions. We work at the intersection of strategy, design, and technology to help brands stand out.</p>
     </section>
 
-    <!-- PORTFOLIO SECTION -->
     <section id="portfolio">
       <h2>Portfolio Preview</h2>
       <div class="portfolio-scroll-wrap">
@@ -287,7 +315,6 @@
       </div>
     </section>
 
-    <!-- CONTACT SECTION -->
     <section id="contact">
       <h2>Contact Us</h2>
       <form>
@@ -299,12 +326,15 @@
     </section>
   </main>
 
-  <!-- FOOTER -->
   <footer>
     &copy; 2025 Third Axis Creative. All rights reserved.
   </footer>
 
-  <!-- MINI PORTFOLIO SCRIPT -->
+  <div class="lightbox-overlay" id="lightbox">
+    <span class="lightbox-close" id="lightboxClose">&times;</span>
+    <img id="lightboxImage" src="" alt="Preview enlarged">
+  </div>
+
   <script>
     const miniImageUrls = [
       "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/2.png",
@@ -320,6 +350,7 @@
 
     const portfolioGrid = document.getElementById('portfolioGrid');
     const spanOptions = [1, 2];
+    const corners = ['round-tl', 'round-tr', 'round-bl', 'round-br'];
 
     for (let i = 0; i < 40; i++) {
       const tile = document.createElement('div');
@@ -330,6 +361,8 @@
       tile.style.gridRow = `span ${rowSpan}`;
       tile.style.gridColumn = `span ${colSpan}`;
 
+      tile.classList.add(corners[Math.floor(Math.random() * corners.length)]);
+
       const img = document.createElement('img');
       img.src = miniImageUrls[Math.floor(Math.random() * miniImageUrls.length)];
       img.alt = `Preview ${i + 1}`;
@@ -337,17 +370,37 @@
       tile.appendChild(img);
       portfolioGrid.appendChild(tile);
     }
-  </script>
-  <script>
-  const scrollWrap = document.querySelector('.portfolio-scroll-wrap');
 
-  scrollWrap.addEventListener('wheel', function (e) {
-    // Only act when the shift key is NOT pressed (to preserve native shift+scroll)
-    if (!e.shiftKey) {
-      e.preventDefault();
-      scrollWrap.scrollLeft += e.deltaY;
-    }
-  }, { passive: false });
-</script>
+    // Mouse wheel = horizontal scroll
+    const scrollWrap = document.querySelector('.portfolio-scroll-wrap');
+    scrollWrap.addEventListener('wheel', function (e) {
+      if (!e.shiftKey) {
+        e.preventDefault();
+        scrollWrap.scrollLeft += e.deltaY;
+      }
+    }, { passive: false });
+
+    // Lightbox
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightboxImage');
+    const lightboxClose = document.getElementById('lightboxClose');
+
+    document.addEventListener('click', function (e) {
+      if (e.target.matches('.portfolio-tile img')) {
+        lightboxImg.src = e.target.src;
+        lightbox.classList.add('active');
+      }
+    });
+
+    lightboxClose.addEventListener('click', () => {
+      lightbox.classList.remove('active');
+    });
+
+    lightbox.addEventListener('click', e => {
+      if (e.target === lightbox) {
+        lightbox.classList.remove('active');
+      }
+    });
+  </script>
 </body>
 </html>
