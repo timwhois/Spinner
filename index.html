@@ -118,14 +118,20 @@
 
     #showcase {
       background-color: #181818;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 4rem 2rem;
     }
 
     .models-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 2rem;
-      justify-items: center;
-      align-items: center;
+      width: 100%;
+      max-width: 1200px;
     }
 
     model-viewer {
@@ -133,10 +139,6 @@
       height: 300px;
       background: #000;
       border-radius: 12px;
-    }
-
-    #portfolio {
-      background-color: var(--bg-color);
     }
 
     .portfolio-scroll-wrap {
@@ -343,11 +345,18 @@
   for (let i = 0; i < 40; i++) {
     const tile = document.createElement('div');
     tile.classList.add('portfolio-tile');
+
+    const rowSpan = spanOptions[Math.floor(Math.random() * spanOptions.length)];
+    const colSpan = spanOptions[Math.floor(Math.random() * spanOptions.length)];
+    tile.style.gridRow = `span ${rowSpan}`;
+    tile.style.gridColumn = `span ${colSpan}`;
+
     tile.classList.add(corners[Math.floor(Math.random() * corners.length)]);
-    tile.style.gridRow = `span ${spanOptions[Math.floor(Math.random() * spanOptions.length)]}`;
-    tile.style.gridColumn = `span ${spanOptions[Math.floor(Math.random() * spanOptions.length)]}`;
+
     const img = document.createElement('img');
     img.src = miniImageUrls[Math.floor(Math.random() * miniImageUrls.length)];
+    img.alt = `Preview ${i + 1}`;
+
     tile.appendChild(img);
     portfolioGrid.appendChild(tile);
   }
@@ -381,6 +390,5 @@
     }
   });
 </script>
-
 </body>
 </html>
