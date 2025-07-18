@@ -14,7 +14,6 @@
     html, body {
       margin: 0;
       padding: 0;
-      height: 100%;
       background-color: var(--background-color);
       font-family: 'Helvetica Neue', Arial, sans-serif;
       color: var(--text-color);
@@ -22,33 +21,33 @@
 
     /* HEADER */
     header {
-      position: relative;
-      z-index: 10;
       background-color: var(--background-color);
       border-bottom: 2px solid #ffffff33;
       display: flex;
       justify-content: center;
-      align-items: center;
       padding: 40px 20px 20px;
     }
 
     nav {
       display: flex;
-      gap: 20px;
+      gap: 24px;
     }
 
     nav a {
       text-decoration: none;
-      color: var(--accent-color);
-      font-weight: 600;
-      padding: 6px 16px;
-      border-radius: 20px;
-      background-color: rgba(255, 255, 255, 0.1);
-      transition: background-color 0.3s;
+      color: var(--text-color);
+      font-weight: 500;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 8px 18px;
+      border-radius: 30px;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      background-color: rgba(255, 255, 255, 0.08);
     }
 
     nav a:hover {
-      background-color: rgba(255, 255, 255, 0.3);
+      background-color: rgba(255, 255, 255, 0.25);
     }
 
     nav a.active {
@@ -56,20 +55,14 @@
       color: var(--background-color);
     }
 
-    /* GALLERY SCROLL CONTAINER */
+    /* GALLERY CONTAINER */
     .scroll-container {
       width: 100vw;
       height: calc(100vh - 140px);
       overflow: auto;
-      box-sizing: border-box;
       padding: 20px;
       background-color: var(--background-color);
-    }
-
-    @media (max-width: 768px) {
-      .scroll-container {
-        height: calc(100vh - 110px);
-      }
+      box-sizing: border-box;
     }
 
     .grid {
@@ -82,16 +75,11 @@
     }
 
     .grid-item {
-      position: relative;
-      overflow: hidden;
-      background-color: #333;
       opacity: 0;
       transform: scale(0.9);
       transition: opacity 0.8s ease, transform 0.8s ease;
-      display: flex;
-      width: 100%;
-      height: 100%;
       border-radius: 20px;
+      overflow: hidden;
     }
 
     .grid-item.visible {
@@ -103,6 +91,7 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
+      cursor: pointer;
       display: block;
     }
 
@@ -110,10 +99,57 @@
     .rounded-top-right   { border-top-right-radius: 30px; }
     .rounded-bottom-left { border-bottom-left-radius: 30px; }
     .rounded-bottom-right{ border-bottom-right-radius: 30px; }
+
+    /* LIGHTBOX STYLES */
+    .lightbox-overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(0, 0, 0, 0.9);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+
+    .lightbox-overlay.active {
+      display: flex;
+    }
+
+    .lightbox-overlay img {
+      max-width: 90vw;
+      max-height: 90vh;
+      border-radius: 10px;
+      box-shadow: 0 0 30px rgba(0,0,0,0.6);
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 30px;
+      right: 40px;
+      font-size: 3rem;
+      color: white;
+      cursor: pointer;
+      z-index: 10000;
+    }
+
+    @media (max-width: 768px) {
+      .scroll-container {
+        height: calc(100vh - 110px);
+      }
+
+      .lightbox-close {
+        font-size: 2rem;
+        top: 20px;
+        right: 20px;
+      }
+    }
   </style>
 </head>
 <body>
 
+<!-- HEADER -->
 <header>
   <nav>
     <a href="index.html">Home</a>
@@ -124,10 +160,18 @@
   </nav>
 </header>
 
+<!-- GALLERY -->
 <div class="scroll-container">
   <div class="grid" id="grid"></div>
 </div>
 
+<!-- LIGHTBOX -->
+<div class="lightbox-overlay" id="lightbox">
+  <div class="lightbox-close" id="lightboxClose">&times;</div>
+  <img id="lightboxImg" src="" alt="Full image" />
+</div>
+
+<!-- SCRIPT -->
 <script>
   const imageUrls = [
     "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/2.png",
@@ -142,10 +186,8 @@
   ];
 
   const roundedClasses = [
-    'rounded-top-left',
-    'rounded-top-right',
-    'rounded-bottom-left',
-    'rounded-bottom-right'
+    'rounded-top-left', 'rounded-top-right',
+    'rounded-bottom-left', 'rounded-bottom-right'
   ];
 
   const grid = document.getElementById('grid');
@@ -180,9 +222,36 @@
 
     item.appendChild(img);
     grid.appendChild(item);
-
-    observer.observe(item); // ✅ Works again now
+    observer.observe(item);
   }
+
+  // LIGHTBOX FUNCTIONALITY
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightboxImg');
+  const lightboxClose = document.getElementById('lightboxClose');
+
+  document.addEventListener('click', e => {
+    if (e.target.tagName === 'IMG' && e.target.closest('.grid-item')) {
+      lightboxImg.src = e.target.src;
+      lightbox.classList.add('active');
+    }
+  });
+
+  lightboxClose.addEventListener('click', () => {
+    lightbox.classList.remove('active');
+  });
+
+  lightbox.addEventListener('click', e => {
+    if (e.target === lightbox) {
+      lightbox.classList.remove('active');
+    }
+  });
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      lightbox.classList.remove('active');
+    }
+  });
 </script>
 
 </body>
