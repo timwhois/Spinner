@@ -24,6 +24,25 @@
       font-family: Arial, sans-serif;
       background-color: var(--bg-color);
       color: var(--text-color);
+      scroll-snap-type: y mandatory;
+      overflow-y: scroll;
+    }
+    section {
+      scroll-snap-align: start;
+      height: 100vh;
+      min-height: 100vh;
+      padding: 4rem 2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      transform: translateY(50px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+    section.visible {
+      opacity: 1;
+      transform: translateY(0);
     }
     nav {
       position: fixed;
@@ -56,6 +75,7 @@
       align-items: center;
       text-align: center;
       position: relative;
+      scroll-snap-align: start;
     }
     header::after {
       content: '';
@@ -80,17 +100,6 @@
       max-width: 600px;
       color: var(--text-color);
     }
-    section {
-      min-height: 100vh;
-      padding: 4rem 2rem;
-      opacity: 0;
-      transform: translateY(50px);
-      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-    }
-    section.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
     section h2 {
       text-align: center;
       margin-bottom: 2rem;
@@ -110,10 +119,6 @@
     }
     #showcase {
       background-color: #181818;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
     }
     .models-grid {
       display: grid;
@@ -129,13 +134,15 @@
       border-radius: 12px;
     }
     .portfolio-scroll-wrap {
-      overflow: hidden;
-      max-height: 80vh;
+      width: 100%;
+      flex: 1;
     }
     .portfolio-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
       gap: 1rem;
+      width: 100%;
+      height: 100%;
     }
     .portfolio-tile {
       position: relative;
@@ -143,23 +150,17 @@
     }
     .portfolio-tile img {
       width: 100%;
-      height: auto;
-      display: block;
+      height: 100%;
       object-fit: cover;
-      border-radius: 8px;
     }
     .round-tl { border-top-left-radius: 20px; }
     .round-tr { border-top-right-radius: 20px; }
     .round-bl { border-bottom-left-radius: 20px; }
     .round-br { border-bottom-right-radius: 20px; }
     @media (max-width: 768px) {
-      .portfolio-scroll-wrap {
-        max-height: none;
-      }
       .portfolio-grid {
         grid-template-columns: repeat(auto-fill, minmax(45%, 1fr));
         grid-auto-rows: minmax(100px, auto);
-        gap: 10px;
       }
     }
     form input, form textarea {
@@ -216,106 +217,114 @@
   </style>
 </head>
 <body>
-  <nav>
-    <a href="#about">About</a>
-    <a href="#showcase">3D</a>
-    <a href="#portfolio">Portfolio</a>
-    <a href="#contact">Contact</a>
-  </nav>
-  <header>
-    <img src="logo2.png" alt="Third Axis Creative">
-    <p>Designing bold, modern, and memorable experiences.</p>
-  </header>
-  <section id="about">
-    <h2>About Us</h2>
-    <p>Third Axis Creative is a multidisciplinary design studio focused on delivering impactful creative solutions. We work at the intersection of strategy, design, and technology to help brands stand out.</p>
-  </section>
-  <section id="showcase">
-    <h2>3D Showreel</h2>
-    <div class="models-grid">
-      <model-viewer src="Wheel.glb" auto-rotate camera-controls></model-viewer>
-      <model-viewer src="Wheel.glb" auto-rotate camera-controls></model-viewer>
-      <model-viewer src="Wheel.glb" auto-rotate camera-controls></model-viewer>
-      <model-viewer src="Wheel.glb" auto-rotate camera-controls></model-viewer>
-    </div>
-  </section>
-  <section id="portfolio">
-    <h2>Portfolio Preview</h2>
-    <div class="portfolio-scroll-wrap">
-      <div class="portfolio-grid" id="portfolioGrid"></div>
-    </div>
-  </section>
-  <section id="contact">
-    <h2>Contact Us</h2>
-    <form>
-      <input type="text" placeholder="Your Name" required>
-      <input type="email" placeholder="Your Email" required>
-      <textarea rows="5" placeholder="Your Message" required></textarea>
-      <button type="submit">Send Message</button>
-    </form>
-  </section>
-  <footer>
-    &copy; 2025 Third Axis Creative. All rights reserved.
-  </footer>
-  <div class="lightbox-overlay" id="lightbox">
-    <span class="lightbox-close" id="lightboxClose">&times;</span>
-    <img id="lightboxImage" src="" alt="Preview enlarged">
+<nav>
+  <a href="#about">About</a>
+  <a href="#showcase">3D</a>
+  <a href="#portfolio">Portfolio</a>
+  <a href="#contact">Contact</a>
+</nav>
+<header>
+  <img src="logo2.png" alt="Third Axis Creative">
+  <p>Designing bold, modern, and memorable experiences.</p>
+</header>
+<section id="about">
+  <h2>About Us</h2>
+  <p>Third Axis Creative is a multidisciplinary design studio focused on delivering impactful creative solutions. We work at the intersection of strategy, design, and technology to help brands stand out.</p>
+</section>
+<section id="showcase">
+  <h2>3D Showreel</h2>
+  <div class="models-grid">
+    <model-viewer src="Wheel.glb" auto-rotate camera-controls></model-viewer>
+    <model-viewer src="Wheel.glb" auto-rotate camera-controls></model-viewer>
+    <model-viewer src="Wheel.glb" auto-rotate camera-controls></model-viewer>
+    <model-viewer src="Wheel.glb" auto-rotate camera-controls></model-viewer>
   </div>
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("visible");
-          }
-        });
-      }, { threshold: 0.1 });
-      document.querySelectorAll("section").forEach(section => {
-        observer.observe(section);
+</section>
+<section id="portfolio">
+  <h2>Portfolio Preview</h2>
+  <div class="portfolio-scroll-wrap">
+    <div class="portfolio-grid" id="portfolioGrid"></div>
+  </div>
+</section>
+<section id="contact">
+  <h2>Contact Us</h2>
+  <form>
+    <input type="text" placeholder="Your Name" required>
+    <input type="email" placeholder="Your Email" required>
+    <textarea rows="5" placeholder="Your Message" required></textarea>
+    <button type="submit">Send Message</button>
+  </form>
+</section>
+<footer>
+  &copy; 2025 Third Axis Creative. All rights reserved.
+</footer>
+<div class="lightbox-overlay" id="lightbox">
+  <span class="lightbox-close" id="lightboxClose">&times;</span>
+  <img id="lightboxImage" src="" alt="Preview enlarged">
+</div>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+        }
       });
+    }, { threshold: 0.1 });
 
-      const imageUrls = [
-        "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/2.png",
-        "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/2detail.png",
-        "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/3detail.png",
-        "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/Bolt0019.png",
-        "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/Forest%20road.png",
-        "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/Perfume%20Bubbles_V1.png",
-        "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/Screw.png",
-        "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/cool%20sphere.png",
-        "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/grass.png"
-      ];
-      const grid = document.getElementById("portfolioGrid");
-      const spanOptions = [1, 2];
-      const corners = ["round-tl", "round-tr", "round-bl", "round-br"];
-      for (let i = 0; i < 40; i++) {
-        const tile = document.createElement("div");
-        tile.classList.add("portfolio-tile");
-        tile.classList.add(corners[Math.floor(Math.random() * corners.length)]);
-        const img = document.createElement("img");
-        img.src = imageUrls[Math.floor(Math.random() * imageUrls.length)];
-        img.alt = `Preview ${i + 1}`;
-        tile.appendChild(img);
-        grid.appendChild(tile);
-      }
-      const lightbox = document.getElementById("lightbox");
-      const lightboxImg = document.getElementById("lightboxImage");
-      const lightboxClose = document.getElementById("lightboxClose");
-      document.addEventListener("click", e => {
-        if (e.target.matches(".portfolio-tile img")) {
-          lightboxImg.src = e.target.src;
-          lightbox.classList.add("active");
-        }
-      });
-      lightboxClose.addEventListener("click", () => {
-        lightbox.classList.remove("active");
-      });
-      lightbox.addEventListener("click", e => {
-        if (e.target === lightbox) {
-          lightbox.classList.remove("active");
-        }
-      });
+    document.querySelectorAll("section").forEach(section => {
+      observer.observe(section);
     });
-  </script>
+
+    const imageUrls = [
+      "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/2.png",
+      "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/2detail.png",
+      "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/3detail.png",
+      "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/Bolt0019.png",
+      "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/Forest%20road.png",
+      "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/Perfume%20Bubbles_V1.png",
+      "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/Screw.png",
+      "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/cool%20sphere.png",
+      "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/grass.png"
+    ];
+
+    const grid = document.getElementById("portfolioGrid");
+    const corners = ["round-tl", "round-tr", "round-bl", "round-br"];
+
+    for (let i = 0; i < 30; i++) {
+      const tile = document.createElement("div");
+      tile.classList.add("portfolio-tile");
+      tile.classList.add(corners[Math.floor(Math.random() * corners.length)]);
+
+      const img = document.createElement("img");
+      img.src = imageUrls[Math.floor(Math.random() * imageUrls.length)];
+      img.alt = `Preview ${i + 1}`;
+
+      tile.appendChild(img);
+      grid.appendChild(tile);
+    }
+
+    const lightbox = document.getElementById("lightbox");
+    const lightboxImg = document.getElementById("lightboxImage");
+    const lightboxClose = document.getElementById("lightboxClose");
+
+    document.addEventListener("click", e => {
+      if (e.target.matches(".portfolio-tile img")) {
+        lightboxImg.src = e.target.src;
+        lightbox.classList.add("active");
+      }
+    });
+
+    lightboxClose.addEventListener("click", () => {
+      lightbox.classList.remove("active");
+    });
+
+    lightbox.addEventListener("click", e => {
+      if (e.target === lightbox) {
+        lightbox.classList.remove("active");
+      }
+    });
+  });
+</script>
 </body>
 </html>
