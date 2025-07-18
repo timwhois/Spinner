@@ -8,7 +8,7 @@
     :root {
       --bg-color: #111;
       --text-color: #fff;
-      --accent-color: #a8e6cf; /* pastel green */
+      --accent-color: #a8e6cf;
       --light-bg: #222;
     }
 
@@ -26,7 +26,6 @@
       font-family: Arial, sans-serif;
       background-color: var(--bg-color);
       color: var(--text-color);
-      line-height: 1.6;
     }
 
     nav {
@@ -52,6 +51,23 @@
 
     nav a:hover {
       color: var(--accent-color);
+    }
+
+    main {
+      scroll-snap-type: y mandatory;
+      overflow-y: scroll;
+      height: 100vh;
+    }
+
+    section {
+      scroll-snap-align: start;
+      height: 100vh;
+      padding: 4rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
     }
 
     header {
@@ -90,12 +106,6 @@
       color: var(--text-color);
     }
 
-    section {
-      padding: 4rem 2rem;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
     section h2 {
       text-align: center;
       margin-bottom: 2rem;
@@ -116,13 +126,11 @@
       font-size: 1.2rem;
     }
 
-    /* MINI PORTFOLIO GRID */
     #portfolio {
       background-color: var(--bg-color);
       overflow-x: auto;
       overflow-y: hidden;
       white-space: nowrap;
-      padding: 2rem 0;
     }
 
     .portfolio-grid {
@@ -155,7 +163,6 @@
       transform: scale(1.05);
     }
 
-    /* SCROLLBAR STYLE */
     #portfolio::-webkit-scrollbar {
       height: 10px;
     }
@@ -234,6 +241,14 @@
         padding: 1rem;
       }
     }
+
+    /* Fix anchor offset for scroll snapping */
+    :target::before {
+      content: "";
+      display: block;
+      height: 80px;
+      margin-top: -80px;
+    }
   </style>
 </head>
 <body>
@@ -246,35 +261,37 @@
   </nav>
 
   <!-- HERO -->
-  <header>
+  <header id="home">
     <img src="logo2.png" alt="Third Axis Creative" />
     <p>Designing bold, modern, and memorable experiences.</p>
   </header>
 
-  <!-- ABOUT SECTION -->
-  <section id="about">
-    <h2>About Us</h2>
-    <p>
-      Third Axis Creative is a multidisciplinary design studio focused on delivering impactful creative solutions. We work at the intersection of strategy, design, and technology to help brands stand out.
-    </p>
-  </section>
+  <main>
+    <!-- ABOUT SECTION -->
+    <section id="about">
+      <h2>About Us</h2>
+      <p>
+        Third Axis Creative is a multidisciplinary design studio focused on delivering impactful creative solutions. We work at the intersection of strategy, design, and technology to help brands stand out.
+      </p>
+    </section>
 
-  <!-- PORTFOLIO SECTION (Horizontal Scroll Grid) -->
-  <section id="portfolio">
-    <h2>Portfolio Preview</h2>
-    <div class="portfolio-grid" id="portfolioGrid"></div>
-  </section>
+    <!-- PORTFOLIO SECTION -->
+    <section id="portfolio">
+      <h2>Portfolio Preview</h2>
+      <div class="portfolio-grid" id="portfolioGrid"></div>
+    </section>
 
-  <!-- CONTACT SECTION -->
-  <section id="contact">
-    <h2>Contact Us</h2>
-    <form>
-      <input type="text" placeholder="Your Name" required>
-      <input type="email" placeholder="Your Email" required>
-      <textarea rows="5" placeholder="Your Message" required></textarea>
-      <button type="submit">Send Message</button>
-    </form>
-  </section>
+    <!-- CONTACT SECTION -->
+    <section id="contact">
+      <h2>Contact Us</h2>
+      <form>
+        <input type="text" placeholder="Your Name" required>
+        <input type="email" placeholder="Your Email" required>
+        <textarea rows="5" placeholder="Your Message" required></textarea>
+        <button type="submit">Send Message</button>
+      </form>
+    </section>
+  </main>
 
   <!-- FOOTER -->
   <footer>
