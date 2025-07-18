@@ -338,5 +338,16 @@
       portfolioGrid.appendChild(tile);
     }
   </script>
+  <script>
+  const scrollWrap = document.querySelector('.portfolio-scroll-wrap');
+
+  scrollWrap.addEventListener('wheel', function (e) {
+    // Only act when the shift key is NOT pressed (to preserve native shift+scroll)
+    if (!e.shiftKey) {
+      e.preventDefault();
+      scrollWrap.scrollLeft += e.deltaY;
+    }
+  }, { passive: false });
+</script>
 </body>
 </html>
