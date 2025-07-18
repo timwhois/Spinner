@@ -1,3 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Third Axis Creative</title>
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+  <style>
+    :root {
+      --bg-color: #111;
+      --text-color: #fff;
+      --accent-color: #a8e6cf;
+      --light-bg: #222;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+    }
+
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      display: flex;
+      justify-content: center;
+      padding: 1rem;
+      z-index: 100;
+    }
+
+    nav a {
+      color: var(--text-color);
+      margin: 0 1rem;
+      text-decoration: none;
+      text-transform: uppercase;
+      font-size: 0.9rem;
+      letter-spacing: 1px;
+      transition: color 0.3s ease;
+    }
+
+    nav a:hover {
+      color: var(--accent-color);
+    }
+
+    header {
+      height: 100vh;
+      background: url('https://source.unsplash.com/1600x900/?design,abstract') center/cover no-repeat;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      position: relative;
+    }
+
+    header::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(0, 0, 0, 0.6);
+    }
+
+    header img,
+    header p {
+      position: relative;
+      z-index: 1;
+    }
+
+    header img {
+      max-width: 300px;
+      height: auto;
+    }
+
+    header p {
+      font-size: 1.5rem;
+      max-width: 600px;
+      color: var(--text-color);
+    }
+
+    section {
+      padding: 4rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    section h2 {
+      text-align: center;
+      margin-bottom: 2rem;
+      font-size: 2.5rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--accent-color);
+    }
+
+    #about {
+      background-color: var(--light-bg);
+      text-align: center;
+    }
+
+    #about p {
+      max-width: 800px;
+      margin: 0 auto;
+      font-size: 1.2rem;
+    }
+
+    #showcase {
+      background-color: #181818;
+    }
+
+    .models-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      justify-items: center;
+      align-items: center;
+    }
+
+    model-viewer {
+      width: 100%;
+      height: 300px;
+      background: #000;
+      border-radius: 12px;
+    }
+
+    #portfolio {
+      background-color: var(--bg-color);
+    }
+
+    .portfolio-scroll-wrap {
+      overflow-x: auto;
+      overflow-y: hidden;
+      white-space: nowrap;
+      height: calc(100vh - 220px);
+      padding: 0 2rem;
+      scrollbar-width: thin;
+      scrollbar-color: #444 #222;
+    }
+
+    .portfolio-scroll-wrap::-webkit-scrollbar {
+      height: 10px;
+    }
+
+    .portfolio-scroll-wrap::-webkit-scrollbar-track {
+      background: #222;
+    }
+
+    .portfolio-scroll-wrap::-webkit-scrollbar-thumb {
+      background-color: #444;
+      border-radius: 10px;
+    }
+
+    .portfolio-grid {
+      display: grid;
+      grid-template-rows: repeat(2, 35vh);
+      grid-auto-columns: 200px;
+      grid-auto-flow: column dense;
+      gap: 12px;
+      height: 100%;
+    }
+
+    .portfolio-tile {
+      background-color: #333;
+      overflow: hidden;
+      height: 100%;
+      position: relative;
+    }
+
+    .portfolio-tile img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .portfolio-tile:hover img {
+      transform: scale(1.05);
+    }
+
+    .round-tl { border-top-left-radius: 16px; }
+    .round-tr { border-top-right-radius: 16px; }
+    .round-bl { border-bottom-left-radius: 16px; }
+    .round-br { border-bottom-right-radius: 16px; }
+
+    #contact form {
+      max-width: 600px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    #contact input, #contact textarea {
+      padding: 0.75rem;
+      border: none;
+      border-radius: 4px;
+      font-size: 1rem;
+    }
+
+    #contact button {
+      padding: 0.75rem;
+      border: none;
+      border-radius: 4px;
+      background-color: var(--accent-color);
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    #contact button:hover {
+      background-color: #93d9be;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.9rem;
+      background-color: #000;
+      color: #777;
+    }
+
+    .lightbox-overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.85);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+    }
+
+    .lightbox-overlay.active {
+      display: flex;
+    }
+
+    .lightbox-overlay img {
+      max-width: 90%;
+      max-height: 90%;
+      border-radius: 12px;
+      box-shadow: 0 0 40px rgba(0,0,0,0.6);
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      font-size: 2rem;
+      color: var(--accent-color);
+      cursor: pointer;
+      z-index: 1000;
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="#about">About</a>
+  <a href="#showcase">3D</a>
+  <a href="#portfolio">Portfolio</a>
+  <a href="#contact">Contact</a>
+</nav>
+
+<header>
+  <img src="logo2.png" alt="Third Axis Creative" />
+  <p>Designing bold, modern, and memorable experiences.</p>
+</header>
+
+<section id="about">
+  <h2>About Us</h2>
+  <p>Third Axis Creative is a multidisciplinary design studio focused on delivering impactful creative solutions. We work at the intersection of strategy, design, and technology to help brands stand out.</p>
+</section>
+
+<section id="showcase">
+  <h2>3D Showreel</h2>
+  <div class="models-grid">
+    <model-viewer src="Wheel.glb" auto-rotate camera-controls></model-viewer>
+    <model-viewer src="Wheel.glb" auto-rotate camera-controls></model-viewer>
+    <model-viewer src="Wheel.glb" auto-rotate camera-controls></model-viewer>
+    <model-viewer src="Wheel.glb" auto-rotate camera-controls></model-viewer>
+  </div>
+</section>
+
 <section id="portfolio">
   <h2>Portfolio Preview</h2>
   <div class="portfolio-scroll-wrap">
@@ -44,18 +343,11 @@
   for (let i = 0; i < 40; i++) {
     const tile = document.createElement('div');
     tile.classList.add('portfolio-tile');
-
-    const rowSpan = spanOptions[Math.floor(Math.random() * spanOptions.length)];
-    const colSpan = spanOptions[Math.floor(Math.random() * spanOptions.length)];
-    tile.style.gridRow = `span ${rowSpan}`;
-    tile.style.gridColumn = `span ${colSpan}`;
-
     tile.classList.add(corners[Math.floor(Math.random() * corners.length)]);
-
+    tile.style.gridRow = `span ${spanOptions[Math.floor(Math.random() * spanOptions.length)]}`;
+    tile.style.gridColumn = `span ${spanOptions[Math.floor(Math.random() * spanOptions.length)]}`;
     const img = document.createElement('img');
     img.src = miniImageUrls[Math.floor(Math.random() * miniImageUrls.length)];
-    img.alt = `Preview ${i + 1}`;
-
     tile.appendChild(img);
     portfolioGrid.appendChild(tile);
   }
@@ -89,5 +381,6 @@
     }
   });
 </script>
+
 </body>
 </html>
