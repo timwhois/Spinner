@@ -4,151 +4,149 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Third Axis Creative – Gallery</title>
+  <!--
+    Gallery page styled to visually align with the index page you built earlier:
+    • Same color tokens (dark background, white text, gold accent)
+    • Same fixed top nav w/ logo left, links right (responsive burger on mobile)
+    • Same typography + uppercase nav links
+    • Section heading styling consistent w/ index (accent color, letter spacing)
+    • Keeps your existing IntersectionObserver reveal-on-scroll behaviour.
+    • Maintains a dedicated scroll container so appearance logic is unchanged.
+  -->
   <style>
     :root {
-      --background-color: #0D1B2A;
-      --text-color: #FFFFFF;
-      --accent-color: #9CC9E2;
+      /* Color system matches index page */
+      --bg-color: #111;            /* global dark background */
+      --text-color: #fff;          /* primary text */
+      --accent-color: #f5c518;     /* gold accent */
+      --light-bg: #222;            /* section alt background */
+      --nav-height: 72px;          /* used for layout calc */
     }
 
-    html, body {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      background-color: var(--background-color);
-      font-family: 'Helvetica Neue', Arial, sans-serif;
+    /* Reset */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: Arial, sans-serif; /* same as index */
+      background-color: var(--bg-color);
       color: var(--text-color);
+      line-height: 1.6;
+      overflow: hidden; /* body doesn't scroll; gallery scrolls (preserves reveal root) */
     }
 
-    header {
-      position: relative;
-      z-index: 10;
-      background-color: var(--background-color);
-      border-bottom: 2px solid #ffffff33;
+    /* ===================== NAV (consistent with index) ===================== */
+    nav.site-nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      width: 100%;
+      background-color: rgba(0,0,0,0.8);
+      padding: 1rem;
+      z-index: 100;
+    }
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      padding: 70px 50px 20px;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .nav-logo img {
+      height: 40px;
+      width: auto;
+      display: block;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+    .nav-links a {
+      color: var(--text-color);
+      text-decoration: none;
+      text-transform: uppercase;
+      font-size: 0.9rem;
+      letter-spacing: 1px;
+      transition: color 0.3s ease;
+    }
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--accent-color);
     }
 
-    .menu-toggle {
+    /* Mobile nav toggle */
+    .nav-toggle {
       display: none;
-      font-size: 2rem;
-      color: var(--accent-color);
       background: none;
       border: none;
+      color: var(--text-color);
+      font-size: 1.75rem;
+      line-height: 1;
       cursor: pointer;
-      z-index: 20;
     }
 
-    .logo-center {
+    @media (max-width: 640px) {
+      .nav-links { display: none; }
+      .nav-links.mobile-open { display: flex; flex-direction: column; position: absolute; top: var(--nav-height); right: 0; background: rgba(0,0,0,0.95); padding: 1rem 2rem; gap: 1rem; border-left: 1px solid rgba(255,255,255,0.1); border-bottom: 1px solid rgba(255,255,255,0.1); }
+      .nav-toggle { display: block; }
+    }
+
+    /* ===================== PAGE INTRO ===================== */
+    .scroll-wrapper {
+      /* sits below fixed nav; houses heading + grid scroll */
       position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 15;
-    }
-
-    .logo-center img {
-      height: 180px;
-      width: auto;
-      max-width: 90vw;
-    }
-
-    .nav-overlay {
+      top: var(--nav-height);
+      left: 0; right: 0; bottom: 0;
       display: flex;
-      gap: 20px;
-    }
-
-    .nav-overlay a,
-    .mobile-nav a {
-      text-decoration: none;
-      color: var(--accent-color);
-      font-weight: 600;
-      padding: 6px 16px;
-      border-radius: 20px;
-      background-color: rgba(255, 255, 255, 0.1);
-      transition: background-color 0.3s;
-    }
-
-    .nav-overlay a:hover,
-    .mobile-nav a:hover {
-      background-color: rgba(255, 255, 255, 0.3);
-    }
-
-    .nav-overlay a.active,
-    .mobile-nav a.active {
-      background-color: var(--accent-color);
-      color: var(--background-color);
-    }
-
-    .mobile-nav {
-      display: none;
       flex-direction: column;
-      gap: 15px;
-      position: absolute;
-      top: 100%;
-      left: 0;
-      width: 100%;
-      padding: 20px;
-      box-sizing: border-box;
-      background-color: var(--background-color);
-      border-top: 1px solid #ffffff33;
-      z-index: 5;
+      background: var(--bg-color);
     }
 
-    .mobile-nav.show {
-      display: flex;
+    .gallery-intro {
+      padding: 4rem 2rem 1rem; /* big top pad for breathing space under nav */
+      text-align: center;
+      background: var(--bg-color);
+    }
+    .gallery-intro h1 {
+      font-size: 2.5rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--accent-color);
+      margin-bottom: 1rem;
+    }
+    .gallery-intro p {
+      max-width: 700px;
+      margin: 0 auto;
+      font-size: 1.2rem;
+      color: var(--text-color);
+      opacity: 0.85;
     }
 
-    @media (max-width: 768px) {
-      header {
-        flex-direction: column;
-        align-items: stretch;
-        padding: 20px;
-      }
-
-      .menu-toggle {
-        display: block;
-      }
-
-      .nav-overlay {
-        display: none;
-      }
-
-      .logo-center {
-        position: static;
-        transform: none;
-        margin: 10px auto;
-        text-align: center;
-      }
-
-      .logo-center img {
-        height: 120px;
-      }
-    }
-
-    /* Gallery Container */
+    /* ===================== SCROLLING GALLERY AREA ===================== */
     .scroll-container {
-      width: 100%;
-      height: calc(100vh - 180px);
+      /* fills remaining height under intro; scroll root used in JS */
+      flex: 1 1 auto;
       overflow-y: auto;
-      padding: 30px 20px 40px;
-      box-sizing: border-box;
-      background-color: var(--background-color);
+      overflow-x: hidden;
+      padding: 2rem;
+      background-color: var(--bg-color);
     }
 
     @media (max-width: 768px) {
-      .scroll-container {
-        height: calc(100vh - 130px);
-        padding: 20px 15px 30px;
-      }
+      .gallery-intro { padding: 3.5rem 1.25rem 0.75rem; }
+      .gallery-intro h1 { font-size: 2rem; }
+      .gallery-intro p { font-size: 1rem; }
+      .scroll-container { padding: 1.25rem; }
     }
 
+    /* Responsive masonry-ish grid; items span randomly via inline styles */
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 16px;
+      grid-auto-rows: 200px; /* base row height; items span multiples */
       grid-auto-flow: dense;
+      gap: 1rem;
+      position: relative;
     }
 
     .grid-item {
@@ -158,14 +156,15 @@
       opacity: 0;
       transform: scale(0.9);
       transition: opacity 0.8s ease, transform 0.8s ease;
-      border-radius: 20px;
+      border-radius: 4px; /* base radius; custom corner classes may override */
+      display: flex;
+      width: 100%;
+      height: 100%;
     }
-
     .grid-item.visible {
       opacity: 1;
       transform: scale(1);
     }
-
     .grid-item img {
       width: 100%;
       height: 100%;
@@ -173,6 +172,7 @@
       display: block;
     }
 
+    /* Optional playful corner variants; keep from your original */
     .rounded-top-left    { border-top-left-radius: 30px; }
     .rounded-top-right   { border-top-right-radius: 30px; }
     .rounded-bottom-left { border-bottom-left-radius: 30px; }
@@ -180,32 +180,35 @@
   </style>
 </head>
 <body>
-  <header>
-    <button class="menu-toggle" aria-label="Menu">&#9776;</button>
-    <div class="logo-center">
-      <img src="logo2.png" alt="Third Axis Creative Logo">
+  <!-- ===================== FIXED SITE NAV ===================== -->
+  <nav class="site-nav" role="navigation">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo"><img src="logo2.png" alt="Third Axis Creative Logo"></a>
+      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">&#9776;</button>
+      <div class="nav-links" id="primaryNav">
+        <a href="index.html">Home</a>
+        <a href="#" class="active">Gallery</a>
+        <a href="#">Shop</a>
+        <a href="#">Affirm</a>
+        <a href="#">News</a>
+      </div>
     </div>
-    <nav class="nav-overlay">
-      <a href="index.html">Home</a>
-      <a href="#" class="active">Gallery</a>
-      <a href="#">Shop</a>
-      <a href="#">Affirm</a>
-      <a href="#">News</a>
-    </nav>
-    <nav class="mobile-nav" id="mobileNav">
-      <a href="index.html">Home</a>
-      <a href="#" class="active">Gallery</a>
-      <a href="#">Shop</a>
-      <a href="#">Affirm</a>
-      <a href="#">News</a>
-    </nav>
-  </header>
+  </nav>
 
-  <div class="scroll-container">
-    <div class="grid" id="grid"></div>
+  <!-- ===================== PAGE CONTENT WRAPPER ===================== -->
+  <div class="scroll-wrapper">
+    <div class="gallery-intro">
+      <h1>Gallery</h1>
+      <p>A rolling wall of selected work & experimental visuals from Third Axis Creative. Scroll to explore — images gently reveal as they enter view.</p>
+    </div>
+
+    <div class="scroll-container" id="scrollRoot">
+      <div class="grid" id="grid"></div>
+    </div>
   </div>
 
   <script>
+    // ===================== DATA =====================
     const imageUrls = [
       "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/2.png",
       "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/2detail.png",
@@ -226,14 +229,17 @@
     ];
 
     const grid = document.getElementById('grid');
-    const totalItems = 300;
-    const spanOptions = [1, 2];
+    const totalItems = 300; // adjust as needed
+    const spanOptions = [1, 2]; // how many 200px rows/cols to span
 
+    // ===================== BUILD GRID =====================
     for (let i = 0; i < totalItems; i++) {
       const item = document.createElement('div');
       item.classList.add('grid-item');
       item.classList.add(roundedClasses[Math.floor(Math.random() * roundedClasses.length)]);
 
+      // Responsive spans: because grid-template-columns uses auto-fill, we can still span fractions.
+      // We map spanOptions to CSS grid span values.
       const colSpan = spanOptions[Math.floor(Math.random() * spanOptions.length)];
       const rowSpan = spanOptions[Math.floor(Math.random() * spanOptions.length)];
       item.style.gridColumn = `span ${colSpan}`;
@@ -241,23 +247,25 @@
 
       const img = document.createElement('img');
       img.src = imageUrls[Math.floor(Math.random() * imageUrls.length)];
-      img.alt = `Image ${i + 1}`;
+      img.alt = `Gallery image ${i + 1}`;
 
       item.appendChild(img);
       grid.appendChild(item);
     }
 
+    // ===================== INTERSECTION OBSERVER (unchanged core behaviour) =====================
+    const scrollRoot = document.getElementById('scrollRoot');
     const observer = new IntersectionObserver(
       entries => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
             entry.target.classList.add('visible');
-            observer.unobserve(entry.target);
+            observer.unobserve(entry.target); // reveal once
           }
         });
       },
       {
-        root: document.querySelector('.scroll-container'),
+        root: scrollRoot, // <== preserves your original scroll-container root behaviour
         threshold: 0.1
       }
     );
@@ -266,10 +274,12 @@
       observer.observe(item);
     });
 
-    const toggle = document.querySelector('.menu-toggle');
-    const mobileNav = document.getElementById('mobileNav');
-    toggle.addEventListener('click', () => {
-      mobileNav.classList.toggle('show');
+    // ===================== MOBILE NAV TOGGLE =====================
+    const navToggle = document.querySelector('.nav-toggle');
+    const primaryNav = document.getElementById('primaryNav');
+    navToggle.addEventListener('click', () => {
+      const isOpen = primaryNav.classList.toggle('mobile-open');
+      navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
     });
   </script>
 </body>
