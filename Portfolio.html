@@ -25,15 +25,14 @@
       font-family: Arial, sans-serif;
       background-color: var(--bg-color);
       color: var(--text-color);
-      line-height: 1.6;
     }
 
-    /* NAVIGATION - matches homepage */
+    /* NAVIGATION */
     nav {
       position: fixed;
       top: 0;
       width: 100%;
-      background-color: rgba(0, 0, 0, 0.8);
+      background-color: rgba(0,0,0,0.8);
       display: flex;
       justify-content: center;
       padding: 1rem;
@@ -54,7 +53,11 @@
       color: var(--accent-color);
     }
 
-    /* GALLERY LAYOUT */
+    nav a.active {
+      color: var(--accent-color);
+    }
+
+    /* SCROLL CONTAINER */
     .scroll-container {
       width: 100vw;
       height: calc(100vh - 120px);
@@ -66,7 +69,7 @@
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      grid-template-columns: repeat(25, 200px);
       grid-auto-rows: 200px;
       gap: 12px;
       grid-auto-flow: dense;
@@ -76,8 +79,8 @@
       opacity: 0;
       transform: scale(0.9);
       transition: opacity 0.8s ease, transform 0.8s ease;
-      border-radius: 12px;
       overflow: hidden;
+      border-radius: 16px;
     }
 
     .grid-item.visible {
@@ -89,8 +92,8 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      cursor: pointer;
       display: block;
+      cursor: pointer;
     }
 
     /* LIGHTBOX */
@@ -99,7 +102,7 @@
       top: 0; left: 0;
       width: 100vw;
       height: 100vh;
-      background-color: rgba(0,0,0,0.9);
+      background-color: rgba(0, 0, 0, 0.9);
       display: none;
       align-items: center;
       justify-content: center;
@@ -147,7 +150,7 @@
 </head>
 <body>
 
-<!-- Navigation -->
+<!-- NAVIGATION -->
 <nav>
   <a href="index.html">Home</a>
   <a href="#" class="active">Gallery</a>
@@ -156,12 +159,12 @@
   <a href="#">Contact</a>
 </nav>
 
-<!-- Gallery Grid -->
+<!-- GALLERY -->
 <div class="scroll-container">
   <div class="grid" id="grid"></div>
 </div>
 
-<!-- Lightbox -->
+<!-- LIGHTBOX -->
 <div class="lightbox-overlay" id="lightbox">
   <div class="lightbox-close" id="lightboxClose">&times;</div>
   <img id="lightboxImg" src="" alt="Enlarged image">
@@ -181,7 +184,8 @@
   ];
 
   const grid = document.getElementById('grid');
-  const totalItems = 60;
+  const totalItems = 100;
+  const spanOptions = [1, 2];
 
   const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => {
@@ -199,16 +203,22 @@
     const item = document.createElement('div');
     item.classList.add('grid-item');
 
+    const colSpan = spanOptions[Math.floor(Math.random() * spanOptions.length)];
+    const rowSpan = spanOptions[Math.floor(Math.random() * spanOptions.length)];
+    item.style.gridColumn = `span ${colSpan}`;
+    item.style.gridRow = `span ${rowSpan}`;
+
     const img = document.createElement('img');
     img.src = imageUrls[Math.floor(Math.random() * imageUrls.length)];
     img.alt = `Image ${i + 1}`;
 
     item.appendChild(img);
     grid.appendChild(item);
+
     observer.observe(item);
   }
 
-  // Lightbox functionality
+  // LIGHTBOX
   const lightbox = document.getElementById('lightbox');
   const lightboxImg = document.getElementById('lightboxImg');
   const lightboxClose = document.getElementById('lightboxClose');
