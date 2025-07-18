@@ -58,14 +58,22 @@
     }
 
     /* SCROLL CONTAINER */
-    .scroll-container {
-      width: 100vw;
-      height: calc(100vh - 120px);
-      overflow: auto;
-      padding: 20px;
-      box-sizing: border-box;
-      margin-top: 80px;
-    }
+   .scroll-container {
+  width: 100vw;
+  height: calc(100vh - 120px);
+  padding: 20px;
+  box-sizing: border-box;
+  margin-top: 80px;
+  overflow-y: auto;
+  overflow-x: hidden; /* desktop default */
+}
+
+/* On mobile, allow scrolling both ways */
+@media (max-width: 768px) {
+  .scroll-container {
+    overflow: auto; /* vertical + horizontal */
+  }
+}
 
     .grid {
       display: grid;
