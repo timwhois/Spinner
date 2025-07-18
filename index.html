@@ -187,7 +187,97 @@
     </div>
   </section>
 
-  <!-- Additional sections like portfolio, contact, and footer would follow here -->
+  <section id="portfolio">
+  <h2>Portfolio Preview</h2>
+  <div class="portfolio-scroll-wrap">
+    <div class="portfolio-grid" id="portfolioGrid"></div>
+  </div>
+</section>
+
+<section id="contact">
+  <h2>Contact Us</h2>
+  <form>
+    <input type="text" placeholder="Your Name" required>
+    <input type="email" placeholder="Your Email" required>
+    <textarea rows="5" placeholder="Your Message" required></textarea>
+    <button type="submit">Send Message</button>
+  </form>
+</section>
+
+<footer>
+  &copy; 2025 Third Axis Creative. All rights reserved.
+</footer>
+
+<div class="lightbox-overlay" id="lightbox">
+  <span class="lightbox-close" id="lightboxClose">&times;</span>
+  <img id="lightboxImage" src="" alt="Preview enlarged">
+</div>
+
+<script>
+  const miniImageUrls = [
+    "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/2.png",
+    "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/2detail.png",
+    "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/3detail.png",
+    "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/Bolt0019.png",
+    "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/Forest%20road.png",
+    "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/Perfume%20Bubbles_V1.png",
+    "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/Screw.png",
+    "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/cool%20sphere.png",
+    "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/grass.png"
+  ];
+
+  const portfolioGrid = document.getElementById('portfolioGrid');
+  const spanOptions = [1, 2];
+  const corners = ['round-tl', 'round-tr', 'round-bl', 'round-br'];
+
+  for (let i = 0; i < 40; i++) {
+    const tile = document.createElement('div');
+    tile.classList.add('portfolio-tile');
+
+    const rowSpan = spanOptions[Math.floor(Math.random() * spanOptions.length)];
+    const colSpan = spanOptions[Math.floor(Math.random() * spanOptions.length)];
+    tile.style.gridRow = `span ${rowSpan}`;
+    tile.style.gridColumn = `span ${colSpan}`;
+
+    tile.classList.add(corners[Math.floor(Math.random() * corners.length)]);
+
+    const img = document.createElement('img');
+    img.src = miniImageUrls[Math.floor(Math.random() * miniImageUrls.length)];
+    img.alt = `Preview ${i + 1}`;
+
+    tile.appendChild(img);
+    portfolioGrid.appendChild(tile);
+  }
+
+  const scrollWrap = document.querySelector('.portfolio-scroll-wrap');
+  scrollWrap.addEventListener('wheel', function (e) {
+    if (!e.shiftKey) {
+      e.preventDefault();
+      scrollWrap.scrollLeft += e.deltaY;
+    }
+  }, { passive: false });
+
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightboxImage');
+  const lightboxClose = document.getElementById('lightboxClose');
+
+  document.addEventListener('click', function (e) {
+    if (e.target.matches('.portfolio-tile img')) {
+      lightboxImg.src = e.target.src;
+      lightbox.classList.add('active');
+    }
+  });
+
+  lightboxClose.addEventListener('click', () => {
+    lightbox.classList.remove('active');
+  });
+
+  lightbox.addEventListener('click', e => {
+    if (e.target === lightbox) {
+      lightbox.classList.remove('active');
+    }
+  });
+</script>
 
   <script>
     document.addEventListener("DOMContentLoaded", () => {
