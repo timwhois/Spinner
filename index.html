@@ -130,6 +130,7 @@
     }
     .portfolio-scroll-wrap {
       overflow-x: auto;
+      overflow-y: hidden;
       white-space: nowrap;
       display: block;
       max-height: 80vh;
@@ -158,12 +159,23 @@
     .round-br { border-bottom-right-radius: 20px; }
     @media (max-width: 768px) {
       .portfolio-scroll-wrap {
-        max-height: 60vh;
-        padding-bottom: 1rem;
+        max-height: 50vh;
+        overflow-y: hidden;
+        padding: 1rem 0;
       }
       .portfolio-grid {
-        grid-auto-columns: minmax(120px, 1fr);
-        gap: 0.5rem;
+        display: flex;
+        flex-wrap: nowrap;
+        gap: 1rem;
+      }
+      .portfolio-tile {
+        flex: 0 0 auto;
+        width: 160px;
+        height: auto;
+      }
+      .portfolio-tile img {
+        width: 100%;
+        height: auto;
       }
     }
     form input, form textarea {
