@@ -232,71 +232,51 @@ header {
 </div>
 
 <script>
-const imageUrls = [
-  "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/2.png",
-  "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/2detail.png",
-  "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/3detail.png",
-  "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/Bolt0019.png",
-  "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/Forest%20road.png",
-  "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/Perfume%20Bubbles_V1.png",
-  "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/Screw.png",
-  "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/cool%20sphere.png",
-  "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/grass.png"
-];
+  const imageUrls = [
+    "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/2.png",
+    "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/2detail.png",
+    "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/3detail.png",
+    "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/Bolt0019.png",
+    "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/Forest%20road.png",
+    "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/Perfume%20Bubbles_V1.png",
+    "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/Screw.png",
+    "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/cool%20sphere.png",
+    "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/grass.png"
+  ];
 
-const roundedClasses = [
-  'rounded-top-left',
-  'rounded-top-right',
-  'rounded-bottom-left',
-  'rounded-bottom-right'
-];
+  const grid = document.getElementById('grid');
+  const totalItems = 60;
 
-const grid = document.getElementById('grid');
-const totalItems = 300;
-const spanOptions = [1, 2];
+  // Build grid items first
+  for (let i = 0; i < totalItems; i++) {
+    const item = document.createElement('div');
+    item.classList.add('grid-item');
 
-for (let i = 0; i < totalItems; i++) {
-  const item = document.createElement('div');
-  item.classList.add('grid-item');
-  item.classList.add(roundedClasses[Math.floor(Math.random() * roundedClasses.length)]);
+    const img = document.createElement('img');
+    img.src = imageUrls[Math.floor(Math.random() * imageUrls.length)];
+    img.alt = `Image ${i + 1}`;
 
-  const colSpan = spanOptions[Math.floor(Math.random() * spanOptions.length)];
-  const rowSpan = spanOptions[Math.floor(Math.random() * spanOptions.length)];
-  item.style.gridColumn = `span ${colSpan}`;
-  item.style.gridRow = `span ${rowSpan}`;
+    item.appendChild(img);
+    grid.appendChild(item);
+  }
 
-  const img = document.createElement('img');
-  img.src = imageUrls[Math.floor(Math.random() * imageUrls.length)];
-  img.alt = `Image ${i + 1}`;
-
-  item.appendChild(img);
-  grid.appendChild(item);
-}
-
-const observer = new IntersectionObserver(
-  entries => {
+  // Setup observer AFTER all grid items are in the DOM
+  const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.classList.add('visible');
         observer.unobserve(entry.target);
       }
     });
-  },
-  {
-    root: document.querySelector('.scroll-container'),
+  }, {
+    root: null, // uses viewport
     threshold: 0.1
-  }
-);
+  });
 
-document.querySelectorAll('.grid-item').forEach(item => {
-  observer.observe(item);
-});
-
-const toggle = document.querySelector('.menu-toggle');
-const mobileNav = document.getElementById('mobileNav');
-toggle.addEventListener('click', () => {
-  mobileNav.classList.toggle('show');
-});
+  // Observe each grid item now that they exist in DOM
+  document.querySelectorAll('.grid-item').forEach(item => {
+    observer.observe(item);
+  });
 </script>
 </body>
 </html>
