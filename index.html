@@ -5,12 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Third Axis Creative</title>
   <style>
-   :root {
-  --bg-color: #111;
-  --text-color: #fff;
-  --accent-color: #a8e6cf; /* pastel green */
-  --light-bg: #222;
-}
+    :root {
+      --bg-color: #111;
+      --text-color: #fff;
+      --accent-color: #a8e6cf; /* pastel green */
+      --light-bg: #222;
+    }
 
     * {
       margin: 0;
@@ -27,6 +27,31 @@
       background-color: var(--bg-color);
       color: var(--text-color);
       line-height: 1.6;
+    }
+
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background-color: rgba(0,0,0,0.8);
+      display: flex;
+      justify-content: center;
+      padding: 1rem;
+      z-index: 100;
+    }
+
+    nav a {
+      color: var(--text-color);
+      margin: 0 1rem;
+      text-decoration: none;
+      text-transform: uppercase;
+      font-size: 0.9rem;
+      letter-spacing: 1px;
+      transition: color 0.3s ease;
+    }
+
+    nav a:hover {
+      color: var(--accent-color);
     }
 
     header {
@@ -48,46 +73,21 @@
       background-color: rgba(0,0,0,0.6);
     }
 
-    header h1, header p {
+    header img,
+    header p {
       position: relative;
       z-index: 1;
-      color: var(--text-color);
     }
 
-    header h1 {
-      font-size: 4rem;
-      margin-bottom: 1rem;
-      text-transform: uppercase;
-      letter-spacing: 2px;
+    header img {
+      max-width: 300px;
+      height: auto;
     }
 
     header p {
       font-size: 1.5rem;
       max-width: 600px;
-    }
-
-    nav {
-      position: fixed;
-      top: 0;
-      width: 100%;
-      background-color: rgba(0,0,0,0.8);
-      display: flex;
-      justify-content: center;
-      padding: 1rem;
-      z-index: 100;
-    }
-
-    nav a {
       color: var(--text-color);
-      margin: 0 1rem;
-      text-decoration: none;
-      text-transform: uppercase;
-      font-size: 0.9rem;
-      letter-spacing: 1px;
-    }
-
-    nav a:hover {
-      color: var(--accent-color);
     }
 
     section {
@@ -116,28 +116,43 @@
       font-size: 1.2rem;
     }
 
+    /* MINI PORTFOLIO GRID */
     #portfolio {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 2rem;
+      background-color: var(--bg-color);
+      overflow-x: auto;
+      overflow-y: hidden;
+      white-space: nowrap;
+      padding: 2rem 0;
     }
 
-    .portfolio-item {
+    .portfolio-grid {
+      display: grid;
+      grid-template-rows: repeat(2, 200px);
+      grid-auto-columns: 200px;
+      grid-auto-flow: column dense;
+      gap: 12px;
+      padding: 1rem 2rem;
+      height: 420px;
+    }
+
+    .portfolio-tile {
+      position: relative;
       background-color: #333;
-      padding: 1rem;
-      text-align: center;
-      border-radius: 4px;
+      overflow: hidden;
+      border-radius: 12px;
+    }
+
+    .portfolio-tile img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      cursor: pointer;
       transition: transform 0.3s ease;
     }
 
-    .portfolio-item:hover {
-      transform: scale(1.03);
-    }
-
-    .portfolio-item img {
-      max-width: 100%;
-      height: auto;
-      border-radius: 4px;
+    .portfolio-tile:hover img {
+      transform: scale(1.05);
     }
 
     #contact form {
@@ -167,8 +182,8 @@
     }
 
     #contact button:hover {
-  background-color: #93d9be; /* slightly deeper green */
-}
+      background-color: #93d9be;
+    }
 
     footer {
       text-align: center;
@@ -177,20 +192,47 @@
       background-color: #000;
       color: #777;
     }
+
+    @media (max-width: 768px) {
+      header img {
+        max-width: 220px;
+      }
+
+      header p {
+        font-size: 1.2rem;
+        padding: 0 1rem;
+      }
+
+      nav {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+
+      .portfolio-grid {
+        grid-auto-columns: 150px;
+        grid-template-rows: repeat(2, 150px);
+        height: 340px;
+        padding: 1rem;
+      }
+    }
   </style>
 </head>
 <body>
+
+  <!-- NAVIGATION -->
   <nav>
     <a href="#about">About</a>
     <a href="#portfolio">Portfolio</a>
     <a href="#contact">Contact</a>
   </nav>
 
+  <!-- HERO -->
   <header>
-  <img src="logo2.png" alt="Third Axis Creative" style="max-width: 300px; height: auto;" />
-  <p>Designing bold, modern, and memorable experiences.</p>
+    <img src="logo2.png" alt="Third Axis Creative" />
+    <p>Designing bold, modern, and memorable experiences.</p>
   </header>
 
+  <!-- ABOUT SECTION -->
   <section id="about">
     <h2>About Us</h2>
     <p>
@@ -198,22 +240,13 @@
     </p>
   </section>
 
+  <!-- PORTFOLIO SECTION (Horizontal Scroll Grid) -->
   <section id="portfolio">
-    <h2>Our Work</h2>
-    <div class="portfolio-item">
-      <img src="https://source.unsplash.com/400x300/?branding,design" alt="Project 1">
-      <p>Brand Identity</p>
-    </div>
-    <div class="portfolio-item">
-      <img src="https://source.unsplash.com/400x300/?web,design" alt="Project 2">
-      <p>Website Design</p>
-    </div>
-    <div class="portfolio-item">
-      <img src="https://source.unsplash.com/400x300/?graphic,design" alt="Project 3">
-      <p>Graphic Design</p>
-    </div>
+    <h2>Portfolio Preview</h2>
+    <div class="portfolio-grid" id="portfolioGrid"></div>
   </section>
 
+  <!-- CONTACT SECTION -->
   <section id="contact">
     <h2>Contact Us</h2>
     <form>
@@ -224,8 +257,44 @@
     </form>
   </section>
 
+  <!-- FOOTER -->
   <footer>
     &copy; 2025 Third Axis Creative. All rights reserved.
   </footer>
+
+  <!-- MINI PORTFOLIO SCRIPT -->
+  <script>
+    const miniImageUrls = [
+      "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/2.png",
+      "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/2detail.png",
+      "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/3detail.png",
+      "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/Bolt0019.png",
+      "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/Forest%20road.png",
+      "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/Perfume%20Bubbles_V1.png",
+      "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/Screw.png",
+      "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/cool%20sphere.png",
+      "https://raw.githubusercontent.com/timwhois/Spinner/main/Images/grass.png"
+    ];
+
+    const portfolioGrid = document.getElementById('portfolioGrid');
+    const spanOptions = [1, 2];
+
+    for (let i = 0; i < 40; i++) {
+      const tile = document.createElement('div');
+      tile.classList.add('portfolio-tile');
+
+      const rowSpan = spanOptions[Math.floor(Math.random() * spanOptions.length)];
+      const colSpan = spanOptions[Math.floor(Math.random() * spanOptions.length)];
+      tile.style.gridRow = `span ${rowSpan}`;
+      tile.style.gridColumn = `span ${colSpan}`;
+
+      const img = document.createElement('img');
+      img.src = miniImageUrls[Math.floor(Math.random() * miniImageUrls.length)];
+      img.alt = `Preview ${i + 1}`;
+
+      tile.appendChild(img);
+      portfolioGrid.appendChild(tile);
+    }
+  </script>
 </body>
 </html>
