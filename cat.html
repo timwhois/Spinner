@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Hidden Letters & Numbers Game</title>
+<title>Camouflaged Hidden Letters & Numbers</title>
 <style>
     body {
         margin: 0;
@@ -52,20 +52,20 @@
         position: absolute;
         font-size: 18px;
         font-weight: bold;
-        color: #fff;
         cursor: pointer;
-        opacity: 0.65;
+        opacity: 0.9;
         transform-origin: center;
         user-select: none;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.4); /* slight shadow for visibility */
     }
     .hint {
         outline: 3px solid yellow;
-        border-radius: 50%;
+        border-radius: 4px;
     }
 </style>
 </head>
 <body>
-<h2>Find All Hidden Letters & Numbers!</h2>
+<h2>Find All Camouflaged Letters & Numbers!</h2>
 <div id="gameContainer">
     <div id="hud">Remaining: <span id="remaining"></span></div>
     <button id="hintBtn">Hint</button>
@@ -82,7 +82,7 @@ let items = [];
 
 const lettersNumbers = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'.split('');
 
-// Define levels with background images
+// Levels with background images and item counts
 const levels = [
     { img: 'https://picsum.photos/id/1015/900/550', count: 15 },
     { img: 'https://picsum.photos/id/1025/900/550', count: 18 },
@@ -90,43 +90,61 @@ const levels = [
     { img: 'https://picsum.photos/id/1062/900/550', count: 22 }
 ];
 
+let hiddenCanvas = document.createElement('canvas');
+let hiddenCtx = hiddenCanvas.getContext('2d');
+
 function startLevel(levelIndex) {
-    gameContainer.style.backgroundImage = `url(${levels[levelIndex].img})`;
-    gameContainer.querySelectorAll('.hiddenItem').forEach(el => el.remove());
-    
-    items = [];
-    const levelCount = levels[levelIndex].count;
-    remaining = levelCount;
-    remainingDisplay.textContent = remaining;
-    
-    for (let i = 0; i < levelCount; i++) {
-        const char = lettersNumbers[Math.floor(Math.random() * lettersNumbers.length)];
-        const el = document.createElement('div');
-        el.className = 'hiddenItem';
-        el.textContent = char;
-        
-        // Random position
-        el.style.top = Math.random() * (gameContainer.clientHeight - 30) + 'px';
-        el.style.left = Math.random() * (gameContainer.clientWidth - 30) + 'px';
-        
-        // Random rotation and slight scaling
-        const rotation = Math.random() * 360;
-        const scale = 0.8 + Math.random() * 0.5;
-        el.style.transform = `rotate(${rotation}deg) scale(${scale})`;
-        
-        // Random opacity for blending effect
-        el.style.opacity = (0.4 + Math.random() * 0.4).toFixed(2);
-        
-        el.addEventListener('click', () => {
-            el.remove();
-            remaining--;
-            remainingDisplay.textContent = remaining;
-            if (remaining === 0) nextLevel();
-        });
-        
-        gameContainer.appendChild(el);
-        items.push(el);
-    }
+    const bgImage = new Image();
+    bgImage.crossOrigin = "anonymous"; // to allow pixel color sampling
+    bgImage.src = levels[levelIndex].img;
+    bgImage.onload = () => {
+        hiddenCanvas.width = bgImage.width;
+        hiddenCanvas.height = bgImage.height;
+        hiddenCtx.drawImage(bgImage, 0, 0);
+
+        gameContainer.style.backgroundImage = `url(${bgImage.src})`;
+        gameContainer.querySelectorAll('.hiddenItem').forEach(el => el.remove());
+
+        items = [];
+        const levelCount = levels[levelIndex].count;
+        remaining = levelCount;
+        remainingDisplay.textContent = remaining;
+
+        for (let i = 0; i < levelCount; i++) {
+            const char = lettersNumbers[Math.floor(Math.random() * lettersNumbers.length)];
+            const el = document.createElement('div');
+            el.className = 'hiddenItem';
+            el.textContent = char;
+
+            // Random position
+            const x = Math.floor(Math.random() * (gameContainer.clientWidth - 30));
+            const y = Math.floor(Math.random() * (gameContainer.clientHeight - 30));
+            el.style.top = y + 'px';
+            el.style.left = x + 'px';
+
+            // Get approximate color from background (scaled proportionally)
+            const scaledX = Math.floor(x * (bgImage.width / gameContainer.clientWidth));
+            const scaledY = Math.floor(y * (bgImage.height / gameContainer.clientHeight));
+            const pixel = hiddenCtx.getImageData(scaledX, scaledY, 1, 1).data;
+            const color = `rgb(${pixel[0]}, ${pixel[1]}, ${pixel[2]})`;
+            el.style.color = color;
+
+            // Random rotation and slight scaling
+            const rotation = Math.random() * 360;
+            const scale = 0.8 + Math.random() * 0.5;
+            el.style.transform = `rotate(${rotation}deg) scale(${scale})`;
+
+            el.addEventListener('click', () => {
+                el.remove();
+                remaining--;
+                remainingDisplay.textContent = remaining;
+                if (remaining === 0) nextLevel();
+            });
+
+            gameContainer.appendChild(el);
+            items.push(el);
+        }
+    };
 }
 
 function nextLevel() {
