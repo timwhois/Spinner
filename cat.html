@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Find the Hidden Numbers & Letters</title>
+<title>Hidden Letters & Numbers Game</title>
 <style>
     body {
         margin: 0;
@@ -18,12 +18,13 @@
     }
     #gameContainer {
         position: relative;
-        width: 800px;
-        height: 500px;
+        width: 900px;
+        height: 550px;
         background-size: cover;
         background-position: center;
-        border: 2px solid white;
+        border: 3px solid #fff;
         overflow: hidden;
+        border-radius: 10px;
     }
     #hud {
         position: absolute;
@@ -31,7 +32,8 @@
         left: 10px;
         background: rgba(0,0,0,0.6);
         padding: 8px 12px;
-        border-radius: 5px;
+        border-radius: 6px;
+        font-size: 18px;
     }
     #hintBtn {
         position: absolute;
@@ -41,25 +43,29 @@
         background: #ff9800;
         color: #fff;
         border: none;
-        border-radius: 4px;
-        font-size: 14px;
+        border-radius: 6px;
+        font-size: 16px;
         cursor: pointer;
+        font-weight: bold;
     }
     .hiddenItem {
         position: absolute;
-        font-size: 28px;
+        font-size: 18px;
+        font-weight: bold;
         color: #fff;
         cursor: pointer;
+        opacity: 0.65;
+        transform-origin: center;
         user-select: none;
     }
     .hint {
-        background: rgba(255, 255, 0, 0.5);
+        outline: 3px solid yellow;
         border-radius: 50%;
     }
 </style>
 </head>
 <body>
-<h2>Find All Numbers & Letters!</h2>
+<h2>Find All Hidden Letters & Numbers!</h2>
 <div id="gameContainer">
     <div id="hud">Remaining: <span id="remaining"></span></div>
     <button id="hintBtn">Hint</button>
@@ -74,12 +80,14 @@ let currentLevel = 0;
 let remaining = 0;
 let items = [];
 
-// Define levels
+const lettersNumbers = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'.split('');
+
+// Define levels with background images
 const levels = [
-    { img: 'https://picsum.photos/id/1015/800/500', items: ['A','5','K','3','Z'] },
-    { img: 'https://picsum.photos/id/1025/800/500', items: ['8','B','X','4','Q'] },
-    { img: 'https://picsum.photos/id/1040/800/500', items: ['7','C','Y','2','D'] },
-    { img: 'https://picsum.photos/id/1062/800/500', items: ['E','6','J','1','H'] }
+    { img: 'https://picsum.photos/id/1015/900/550', count: 15 },
+    { img: 'https://picsum.photos/id/1025/900/550', count: 18 },
+    { img: 'https://picsum.photos/id/1040/900/550', count: 20 },
+    { img: 'https://picsum.photos/id/1062/900/550', count: 22 }
 ];
 
 function startLevel(levelIndex) {
@@ -87,16 +95,27 @@ function startLevel(levelIndex) {
     gameContainer.querySelectorAll('.hiddenItem').forEach(el => el.remove());
     
     items = [];
-    const levelItems = levels[levelIndex].items;
-    remaining = levelItems.length;
+    const levelCount = levels[levelIndex].count;
+    remaining = levelCount;
     remainingDisplay.textContent = remaining;
     
-    levelItems.forEach(item => {
+    for (let i = 0; i < levelCount; i++) {
+        const char = lettersNumbers[Math.floor(Math.random() * lettersNumbers.length)];
         const el = document.createElement('div');
         el.className = 'hiddenItem';
-        el.textContent = item;
+        el.textContent = char;
+        
+        // Random position
         el.style.top = Math.random() * (gameContainer.clientHeight - 30) + 'px';
         el.style.left = Math.random() * (gameContainer.clientWidth - 30) + 'px';
+        
+        // Random rotation and slight scaling
+        const rotation = Math.random() * 360;
+        const scale = 0.8 + Math.random() * 0.5;
+        el.style.transform = `rotate(${rotation}deg) scale(${scale})`;
+        
+        // Random opacity for blending effect
+        el.style.opacity = (0.4 + Math.random() * 0.4).toFixed(2);
         
         el.addEventListener('click', () => {
             el.remove();
@@ -107,7 +126,7 @@ function startLevel(levelIndex) {
         
         gameContainer.appendChild(el);
         items.push(el);
-    });
+    }
 }
 
 function nextLevel() {
@@ -116,7 +135,7 @@ function nextLevel() {
         alert('Level Complete! Moving to next level.');
         startLevel(currentLevel);
     } else {
-        alert('🎉 Congratulations! You completed all levels!');
+        alert('🎉 Congratulations! You found everything!');
     }
 }
 
@@ -125,7 +144,7 @@ hintBtn.addEventListener('click', () => {
     if (remainingItems.length > 0) {
         const randomItem = remainingItems[Math.floor(Math.random() * remainingItems.length)];
         randomItem.classList.add('hint');
-        setTimeout(() => randomItem.classList.remove('hint'), 2000);
+        setTimeout(() => randomItem.classList.remove('hint'), 1500);
     }
 });
 
