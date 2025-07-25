@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Third Axis Creative</title>
+<style>
+    /* Reset */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+        font-family: 'Helvetica Neue', sans-serif;
+        color: #fff;
+        background: #111;
+        scroll-behavior: smooth;
+    }
+    header {
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 50px;
+        background: rgba(0,0,0,0.8);
+        z-index: 999;
+    }
+    header h1 {
+        font-size: 1.5rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        font-weight: bold;
+    }
+    nav ul {
+        list-style: none;
+        display: flex;
+        gap: 30px;
+    }
+    nav ul li a {
+        text-decoration: none;
+        color: #fff;
+        font-size: 1rem;
+        font-weight: bold;
+        text-transform: uppercase;
+        position: relative;
+    }
+    nav ul li a::after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: -4px;
+        left: 0;
+        background: #ff3366;
+        transition: width 0.3s ease;
+    }
+    nav ul li a:hover::after {
+        width: 100%;
+    }
+
+    /* Sections */
+    section {
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        text-align: center;
+        padding: 50px;
+    }
+
+    /* Bold graphic titles */
+    .section-title {
+        position: absolute;
+        top: 20px;
+        left: -50px;
+        font-size: 5rem;
+        font-weight: 900;
+        color: rgba(255,255,255,0.05);
+        transform: rotate(-15deg);
+        pointer-events: none;
+    }
+
+    #home { background: linear-gradient(135deg, #000, #222); }
+    #about { background: linear-gradient(135deg, #111, #333); }
+    #work { background: linear-gradient(135deg, #000, #111); }
+    #contact { background: linear-gradient(135deg, #111, #000); }
+
+    section h2 {
+        font-size: 3rem;
+        margin-bottom: 20px;
+        text-transform: uppercase;
+        letter-spacing: 3px;
+    }
+    section p {
+        font-size: 1.2rem;
+        max-width: 700px;
+        margin: 0 auto;
+    }
+
+    /* Smooth scroll effect (optional JS fallback) */
+    html {
+        scroll-behavior: smooth;
+    }
+
+    /* Contact Form */
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        width: 100%;
+        max-width: 400px;
+        margin: 0 auto;
+    }
+    input, textarea {
+        padding: 10px;
+        font-size: 1rem;
+        border: none;
+        outline: none;
+        border-radius: 4px;
+    }
+    input[type="submit"] {
+        background: #ff3366;
+        color: #fff;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background 0.3s;
+    }
+    input[type="submit"]:hover {
+        background: #ff5588;
+    }
+
+    /* Responsive */
+    @media(max-width: 768px){
+        .section-title { font-size: 3rem; left: -20px; }
+        section h2 { font-size: 2rem; }
+    }
+</style>
+</head>
+<body>
+<header>
+    <h1>Third Axis Creative</h1>
+    <nav>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#work">Work</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+</header>
+
+<section id="home">
+    <div class="section-title">HOME</div>
+    <div>
+        <h2>Welcome to Third Axis Creative</h2>
+        <p>We design bold, modern solutions that make your brand stand out. Scroll down to discover more.</p>
+    </div>
+</section>
+
+<section id="about">
+    <div class="section-title">ABOUT</div>
+    <div>
+        <h2>About Us</h2>
+        <p>Third Axis Creative is a design studio focused on creating impactful visual experiences. Our work blends creativity, strategy, and technology to deliver outstanding results.</p>
+    </div>
+</section>
+
+<section id="work">
+    <div class="section-title">WORK</div>
+    <div>
+        <h2>Our Work</h2>
+        <p>A showcase of our latest projects that redefine design aesthetics for modern businesses.</p>
+    </div>
+</section>
+
+<section id="contact">
+    <div class="section-title">CONTACT</div>
+    <div>
+        <h2>Get in Touch</h2>
+        <form>
+            <input type="text" placeholder="Your Name" required>
+            <input type="email" placeholder="Your Email" required>
+            <textarea rows="5" placeholder="Your Message" required></textarea>
+            <input type="submit" value="Send Message">
+        </form>
+    </div>
+</section>
+</body>
+</html>
