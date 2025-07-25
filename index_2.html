@@ -5,29 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Third Axis Creative</title>
 <style>
-    /* Reset */
     * { margin: 0; padding: 0; box-sizing: border-box; }
+    html {
+        scroll-snap-type: y mandatory;
+        scroll-behavior: smooth;
+    }
     body {
         font-family: 'Helvetica Neue', sans-serif;
         color: #fff;
         background: #111;
-        scroll-behavior: smooth;
         overflow-x: hidden;
-        display: flex;
-        flex-direction: column;
-        height: 100vh;
-        scroll-snap-type: y mandatory;
-    }
-    section {
-        scroll-snap-align: start;
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        position: relative;
-        text-align: center;
-        padding: 100px 20px;
     }
 
     /* Header */
@@ -104,7 +91,34 @@
         }
     }
 
-    /* Section Titles */
+    /* Sections */
+    section {
+        height: 100vh;
+        scroll-snap-align: start;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        text-align: center;
+        padding: 100px 20px;
+        overflow: hidden;
+    }
+    section::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%; height: 130%;
+        background-size: cover;
+        background-position: center;
+        transform: translateY(0);
+        z-index: -1;
+    }
+    #home::before { background-image: url('https://picsum.photos/1920/1080?blur=2'); }
+    #about::before { background-image: url('https://picsum.photos/1920/1081?blur=2'); }
+    #work::before { background-image: url('https://picsum.photos/1920/1082?blur=2'); }
+    #contact::before { background-image: url('https://picsum.photos/1920/1083?blur=2'); }
+
     .section-title {
         position: absolute;
         top: 20px;
@@ -123,7 +137,7 @@
         margin-bottom: 30px;
     }
 
-    /* Hero */
+    /* Hero logo */
     .hero-logo {
         max-width: 320px;
         margin-bottom: 20px;
@@ -159,6 +173,7 @@
         position: relative;
         overflow: hidden;
         border-radius: 8px;
+        cursor: pointer;
     }
     .portfolio-item img {
         width: 100%;
@@ -169,12 +184,8 @@
     .portfolio-item:hover img {
         transform: scale(1.1);
     }
-    .portfolio-item.wide {
-        grid-column: span 2;
-    }
-    .portfolio-item.tall {
-        grid-row: span 2;
-    }
+    .portfolio-item.wide { grid-column: span 2; }
+    .portfolio-item.tall { grid-row: span 2; }
     .portfolio-item::after {
         content: attr(data-title);
         position: absolute;
@@ -232,9 +243,7 @@
         </ul>
     </nav>
     <div class="hamburger">
-        <div></div>
-        <div></div>
-        <div></div>
+        <div></div><div></div><div></div>
     </div>
 </header>
 
@@ -309,6 +318,21 @@
     });
     closeBtn.addEventListener('click', () => {
         lightbox.classList.remove('show');
+    });
+
+    // Parallax effect
+    window.addEventListener('scroll', () => {
+        const scrollY = window.scrollY;
+        document.querySelectorAll('section::before'); // pseudo-element can't be selected, so we apply via inline style
+        document.querySelectorAll('section').forEach(section => {
+            const offset = section.offsetTop;
+            const bg = section.querySelector(':before');
+        });
+        // Instead, use a workaround: assign background-position based on scroll
+        document.querySelectorAll('section').forEach(section => {
+            const yPos = (section.offsetTop - scrollY) * 0.3;
+            section.style.backgroundPosition = `center ${yPos}px`;
+        });
     });
 </script>
 </body>
