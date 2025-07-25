@@ -3,122 +3,133 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Pong with Cat & Dog</title>
+<title>Find the Hidden Numbers & Letters</title>
 <style>
     body {
         margin: 0;
+        font-family: Arial, sans-serif;
         background: #222;
-        color: white;
+        color: #fff;
         display: flex;
         justify-content: center;
         align-items: center;
         height: 100vh;
-        font-family: sans-serif;
+        flex-direction: column;
     }
-    canvas {
-        background: #333;
-        display: block;
+    #gameContainer {
+        position: relative;
+        width: 800px;
+        height: 500px;
+        background-size: cover;
+        background-position: center;
         border: 2px solid white;
+        overflow: hidden;
+    }
+    #hud {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        background: rgba(0,0,0,0.6);
+        padding: 8px 12px;
+        border-radius: 5px;
+    }
+    #hintBtn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        padding: 6px 12px;
+        background: #ff9800;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        font-size: 14px;
+        cursor: pointer;
+    }
+    .hiddenItem {
+        position: absolute;
+        font-size: 28px;
+        color: #fff;
+        cursor: pointer;
+        user-select: none;
+    }
+    .hint {
+        background: rgba(255, 255, 0, 0.5);
+        border-radius: 50%;
     }
 </style>
 </head>
 <body>
-<canvas id="gameCanvas" width="800" height="500"></canvas>
+<h2>Find All Numbers & Letters!</h2>
+<div id="gameContainer">
+    <div id="hud">Remaining: <span id="remaining"></span></div>
+    <button id="hintBtn">Hint</button>
+</div>
 
 <script>
-const canvas = document.getElementById("gameCanvas");
-const ctx = canvas.getContext("2d");
+const gameContainer = document.getElementById('gameContainer');
+const remainingDisplay = document.getElementById('remaining');
+const hintBtn = document.getElementById('hintBtn');
 
-// Game settings
-const paddleWidth = 20;
-const paddleHeight = 100;
-const ballSize = 20;
+let currentLevel = 0;
+let remaining = 0;
+let items = [];
 
-let leftPaddle = { x: 20, y: canvas.height / 2 - paddleHeight / 2, speed: 6 };
-let rightPaddle = { x: canvas.width - 40, y: canvas.height / 2 - paddleHeight / 2, speed: 6 };
+// Define levels
+const levels = [
+    { img: 'https://picsum.photos/id/1015/800/500', items: ['A','5','K','3','Z'] },
+    { img: 'https://picsum.photos/id/1025/800/500', items: ['8','B','X','4','Q'] },
+    { img: 'https://picsum.photos/id/1040/800/500', items: ['7','C','Y','2','D'] },
+    { img: 'https://picsum.photos/id/1062/800/500', items: ['E','6','J','1','H'] }
+];
 
-let ball = { x: canvas.width / 2, y: canvas.height / 2, dx: 5, dy: 3 };
+function startLevel(levelIndex) {
+    gameContainer.style.backgroundImage = `url(${levels[levelIndex].img})`;
+    gameContainer.querySelectorAll('.hiddenItem').forEach(el => el.remove());
+    
+    items = [];
+    const levelItems = levels[levelIndex].items;
+    remaining = levelItems.length;
+    remainingDisplay.textContent = remaining;
+    
+    levelItems.forEach(item => {
+        const el = document.createElement('div');
+        el.className = 'hiddenItem';
+        el.textContent = item;
+        el.style.top = Math.random() * (gameContainer.clientHeight - 30) + 'px';
+        el.style.left = Math.random() * (gameContainer.clientWidth - 30) + 'px';
+        
+        el.addEventListener('click', () => {
+            el.remove();
+            remaining--;
+            remainingDisplay.textContent = remaining;
+            if (remaining === 0) nextLevel();
+        });
+        
+        gameContainer.appendChild(el);
+        items.push(el);
+    });
+}
 
-let leftEmoji = "🐱";
-let rightEmoji = "🐶";
-let ballEmoji = "🏀";
+function nextLevel() {
+    currentLevel++;
+    if (currentLevel < levels.length) {
+        alert('Level Complete! Moving to next level.');
+        startLevel(currentLevel);
+    } else {
+        alert('🎉 Congratulations! You completed all levels!');
+    }
+}
 
-// Movement keys
-let keys = { w: false, s: false, ArrowUp: false, ArrowDown: false };
-
-// Listen for keys
-document.addEventListener("keydown", (e) => {
-    if (e.key in keys) keys[e.key] = true;
+hintBtn.addEventListener('click', () => {
+    const remainingItems = items.filter(el => document.body.contains(el));
+    if (remainingItems.length > 0) {
+        const randomItem = remainingItems[Math.floor(Math.random() * remainingItems.length)];
+        randomItem.classList.add('hint');
+        setTimeout(() => randomItem.classList.remove('hint'), 2000);
+    }
 });
-document.addEventListener("keyup", (e) => {
-    if (e.key in keys) keys[e.key] = false;
-});
 
-function drawEmoji(text, x, y) {
-    ctx.font = "40px Arial";
-    ctx.fillText(text, x, y);
-}
-
-function update() {
-    // Move left paddle
-    if (keys.w && leftPaddle.y > 0) leftPaddle.y -= leftPaddle.speed;
-    if (keys.s && leftPaddle.y + paddleHeight < canvas.height) leftPaddle.y += leftPaddle.speed;
-
-    // Move right paddle
-    if (keys.ArrowUp && rightPaddle.y > 0) rightPaddle.y -= rightPaddle.speed;
-    if (keys.ArrowDown && rightPaddle.y + paddleHeight < canvas.height) rightPaddle.y += rightPaddle.speed;
-
-    // Move ball
-    ball.x += ball.dx;
-    ball.y += ball.dy;
-
-    // Bounce on top/bottom
-    if (ball.y <= 0 || ball.y + ballSize >= canvas.height) {
-        ball.dy *= -1;
-    }
-
-    // Check left paddle collision
-    if (ball.x <= leftPaddle.x + paddleWidth &&
-        ball.y + ballSize >= leftPaddle.y &&
-        ball.y <= leftPaddle.y + paddleHeight) {
-        ball.dx *= -1;
-        ball.x = leftPaddle.x + paddleWidth; // Avoid sticking
-    }
-
-    // Check right paddle collision
-    if (ball.x + ballSize >= rightPaddle.x &&
-        ball.y + ballSize >= rightPaddle.y &&
-        ball.y <= rightPaddle.y + paddleHeight) {
-        ball.dx *= -1;
-        ball.x = rightPaddle.x - ballSize; // Avoid sticking
-    }
-
-    // Reset if ball goes off screen
-    if (ball.x < 0 || ball.x > canvas.width) {
-        ball.x = canvas.width / 2;
-        ball.y = canvas.height / 2;
-        ball.dx *= -1;
-    }
-}
-
-function draw() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    // Draw paddles (as emojis)
-    drawEmoji(leftEmoji, leftPaddle.x, leftPaddle.y + 40);
-    drawEmoji(rightEmoji, rightPaddle.x, rightPaddle.y + 40);
-
-    // Draw ball (as emoji)
-    drawEmoji(ballEmoji, ball.x, ball.y + 25);
-}
-
-function gameLoop() {
-    update();
-    draw();
-    requestAnimationFrame(gameLoop);
-}
-
-gameLoop();
+startLevel(currentLevel);
 </script>
 </body>
 </html>
