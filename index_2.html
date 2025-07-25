@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Third Axis Creative</title>
 <style>
+    /* Reset & Global */
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html {
         scroll-snap-type: y mandatory;
@@ -32,7 +33,6 @@
     header img {
         height: 80px;
     }
-
     nav ul {
         list-style: none;
         display: flex;
@@ -60,7 +60,7 @@
         width: 100%;
     }
 
-    /* Hamburger for mobile */
+    /* Hamburger */
     .hamburger {
         display: none;
         flex-direction: column;
@@ -91,62 +91,52 @@
         }
     }
 
-    /* Sections */
+    /* Sections Layout (Grid of Thirds) */
     section {
         height: 100vh;
         scroll-snap-align: start;
-        display: flex;
-        flex-direction: column;
+        display: grid;
+        grid-template-columns: 1fr 2fr;
         align-items: center;
-        justify-content: center;
-        position: relative;
-        text-align: center;
-        padding: 100px 20px;
-        overflow: hidden;
+        padding: 100px;
     }
-    section::before {
-        content: '';
-        position: absolute;
-        top: 0; left: 0;
-        width: 100%; height: 130%;
-        background-size: cover;
-        background-position: center;
-        transform: translateY(0);
-        z-index: -1;
-    }
-    #home::before { background-image: url('https://picsum.photos/1920/1080?blur=2'); }
-    #about::before { background-image: url('https://picsum.photos/1920/1081?blur=2'); }
-    #work::before { background-image: url('https://picsum.photos/1920/1082?blur=2'); }
-    #contact::before { background-image: url('https://picsum.photos/1920/1083?blur=2'); }
-
-    .section-title {
-        position: absolute;
-        top: 20px;
-        left: 20px;
-        font-size: 4rem;
-        font-weight: 900;
-        color: rgba(255,255,255,0.05);
-        pointer-events: none;
+    @media(max-width: 900px){
+        section {
+            grid-template-columns: 1fr;
+            text-align: center;
+        }
     }
     section h2 {
-        font-size: 3rem;
-        margin: 20px 0;
+        font-size: 4rem;
+        font-weight: 900;
+        text-transform: uppercase;
+        line-height: 1;
+        color: #fff;
+    }
+    section .content {
+        max-width: 600px;
     }
     section p {
-        max-width: 700px;
-        margin-bottom: 30px;
+        font-size: 1.2rem;
+        margin-top: 20px;
+        line-height: 1.6;
     }
 
-    /* Hero logo */
+    /* Color Blocks for Sections */
+    #home { background: #1a1a1a; }
+    #about { background: #222; }
+    #work { background: #1a1a1a; }
+    #contact { background: #222; }
+
+    /* Hero Logo */
     .hero-logo {
-        max-width: 320px;
+        max-width: 280px;
         margin-bottom: 20px;
     }
 
-    /* Logo carousel */
+    /* Logo Carousel */
     .logo-carousel {
         display: flex;
-        justify-content: center;
         gap: 20px;
         margin-top: 30px;
     }
@@ -160,14 +150,13 @@
         opacity: 1;
     }
 
-    /* Work: Jigsaw Grid */
+    /* Work Portfolio */
     .portfolio {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
         grid-auto-rows: 200px;
         gap: 10px;
-        width: 90%;
-        max-width: 1200px;
+        margin-top: 30px;
     }
     .portfolio-item {
         position: relative;
@@ -242,52 +231,54 @@
             <li><a href="#contact">Contact</a></li>
         </ul>
     </nav>
-    <div class="hamburger">
-        <div></div><div></div><div></div>
-    </div>
+    <div class="hamburger"><div></div><div></div><div></div></div>
 </header>
 
 <section id="home">
-    <div class="section-title">HOME</div>
-    <img src="logo/TA_2.png" alt="Hero Logo" class="hero-logo">
-    <h2>Welcome to Third Axis Creative</h2>
-    <p>Bold design. Modern aesthetics. Visual identity that stands out.</p>
+    <h2>Home</h2>
+    <div class="content">
+        <img src="logo/TA_2.png" alt="Hero Logo" class="hero-logo">
+        <p>Bold design. Modern aesthetics. Visual identity that stands out.</p>
+    </div>
 </section>
 
 <section id="about">
-    <div class="section-title">ABOUT</div>
-    <h2>About Us</h2>
-    <p>Third Axis Creative is a design studio focused on impactful visual experiences.</p>
-    <div class="logo-carousel">
-        <img src="logo/TA_1.png" alt="Logo 1">
-        <img src="logo/TA_2.png" alt="Logo 2">
-        <img src="logo/TA_3.png" alt="Logo 3">
-        <img src="logo/TA_4.png" alt="Logo 4">
+    <h2>About</h2>
+    <div class="content">
+        <p>Third Axis Creative is a design studio focused on impactful visual experiences.</p>
+        <div class="logo-carousel">
+            <img src="logo/TA_1.png" alt="Logo 1">
+            <img src="logo/TA_2.png" alt="Logo 2">
+            <img src="logo/TA_3.png" alt="Logo 3">
+            <img src="logo/TA_4.png" alt="Logo 4">
+        </div>
     </div>
 </section>
 
 <section id="work">
-    <div class="section-title">WORK</div>
-    <h2>Our Work</h2>
-    <p>Explore our creative projects that redefine design aesthetics.</p>
-    <div class="portfolio">
-        <div class="portfolio-item wide" data-title="Brand Identity"><img src="https://picsum.photos/500/300?random=1" alt=""></div>
-        <div class="portfolio-item tall" data-title="Website"><img src="https://picsum.photos/300/500?random=2" alt=""></div>
-        <div class="portfolio-item" data-title="Packaging"><img src="https://picsum.photos/300/300?random=3" alt=""></div>
-        <div class="portfolio-item wide" data-title="Social Media"><img src="https://picsum.photos/500/300?random=4" alt=""></div>
-        <div class="portfolio-item" data-title="Advertising"><img src="https://picsum.photos/300/300?random=5" alt=""></div>
+    <h2>Work</h2>
+    <div class="content">
+        <p>Explore our creative projects that redefine design aesthetics.</p>
+        <div class="portfolio">
+            <div class="portfolio-item wide" data-title="Brand Identity"><img src="https://picsum.photos/500/300?random=1" alt=""></div>
+            <div class="portfolio-item tall" data-title="Website"><img src="https://picsum.photos/300/500?random=2" alt=""></div>
+            <div class="portfolio-item" data-title="Packaging"><img src="https://picsum.photos/300/300?random=3" alt=""></div>
+            <div class="portfolio-item wide" data-title="Social Media"><img src="https://picsum.photos/500/300?random=4" alt=""></div>
+            <div class="portfolio-item" data-title="Advertising"><img src="https://picsum.photos/300/300?random=5" alt=""></div>
+        </div>
     </div>
 </section>
 
 <section id="contact">
-    <div class="section-title">CONTACT</div>
-    <h2>Get in Touch</h2>
-    <form>
-        <input type="text" placeholder="Your Name" required>
-        <input type="email" placeholder="Your Email" required>
-        <textarea rows="5" placeholder="Your Message" required></textarea>
-        <input type="submit" value="Send Message">
-    </form>
+    <h2>Contact</h2>
+    <div class="content">
+        <form>
+            <input type="text" placeholder="Your Name" required>
+            <input type="email" placeholder="Your Email" required>
+            <textarea rows="5" placeholder="Your Message" required></textarea>
+            <input type="submit" value="Send Message">
+        </form>
+    </div>
 </section>
 
 <!-- Lightbox -->
@@ -318,21 +309,6 @@
     });
     closeBtn.addEventListener('click', () => {
         lightbox.classList.remove('show');
-    });
-
-    // Parallax effect
-    window.addEventListener('scroll', () => {
-        const scrollY = window.scrollY;
-        document.querySelectorAll('section::before'); // pseudo-element can't be selected, so we apply via inline style
-        document.querySelectorAll('section').forEach(section => {
-            const offset = section.offsetTop;
-            const bg = section.querySelector(':before');
-        });
-        // Instead, use a workaround: assign background-position based on scroll
-        document.querySelectorAll('section').forEach(section => {
-            const yPos = (section.offsetTop - scrollY) * 0.3;
-            section.style.backgroundPosition = `center ${yPos}px`;
-        });
     });
 </script>
 </body>
