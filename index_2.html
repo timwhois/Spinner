@@ -11,8 +11,9 @@
         font-family: 'Helvetica Neue', sans-serif;
         color: #fff;
         background: #111;
-        scroll-behavior: smooth;
+        overflow-x: hidden;
     }
+
     header {
         position: fixed;
         top: 0; left: 0;
@@ -21,7 +22,7 @@
         justify-content: space-between;
         align-items: center;
         padding: 20px 50px;
-        background: rgba(0,0,0,0.8);
+        background: rgba(0,0,0,0.85);
         z-index: 999;
     }
     header h1 {
@@ -57,7 +58,7 @@
         width: 100%;
     }
 
-    /* Sections */
+    /* Parallax Sections */
     section {
         height: 100vh;
         display: flex;
@@ -66,40 +67,85 @@
         position: relative;
         text-align: center;
         padding: 50px;
+        overflow: hidden;
+    }
+    section::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%; height: 130%;
+        background-size: cover;
+        background-position: center;
+        transform: translateY(0);
+        z-index: -1;
+        transition: transform 0.3s ease;
     }
 
-    /* Bold graphic titles */
+    #home::before { background-image: url('https://picsum.photos/1920/1080?blur=3'); }
+    #about::before { background-image: url('https://picsum.photos/1920/1081?blur=3'); }
+    #work::before { background-image: url('https://picsum.photos/1920/1082?blur=3'); }
+    #contact::before { background-image: url('https://picsum.photos/1920/1083?blur=3'); }
+
     .section-title {
         position: absolute;
-        top: 20px;
-        left: -50px;
-        font-size: 5rem;
+        top: 30px;
+        left: -40px;
+        font-size: 6rem;
         font-weight: 900;
         color: rgba(255,255,255,0.05);
         transform: rotate(-15deg);
         pointer-events: none;
+        user-select: none;
     }
-
-    #home { background: linear-gradient(135deg, #000, #222); }
-    #about { background: linear-gradient(135deg, #111, #333); }
-    #work { background: linear-gradient(135deg, #000, #111); }
-    #contact { background: linear-gradient(135deg, #111, #000); }
 
     section h2 {
         font-size: 3rem;
         margin-bottom: 20px;
         text-transform: uppercase;
         letter-spacing: 3px;
+        animation: fadeInUp 1s ease forwards;
     }
     section p {
         font-size: 1.2rem;
         max-width: 700px;
         margin: 0 auto;
+        animation: fadeIn 1.5s ease forwards;
     }
 
-    /* Smooth scroll effect (optional JS fallback) */
-    html {
-        scroll-behavior: smooth;
+    /* Portfolio Grid */
+    .portfolio {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        width: 90%;
+        max-width: 1200px;
+        margin: 40px auto 0;
+    }
+    .portfolio-item {
+        position: relative;
+        overflow: hidden;
+        border-radius: 20px;
+        transform: rotate(calc(var(--rotate, 0) * 1deg));
+    }
+    .portfolio-item img {
+        width: 100%;
+        display: block;
+        transition: transform 0.6s ease;
+    }
+    .portfolio-item:hover img {
+        transform: scale(1.1);
+    }
+    .portfolio-item::after {
+        content: attr(data-title);
+        position: absolute;
+        bottom: 10px;
+        left: 10px;
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #fff;
+        background: rgba(0,0,0,0.6);
+        padding: 5px 10px;
+        border-radius: 5px;
     }
 
     /* Contact Form */
@@ -127,6 +173,16 @@
     }
     input[type="submit"]:hover {
         background: #ff5588;
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+        0% { opacity: 0; transform: translateY(30px); }
+        100% { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+        0% { opacity: 0; }
+        100% { opacity: 1; }
     }
 
     /* Responsive */
@@ -170,6 +226,20 @@
     <div>
         <h2>Our Work</h2>
         <p>A showcase of our latest projects that redefine design aesthetics for modern businesses.</p>
+        <div class="portfolio">
+            <div class="portfolio-item" style="--rotate:-2;" data-title="Brand Identity">
+                <img src="https://picsum.photos/400/300?random=1" alt="Portfolio 1">
+            </div>
+            <div class="portfolio-item" style="--rotate:1;" data-title="Web Design">
+                <img src="https://picsum.photos/400/300?random=2" alt="Portfolio 2">
+            </div>
+            <div class="portfolio-item" style="--rotate:-1;" data-title="Packaging">
+                <img src="https://picsum.photos/400/300?random=3" alt="Portfolio 3">
+            </div>
+            <div class="portfolio-item" style="--rotate:2;" data-title="Social Media">
+                <img src="https://picsum.photos/400/300?random=4" alt="Portfolio 4">
+            </div>
+        </div>
     </div>
 </section>
 
@@ -185,5 +255,17 @@
         </form>
     </div>
 </section>
+
+<script>
+    // Parallax effect
+    window.addEventListener('scroll', () => {
+        document.querySelectorAll('section').forEach(section => {
+            const speed = 0.4;
+            const yOffset = window.scrollY - section.offsetTop;
+            section.style.setProperty('--y', `${yOffset * speed}px`);
+            section.querySelector('::before');
+        });
+    });
+</script>
 </body>
 </html>
