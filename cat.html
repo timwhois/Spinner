@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Contour-Aligned Hidden Letters</title>
+<title>Ultimate Hidden Letters Game</title>
 <style>
     body {
         margin: 0;
@@ -51,11 +51,11 @@
         position: absolute;
         font-size: 22px;
         font-weight: bold;
-        cursor: pointer;
-        transform-origin: center;
-        user-select: none;
         color: white;
         text-shadow: 1px 1px 4px rgba(0,0,0,0.7);
+        user-select: none;
+        transform-origin: center;
+        cursor: pointer;
     }
     .hint {
         outline: 3px solid yellow;
@@ -64,7 +64,7 @@
 </style>
 </head>
 <body>
-<h2>Find All the Contour-Aligned Letters!</h2>
+<h2>Find All the Curved Letters!</h2>
 <div id="gameContainer">
     <div id="hud">Remaining: <span id="remaining"></span></div>
     <button id="hintBtn">Hint</button>
@@ -82,10 +82,10 @@ let items = [];
 const lettersNumbers = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'.split('');
 
 const levels = [
-    { img: 'https://picsum.photos/id/1015/900/550', count: 15 },
-    { img: 'https://picsum.photos/id/1025/900/550', count: 18 },
-    { img: 'https://picsum.photos/id/1040/900/550', count: 20 },
-    { img: 'https://picsum.photos/id/1062/900/550', count: 22 }
+    { img: 'https://picsum.photos/id/1015/900/550', count: 20 },
+    { img: 'https://picsum.photos/id/1025/900/550', count: 22 },
+    { img: 'https://picsum.photos/id/1040/900/550', count: 24 },
+    { img: 'https://picsum.photos/id/1062/900/550', count: 26 }
 ];
 
 function initGame() {
@@ -113,19 +113,16 @@ async function startLevel(levelIndex) {
         const hierarchy = new cv.Mat();
         cv.findContours(edges, contours, hierarchy, cv.RETR_LIST, cv.CHAIN_APPROX_SIMPLE);
 
-        const segments = [];
+        // Sort contours by length (keep biggest)
+        const contourData = [];
         for (let i = 0; i < contours.size(); i++) {
-            const contour = contours.get(i);
-            if (contour.rows > 5) {
-                for (let j = 0; j < contour.rows - 1; j += 10) {
-                    const pt1 = contour.intPtr(j);
-                    const pt2 = contour.intPtr(j + 1);
-                    segments.push({ x1: pt1[0], y1: pt1[1], x2: pt2[0], y2: pt2[1] });
-                }
-            }
+            const c = contours.get(i);
+            if (c.rows > 20) contourData.push(c);
         }
+        contourData.sort((a, b) => b.rows - a.rows);
 
-        mat.delete(); gray.delete(); edges.delete(); contours.delete(); hierarchy.delete();
+        const chosenContours = contourData.slice(0, 30); // choose top 30 curves
+        mat.delete(); gray.delete(); edges.delete(); hierarchy.delete();
 
         const levelCount = levels[levelIndex].count;
         remaining = levelCount;
@@ -137,20 +134,26 @@ async function startLevel(levelIndex) {
             el.className = 'hiddenItem';
             el.textContent = char;
 
-            const seg = segments[Math.floor(Math.random() * segments.length)];
-            const midX = (seg.x1 + seg.x2) / 2;
-            const midY = (seg.y1 + seg.y2) / 2;
+            // Pick a random contour and a random segment from it
+            const contour = chosenContours[Math.floor(Math.random() * chosenContours.length)];
+            const idx = Math.floor(Math.random() * (contour.rows - 2));
+            const pt1 = contour.intPtr(idx);
+            const pt2 = contour.intPtr(idx + 1);
+
+            const midX = (pt1[0] + pt2[0]) / 2;
+            const midY = (pt1[1] + pt2[1]) / 2;
 
             const scaleX = gameContainer.clientWidth / bgImage.width;
             const scaleY = gameContainer.clientHeight / bgImage.height;
-            const x = Math.floor(midX * scaleX);
-            const y = Math.floor(midY * scaleY);
+            const x = midX * scaleX;
+            const y = midY * scaleY;
 
             el.style.left = x + 'px';
             el.style.top = y + 'px';
 
-            const dx = seg.x2 - seg.x1;
-            const dy = seg.y2 - seg.y1;
+            // Compute angle between points
+            const dx = pt2[0] - pt1[0];
+            const dy = pt2[1] - pt1[1];
             const angle = Math.atan2(dy, dx) * (180 / Math.PI);
 
             el.style.transform = `rotate(${angle}deg)`;
