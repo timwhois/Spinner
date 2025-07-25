@@ -13,6 +13,7 @@ body {
     color: #fff;
     background: #111;
     overflow-x: hidden;
+    position: relative;
 }
 
 /* Header */
@@ -49,21 +50,38 @@ section {
     scroll-snap-align: start;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
     text-align: center;
     padding: 120px 30px 50px;
     position: relative;
+    overflow: hidden;
 }
 section h2 {
     font-size: 3.5rem;
     font-weight: 900;
     text-transform: uppercase;
     margin-bottom: 40px;
+    z-index: 2;
 }
 section .content {
     max-width: 900px;
     width: 100%;
+    position: relative;
+    z-index: 2;
+}
+
+/* Parallax Decorative Background */
+.parallax-bg {
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,51,102,0.1) 0%, transparent 70%);
+    z-index: 1;
+    transform: translateY(0);
+    pointer-events: none;
 }
 
 /* Hero */
@@ -145,6 +163,7 @@ section .content {
 </header>
 
 <section id="home">
+    <div class="parallax-bg"></div>
     <h2>HOME</h2>
     <div class="content">
         <img src="logo/TA_2.png" alt="Hero Logo" class="hero-logo">
@@ -153,6 +172,7 @@ section .content {
 </section>
 
 <section id="about">
+    <div class="parallax-bg"></div>
     <h2>ABOUT</h2>
     <div class="content">
         <p>Third Axis Creative is a design studio focused on impactful visual experiences.</p>
@@ -166,6 +186,7 @@ section .content {
 </section>
 
 <section id="work">
+    <div class="parallax-bg"></div>
     <h2>WORK</h2>
     <div class="content">
         <p>Explore our creative projects that redefine design aesthetics.</p>
@@ -180,6 +201,7 @@ section .content {
 </section>
 
 <section id="contact">
+    <div class="parallax-bg"></div>
     <h2>CONTACT</h2>
     <div class="content">
         <div class="contact-form">
@@ -226,6 +248,15 @@ portfolioItems.forEach(item => {
 });
 closeBtn.addEventListener('click', () => {
     lightbox.classList.remove('show');
+});
+
+// Parallax Effect
+window.addEventListener('scroll', () => {
+    const scrollY = window.scrollY;
+    document.querySelectorAll('.parallax-bg').forEach((bg, index) => {
+        const speed = 0.2 + (index * 0.05);
+        bg.style.transform = `translateY(${scrollY * speed}px)`;
+    });
 });
 </script>
 </body>
