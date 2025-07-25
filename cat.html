@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Shape-Fitting Hidden Letters Game</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contour-Aligned Hidden Letters</title>
 <style>
     body {
         margin: 0;
@@ -49,13 +49,13 @@
     }
     .hiddenItem {
         position: absolute;
-        font-size: 18px;
+        font-size: 22px;
         font-weight: bold;
         cursor: pointer;
         transform-origin: center;
         user-select: none;
-        text-shadow: 1px 1px 2px rgba(0,0,0,0.4);
-        opacity: 0.85;
+        color: white;
+        text-shadow: 1px 1px 4px rgba(0,0,0,0.7);
     }
     .hint {
         outline: 3px solid yellow;
@@ -64,7 +64,7 @@
 </style>
 </head>
 <body>
-<h2>Find Letters Along the Shapes!</h2>
+<h2>Find All the Contour-Aligned Letters!</h2>
 <div id="gameContainer">
     <div id="hud">Remaining: <span id="remaining"></span></div>
     <button id="hintBtn">Hint</button>
@@ -113,13 +113,14 @@ async function startLevel(levelIndex) {
         const hierarchy = new cv.Mat();
         cv.findContours(edges, contours, hierarchy, cv.RETR_LIST, cv.CHAIN_APPROX_SIMPLE);
 
-        const pointsList = [];
+        const segments = [];
         for (let i = 0; i < contours.size(); i++) {
             const contour = contours.get(i);
-            if (contour.rows > 20) {
-                for (let j = 0; j < contour.rows; j += 10) {
-                    const pt = contour.intPtr(j);
-                    pointsList.push({ x: pt[0], y: pt[1] });
+            if (contour.rows > 5) {
+                for (let j = 0; j < contour.rows - 1; j += 10) {
+                    const pt1 = contour.intPtr(j);
+                    const pt2 = contour.intPtr(j + 1);
+                    segments.push({ x1: pt1[0], y1: pt1[1], x2: pt2[0], y2: pt2[1] });
                 }
             }
         }
@@ -136,23 +137,23 @@ async function startLevel(levelIndex) {
             el.className = 'hiddenItem';
             el.textContent = char;
 
-            const pt = pointsList[Math.floor(Math.random() * pointsList.length)];
+            const seg = segments[Math.floor(Math.random() * segments.length)];
+            const midX = (seg.x1 + seg.x2) / 2;
+            const midY = (seg.y1 + seg.y2) / 2;
+
             const scaleX = gameContainer.clientWidth / bgImage.width;
             const scaleY = gameContainer.clientHeight / bgImage.height;
-            const x = Math.floor(pt.x * scaleX);
-            const y = Math.floor(pt.y * scaleY);
+            const x = Math.floor(midX * scaleX);
+            const y = Math.floor(midY * scaleY);
 
             el.style.left = x + 'px';
             el.style.top = y + 'px';
 
-            // Random skew for warp illusion
-            const skewX = (Math.random() * 40 - 20);
-            const skewY = (Math.random() * 40 - 20);
-            const rotation = Math.random() * 360;
-            el.style.transform = `rotate(${rotation}deg) skew(${skewX}deg, ${skewY}deg)`;
+            const dx = seg.x2 - seg.x1;
+            const dy = seg.y2 - seg.y1;
+            const angle = Math.atan2(dy, dx) * (180 / Math.PI);
 
-            // Color match (approx by sampling background)
-            el.style.color = `rgba(${Math.floor(Math.random()*255)}, ${Math.floor(Math.random()*255)}, ${Math.floor(Math.random()*255)}, 0.85)`;
+            el.style.transform = `rotate(${angle}deg)`;
 
             el.addEventListener('click', () => {
                 el.remove();
