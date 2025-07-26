@@ -143,13 +143,20 @@ section .content {
     overflow: hidden;
     border-radius: 8px;
     cursor: pointer;
-    aspect-ratio: 1 / 1; /* Square layout on desktop */
+    aspect-ratio: 1 / 1; /* Desktop grid */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #000; /* Ensures background for empty space */
 }
 
 .portfolio-item img {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
+    height: auto;
+    max-height: 80vh; /* Prevent overflow on mobile */
+    object-fit: contain; /* Fit inside the frame */
+    display: block;
+    margin: 0 auto;
     transition: transform 0.4s ease;
 }
 
@@ -174,7 +181,7 @@ section .content {
         grid-template-columns: 1fr; /* One column */
     }
     .portfolio-item {
-        aspect-ratio: auto; /* Natural height on mobile */
+        aspect-ratio: auto; /* Let natural height */
     }
 }
 
