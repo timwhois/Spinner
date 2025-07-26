@@ -7,7 +7,11 @@
 <style>
 /* Reset & Global */
 * { margin: 0; padding: 0; box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+html, body {
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+    height: 100%;
+}
 body {
     font-family: 'Helvetica Neue', sans-serif;
     color: #fff;
@@ -44,11 +48,12 @@ nav ul li a:hover::after { width: 100%; }
     .hamburger { display: flex; }
 }
 
-/* Sections - Overlap Effect */
+/* Sections with Overlap + Snap */
 section {
     position: sticky;
     top: 0;
     height: 100vh;
+    scroll-snap-align: start;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -56,18 +61,14 @@ section {
     text-align: center;
     padding: 120px 30px 50px;
     z-index: 1;
+    background: inherit;
 }
 section:nth-child(odd) { background: #1a1a1a; }
 section:nth-child(even) { background: #222; }
-section .content { max-width: 1000px; width: 100%; display: flex; flex-direction: column; gap: 20px; }
 
-/* Sticky stacking effect */
-section::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: inherit;
-    z-index: -1;
+/* Smooth spring effect */
+html {
+    scroll-padding-top: 80px; /* for header */
 }
 
 /* Scroll animations */
@@ -82,15 +83,20 @@ section::before {
 }
 
 /* Hero */
+#home {
+    justify-content: center;
+    align-items: center;
+}
 .hero-logo { max-width: 280px; margin-bottom: 20px; }
 
 /* About */
 #about .content {
     display: flex;
-    gap: 40px;
-    align-items: center;
+    flex-direction: row;
     justify-content: center;
-    flex-wrap: wrap;
+    align-items: center;
+    gap: 40px;
+    text-align: left;
 }
 #about img.placeholder {
     max-width: 400px;
@@ -98,6 +104,12 @@ section::before {
     object-fit: cover;
     background: #333;
     padding: 10px;
+}
+@media (max-width: 768px) {
+    #about .content {
+        flex-direction: column;
+        text-align: center;
+    }
 }
 
 /* Logo Strip */
