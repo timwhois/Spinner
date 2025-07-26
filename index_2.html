@@ -105,10 +105,15 @@ section:nth-child(even) { background: #222; }
     width: 100%;
     max-width: 1000px;
     grid-auto-flow: dense;
-    max-height: 60vh; /* Prevent overflow */
-    overflow: hidden;
 }
-.portfolio-item { position: relative; overflow: hidden; border-radius: 8px; cursor: pointer; opacity: 0; }
+.portfolio-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+    cursor: pointer;
+    opacity: 0;
+    transform: translateY(30px);
+}
 .portfolio-item img {
     width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease;
 }
@@ -184,18 +189,18 @@ footer img:hover { opacity: 1; }
 
 <section id="home">
     <div class="content">
-        <img src="logo/TA_2.png" alt="Hero Logo" class="hero-logo">
-        <p>Bold design. Modern aesthetics. Visual identity that stands out.</p>
+        <img src="logo/TA_2.png" alt="Hero Logo" class="hero-logo parallax">
+        <p class="parallax">Bold design. Modern aesthetics. Visual identity that stands out.</p>
     </div>
 </section>
 
 <section id="about">
     <div class="content">
         <div>
-            <img src="logo/TA_4.png" alt="Third Axis Logo" style="max-width: 250px;">
-            <p>Third Axis Creative is a design studio focused on impactful visual experiences. We bring bold ideas to life with modern aesthetics and strategic thinking.</p>
+            <img src="logo/TA_4.png" alt="Third Axis Logo" style="max-width: 250px;" class="parallax">
+            <p class="parallax">Third Axis Creative is a design studio focused on impactful visual experiences. We bring bold ideas to life with modern aesthetics and strategic thinking.</p>
         </div>
-        <img src="https://picsum.photos/500/500?grayscale" alt="About Placeholder" class="placeholder">
+        <img src="https://picsum.photos/500/500?grayscale" alt="About Placeholder" class="placeholder parallax">
     </div>
 </section>
 
@@ -204,11 +209,11 @@ footer img:hover { opacity: 1; }
         <h2>WORK</h2>
         <p>Explore our creative projects that redefine design aesthetics.</p>
         <div class="portfolio">
-            <div class="portfolio-item wide" data-title="Brand Identity"><img src="Images/KS_Rend1.png" alt=""></div>
-            <div class="portfolio-item tall" data-title="Assets"><img src="Images/Bolt0019.png" alt=""></div>
-            <div class="portfolio-item" data-title="Textures & Materials"><img src="Images/grass.png" alt=""></div>
-            <div class="portfolio-item wide" data-title="Product"><img src="Images/Perfume Bubbles_V1.png" alt=""></div>
-            <div class="portfolio-item" data-title="Spaces"><img src="Images/Forest.png" alt=""></div>
+            <div class="portfolio-item wide parallax" data-title="Brand Identity"><img src="Images/KS_Rend1.png" alt=""></div>
+            <div class="portfolio-item tall parallax" data-title="Assets"><img src="Images/Bolt0019.png" alt=""></div>
+            <div class="portfolio-item parallax" data-title="Textures & Materials"><img src="Images/grass.png" alt=""></div>
+            <div class="portfolio-item wide parallax" data-title="Product"><img src="Images/Perfume Bubbles_V1.png" alt=""></div>
+            <div class="portfolio-item parallax" data-title="Spaces"><img src="Images/Forest.png" alt=""></div>
         </div>
     </div>
 </section>
@@ -307,6 +312,20 @@ gsap.utils.toArray("section").forEach(section => {
         pin: true,
         pinSpacing: false,
         scrub: 1
+    });
+});
+
+// Parallax effect
+gsap.utils.toArray(".parallax").forEach(element => {
+    gsap.to(element, {
+        yPercent: 15,
+        ease: "none",
+        scrollTrigger: {
+            trigger: element,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: true
+        }
     });
 });
 </script>
