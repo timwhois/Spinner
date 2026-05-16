@@ -1,1986 +1,597 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Third Axis Creative — end-to-end commercial content production. Stock flow, set build, photography, 3D visualisation and AI-assisted imagery. Based in Peterborough, UK.">
-<meta name="keywords" content="commercial photography, 3D visualisation, AI imagery, content production, set build, stock photography, Peterborough, UK">
-<meta name="robots" content="index, follow">
-<meta name="author" content="Third Axis Creative">
-<link rel="canonical" href="https://www.thirdaxis.co.uk/">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Third Axis Creative — the parent studio behind Shootless Studio. AI fashion imagery, production systems, workflow design and creative automation for ecommerce teams." />
+<meta name="keywords" content="Shootless Studio, Third Axis Creative, AI fashion imagery, ghost mannequin to model, ecommerce photography, fashion production, AI content workflow, Peterborough UK" />
+<meta name="robots" content="index, follow" />
+<meta name="author" content="Third Axis Creative" />
+<link rel="canonical" href="https://www.thirdaxis.co.uk/" />
 
-<!-- Open Graph -->
-<meta property="og:title" content="Third Axis Creative — Commercial Content Production">
-<meta property="og:description" content="Production built as a system — physical, digital, and AI working as one pipeline. Not a series of disconnected jobs.">
-<meta property="og:image" content="https://www.thirdaxis.co.uk/Images/og-image.jpg">
-<meta property="og:url" content="https://www.thirdaxis.co.uk">
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="Third Axis Creative">
+<meta property="og:title" content="Third Axis Creative — Built Around Shootless Studio" />
+<meta property="og:description" content="The parent company behind Shootless Studio — controlled AI fashion workflows, production systems and creative automation for modern ecommerce teams." />
+<meta property="og:image" content="https://www.thirdaxis.co.uk/Images/og-image.jpg" />
+<meta property="og:url" content="https://www.thirdaxis.co.uk" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Third Axis Creative" />
 
-<!-- Twitter Card -->
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Third Axis Creative — Commercial Content Production">
-<meta name="twitter:description" content="Production built as a system — physical, digital, and AI working as one pipeline.">
-<meta name="twitter:image" content="https://www.thirdaxis.co.uk/Images/og-image.jpg">
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Third Axis Creative — Built Around Shootless Studio" />
+<meta name="twitter:description" content="Controlled AI fashion workflows and production systems for ecommerce teams." />
+<meta name="twitter:image" content="https://www.thirdaxis.co.uk/Images/og-image.jpg" />
 
-<!-- Structured Data -->
 <script type="application/ld+json">
 {
-  "@context": "https://schema.org",
-  "@type": "LocalBusiness",
-  "name": "Third Axis Creative",
-  "description": "End-to-end commercial content production — stock flow, set build, photography, 3D visualisation and AI-assisted imagery.",
-  "url": "https://www.thirdaxis.co.uk",
-  "email": "hello@thirdaxis.co.uk",
-  "address": {
-    "@type": "PostalAddress",
-    "addressLocality": "Peterborough",
-    "addressCountry": "GB"
-  },
-  "sameAs": [],
-  "serviceType": ["Commercial Photography", "3D Visualisation", "AI Imagery", "Set Build", "Stock Flow", "Content Production"]
+  "@context":"https://schema.org",
+  "@type":"Organization",
+  "name":"Third Axis Creative",
+  "url":"https://www.thirdaxis.co.uk",
+  "email":"hello@thirdaxis.co.uk",
+  "description":"Parent company behind Shootless Studio, building controlled AI-assisted production workflows for ecommerce and fashion content teams.",
+  "brand": {"@type":"Brand", "name":"Shootless Studio", "url":"https://www.shootless.co.uk"},
+  "address":{"@type":"PostalAddress","addressLocality":"Peterborough","addressCountry":"GB"},
+  "serviceType":["AI Fashion Imagery","Workflow Design","Creative Automation","Production Consultancy","Ecommerce Content Systems"]
 }
 </script>
-<title>Third Axis Creative — Commercial Content Production | Peterborough, UK</title>
+
+<title>Third Axis Creative — Parent Company Behind Shootless Studio</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Bebas+Neue&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
 <style>
-
-/* ─── RESET ─── */
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-html{scroll-behavior:smooth;}
-body{
-  font-family:'Barlow',sans-serif;
-  background:#EEEBE4;
-  color:#111;
-  overflow-x:hidden;
-  cursor:none;
-}
-
-/* ─── TOKENS ─── */
 :root{
-  --ink:     #111111;
-  --paper:   #EEEBE4;
-  --paper2:  #E5E2DA;
-  --paper3:  #D8D4CB;
-  --signal:  #FF5C00;   /* electric orange */
-  --mid:     #888880;
-  --rule:    rgba(17,17,17,.1);
-  --rule-hv: rgba(17,17,17,.7);
-  --mono: 'Space Mono', monospace;
-  --display: 'Bebas Neue', sans-serif;
-  --body: 'Barlow', sans-serif;
+  --ink:#07110D;
+  --ink2:#0D1A14;
+  --paper:#BFC9CC;
+  --paper2:#D3D9DB;
+  --soft:#9AA8AD;
+  --muted:rgba(191,201,204,.72);
+  --faint:rgba(191,201,204,.16);
+  --line:rgba(191,201,204,.18);
+  --line-dark:rgba(7,17,13,.18);
+  --orange:#FF6A00;
+  --green:#D7FF5F;
+  --acid:#E6FF8E;
+  --display:'Bebas Neue',sans-serif;
+  --body:'Barlow',sans-serif;
+  --mono:'Space Mono',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;background:#BFC9CC}
+body{font-family:var(--body);background:#BFC9CC;color:var(--ink);overflow-x:hidden}
+body:before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:
+  radial-gradient(circle at 18% 8%, rgba(255,255,255,.22), transparent 34%),
+  radial-gradient(circle at 85% 18%, rgba(215,255,95,.10), transparent 30%),
+  linear-gradient(180deg,#BFC9CC 0%,#B7C3C7 44%,#CED6D8 100%);}
+
+a{color:inherit}
+img{max-width:100%;display:block}
+.wrap{width:min(1240px,calc(100% - 48px));margin:0 auto}
+@media(max-width:640px){.wrap{width:min(100% - 28px,1240px)}}
+
+/* Cursor */
+#cur,#ring{position:fixed;pointer-events:none;z-index:99999;display:none}
+@media(hover:hover) and (pointer:fine){
+  body{cursor:none} a,button,.hoverable{cursor:none}
+  #cur{display:block;width:7px;height:7px;background:var(--green);left:0;top:0;transform:translate(-50%,-50%)}
+  #ring{display:block;width:30px;height:30px;border:1px solid rgba(238,233,221,.45);left:0;top:0;transform:translate(-50%,-50%);transition:width .18s,height .18s,border-color .18s}
+  #ring.hot{width:46px;height:46px;border-color:var(--orange)}
+  body.light #ring{border-color:rgba(9,9,9,.35)} body.light #ring.hot{border-color:var(--orange)}
 }
 
-/* ─── CURSOR (desktop only) ─── */
-@media(hover:none){#cur,#cur-ring{display:none!important;}}
-body:not(.has-mouse){cursor:auto!important;}
-/* ─── CURSOR ─── */
-#cur{
-  position:fixed;width:6px;height:6px;
-  background:var(--signal);
-  pointer-events:none;z-index:99999;
-  transform:translate(-50%,-50%);
-  border-radius:0;
-}
-#cur-ring{
-  position:fixed;width:24px;height:24px;
-  border:1px solid var(--ink);
-  pointer-events:none;z-index:99998;
-  transform:translate(-50%,-50%);
-  transition:left .1s,top .1s,width .18s,height .18s,border-color .15s;
-  border-radius:0;
-}
-#cur-ring.h{width:36px;height:36px;border-color:var(--signal);}
-.inv #cur-ring{border-color:rgba(238,235,228,.5);}
-.inv #cur-ring.h{border-color:var(--signal);}
+/* Shared */
+.kicker{font-family:var(--mono);font-size:.62rem;letter-spacing:.13em;text-transform:uppercase;color:var(--orange);font-weight:700}
+.kicker.dark{color:rgba(9,9,9,.48)}
+.display{font-family:var(--display);text-transform:uppercase;letter-spacing:.035em;line-height:.86}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;text-decoration:none;font-family:var(--mono);font-size:.64rem;letter-spacing:.08em;text-transform:uppercase;font-weight:700;padding:13px 18px;border:1px solid transparent;transition:transform .18s,background .18s,border-color .18s,color .18s;white-space:nowrap}
+.btn:hover{transform:translateY(-2px)}
+.btn-green{background:var(--green);color:var(--ink)}
+.btn-orange{background:var(--orange);color:var(--ink)}
+.btn-ghost{border-color:rgba(238,233,221,.18);color:rgba(238,233,221,.72)}
+.btn-ghost:hover{border-color:var(--green);color:var(--paper)}
+.btn-ink{background:var(--ink);color:var(--paper)}
+.pill{font-family:var(--mono);font-size:.55rem;letter-spacing:.08em;text-transform:uppercase;border:1px solid var(--line);padding:6px 8px;color:rgba(238,233,221,.48)}
+.rule{height:1px;background:var(--line);flex:1}
+.rule.dark{background:var(--line-dark)}
+.dot{width:6px;height:6px;background:var(--green);flex:0 0 auto}
+.dot.orange{background:var(--orange)}
+.section-label{display:flex;align-items:center;gap:14px;margin-bottom:28px;border-top:1px solid currentColor;border-bottom:1px solid currentColor;padding:14px 0;color:rgba(238,233,221,.16)}
+.section-label span{font-family:var(--mono);font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(238,233,221,.45)}
+.section-label.light{color:rgba(9,9,9,.18)}.section-label.light span{color:rgba(9,9,9,.5)}
 
-/* ─── UTILITY ─── */
-.mono{font-family:var(--mono);font-size:.65rem;letter-spacing:.04em;}
-.label{font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--mid);}
-.signal{color:var(--signal);}
-.strike-line{height:1px;background:var(--rule-hv);flex:1;}
-.thick-line{height:2px;background:var(--ink);}
-.dot{width:4px;height:4px;background:var(--signal);flex-shrink:0;}
+/* Nav */
+.nav{position:fixed;inset:0 0 auto 0;height:64px;background:rgba(9,9,9,.86);backdrop-filter:blur(18px);z-index:1000;border-bottom:1px solid rgba(238,233,221,.12);display:grid;grid-template-columns:auto 1fr auto;align-items:center}
+.logoBox{height:64px;padding:0 22px;display:flex;align-items:center;border-right:1px solid rgba(238,233,221,.12);gap:12px;text-decoration:none;color:var(--paper)}
+.logoMark{width:32px;height:32px;border:1px solid rgba(238,233,221,.22);position:relative;background:linear-gradient(135deg,rgba(255,92,0,.9),rgba(185,244,90,.22))}
+.logoMark:before,.logoMark:after{content:"";position:absolute;background:var(--ink)}
+.logoMark:before{width:12px;height:12px;right:4px;top:4px}.logoMark:after{width:18px;height:1px;left:6px;bottom:8px;background:var(--paper)}
+.logoWords strong{display:block;font-family:var(--display);font-size:1.05rem;letter-spacing:.08em;line-height:.85}.logoWords em{display:block;font-family:var(--mono);font-size:.46rem;letter-spacing:.12em;color:rgba(238,233,221,.38);font-style:normal;text-transform:uppercase;margin-top:3px}
+.navLinks{display:flex;align-items:center;height:64px;overflow:hidden}.navLinks a{height:64px;display:flex;align-items:center;padding:0 18px;text-decoration:none;font-family:var(--mono);font-size:.57rem;letter-spacing:.09em;text-transform:uppercase;color:rgba(238,233,221,.42);border-right:1px solid rgba(238,233,221,.08);transition:.16s}.navLinks a:hover{color:var(--paper);background:rgba(238,233,221,.04)}
+.navCtas{display:flex;align-items:center;height:64px;border-left:1px solid rgba(238,233,221,.12)}.navCtas a{height:64px;display:flex;align-items:center;padding:0 22px;text-decoration:none;font-family:var(--mono);font-size:.58rem;letter-spacing:.08em;text-transform:uppercase;font-weight:700}.navCtas a:first-child{color:rgba(238,233,221,.5)}.navCtas a:last-child{background:var(--green);color:var(--ink)}
+.menuBtn{display:none;background:transparent;border:0;color:var(--paper);font-family:var(--mono);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;padding:0 18px;height:64px;border-left:1px solid rgba(238,233,221,.12)}
+.mobileMenu{display:none;position:fixed;top:64px;left:0;right:0;background:var(--ink);z-index:999;border-bottom:1px solid rgba(238,233,221,.12)}.mobileMenu.open{display:block}.mobileMenu a{display:block;color:rgba(238,233,221,.66);text-decoration:none;padding:16px 22px;border-top:1px solid rgba(238,233,221,.08);font-family:var(--mono);font-size:.66rem;text-transform:uppercase;letter-spacing:.08em}
+@media(max-width:920px){.nav{grid-template-columns:auto 1fr auto}.navLinks,.navCtas{display:none}.menuBtn{display:block;justify-self:end}.logoBox{border-right:0}.logoWords em{display:none}}
 
-/* ─── SECTION WRAPPER ─── */
-.wrap{max-width:1280px;margin:0 auto;padding:0 32px;}
-/* ─── GLOBAL MOBILE ─── */
-@media(max-width:500px){
-  body{ cursor:auto; }
-  .wrap{ padding:0 16px; }
+/* Hero */
+.hero{min-height:100svh;background:transparent;color:var(--ink);padding-top:64px;position:relative;overflow:hidden;display:flex;flex-direction:column}
+.hero:before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(7,17,13,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(7,17,13,.06) 1px,transparent 1px);background-size:72px 72px;mask-image:linear-gradient(to bottom,#000,transparent 90%)}
+.heroGlow{position:absolute;width:52vw;height:52vw;right:-18vw;top:6vh;background:radial-gradient(circle,rgba(185,244,90,.24),transparent 58%);filter:blur(20px);opacity:.7}.heroGlow.two{width:42vw;height:42vw;left:-18vw;top:40vh;background:radial-gradient(circle,rgba(255,92,0,.18),transparent 60%)}
+.heroTop{position:relative;z-index:2;display:flex;align-items:center;gap:16px;padding:16px 0;border-bottom:1px solid rgba(7,17,13,.12);color:rgba(7,17,13,.48);font-family:var(--mono);font-size:.58rem;letter-spacing:.12em;text-transform:uppercase}
+.heroMain{position:relative;z-index:2;flex:1;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(360px,.72fr);gap:42px;align-items:center;padding:44px 0}
+.heroCopy h1{font-size:clamp(5.4rem,12vw,13.8rem);max-width:950px}.heroCopy .thin{color:transparent;-webkit-text-stroke:1px rgba(7,17,13,.28)}.heroCopy .green{color:var(--green)}.heroCopy .orange{color:var(--orange)}
+.heroIntro{max-width:650px;margin-top:22px;font-size:1.08rem;line-height:1.7;color:rgba(7,17,13,.70);font-weight:300}.heroIntro strong{color:var(--ink);font-weight:700}.heroBtns{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px}.heroBadges{display:flex;gap:6px;flex-wrap:wrap;margin-top:20px}
+.productPanel{border:1px solid rgba(242,239,231,.14);background:linear-gradient(180deg,rgba(13,26,20,.96),rgba(7,17,13,.88));box-shadow:0 30px 90px rgba(0,0,0,.55);position:relative;overflow:hidden}.panelTop{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid rgba(242,239,231,.1);font-family:var(--mono);font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(242,239,231,.42)}.status{display:flex;align-items:center;gap:8px;color:var(--green)}.status i{width:7px;height:7px;border-radius:20px;background:var(--green);box-shadow:0 0 18px var(--green)}
+.screen{padding:18px}.screenGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.shot{min-height:180px;background:linear-gradient(135deg,rgba(215,255,95,.16),rgba(255,106,0,.1)),#0B1510;border:1px solid rgba(242,239,231,.1);position:relative;overflow:hidden;display:flex;align-items:flex-end;padding:12px}.shot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(.94) contrast(.98)}.shot:after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(7,17,13,.76),transparent 52%)}.shot span{position:relative;z-index:2;font-family:var(--mono);font-size:.52rem;letter-spacing:.08em;text-transform:uppercase;color:rgba(242,239,231,.82);background:rgba(7,17,13,.58);padding:5px 6px;border:1px solid rgba(242,239,231,.12)}
+.queue{margin-top:12px;border:1px solid rgba(7,17,13,.12)}.qrow{display:grid;grid-template-columns:26px 1fr auto;gap:10px;align-items:center;padding:10px 12px;border-bottom:1px solid rgba(238,233,221,.08);font-family:var(--mono);font-size:.54rem;text-transform:uppercase;color:rgba(238,233,221,.42)}.qrow:last-child{border-bottom:0}.qrow b{color:var(--paper);font-weight:400}.qrow em{font-style:normal;color:var(--green)}
+.heroStats{position:relative;z-index:2;display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid rgba(7,17,13,.12)}.stat{padding:18px 24px;border-right:1px solid rgba(238,233,221,.08)}.stat:last-child{border-right:0}.stat strong{display:block;font-family:var(--display);font-size:2.2rem;letter-spacing:.05em;line-height:1}.stat span{display:block;margin-top:6px;font-family:var(--mono);font-size:.5rem;letter-spacing:.08em;text-transform:uppercase;color:rgba(238,233,221,.35)}
+@media(max-width:980px){.heroMain{grid-template-columns:1fr}.productPanel{max-width:620px}.heroStats{grid-template-columns:1fr 1fr}.stat:nth-child(2){border-right:0}.stat:nth-child(-n+2){border-bottom:1px solid rgba(238,233,221,.08)}}
+@media(max-width:560px){.heroCopy h1{font-size:clamp(4rem,20vw,7rem)}.heroIntro{font-size:.92rem}.screenGrid{grid-template-columns:1fr 1fr}.shot{min-height:130px}.heroStats{grid-template-columns:repeat(2,1fr)}.stat{padding:14px}.stat strong{font-size:1.45rem}}
 
-  /* Section headers */
-  .sec-header{ margin-bottom:12px; padding:10px 0; }
-  .sec-num{ font-size:.52rem; padding:3px 6px; }
-  .sec-title-text{ font-size:.85rem; }
 
-  /* All big display headlines */
-  .about-h2,.process-h2,.digital-h2,.ai-h2,.gallery-h2,.contact-h2{
-    font-size: clamp(2.6rem, 11vw, 4rem);
-    line-height: .86;
-  }
+/* Shootless live reference visuals */
+.referenceGrid{display:grid;grid-template-columns:1.1fr .9fr;gap:18px;align-items:stretch}.browserFrame{background:var(--ink);border:1px solid rgba(242,239,231,.14);box-shadow:0 24px 70px rgba(0,0,0,.34);overflow:hidden}.browserBar{height:36px;display:flex;align-items:center;gap:7px;padding:0 12px;border-bottom:1px solid rgba(242,239,231,.1);font-family:var(--mono);font-size:.52rem;color:rgba(242,239,231,.38);letter-spacing:.08em;text-transform:uppercase}.browserBar i{width:7px;height:7px;border-radius:50%;background:var(--orange);display:block}.browserBar i:nth-child(2){background:var(--green)}.browserBar i:nth-child(3){background:rgba(242,239,231,.34)}.browserBody{padding:14px}.refHero{display:grid;grid-template-columns:1fr 1fr;gap:10px}.refImg{min-height:360px;position:relative;overflow:hidden;background:#101010;border:1px solid rgba(242,239,231,.1)}.refImg img{width:100%;height:100%;object-fit:cover}.refImg.tall{min-height:520px}.refCap{position:absolute;left:10px;right:10px;bottom:10px;background:rgba(7,17,13,.76);border:1px solid rgba(242,239,231,.12);padding:9px 10px;font-family:var(--mono);font-size:.52rem;text-transform:uppercase;letter-spacing:.08em;color:rgba(242,239,231,.78)}.refNotes{display:grid;gap:12px}.refNote{background:var(--ink);color:var(--paper);padding:20px;border:1px solid rgba(242,239,231,.12)}.refNote h3{font-family:var(--display);font-size:2rem;line-height:.92;letter-spacing:.05em;text-transform:uppercase;margin-bottom:10px}.refNote p{font-size:.84rem;line-height:1.7;color:rgba(242,239,231,.52);font-weight:300}.refMiniGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}.refMini{aspect-ratio:1;overflow:hidden;border:1px solid rgba(242,239,231,.12);background:var(--ink)}.refMini img{width:100%;height:100%;object-fit:cover}@media(max-width:900px){.referenceGrid{grid-template-columns:1fr}.refImg,.refImg.tall{min-height:360px}}@media(max-width:560px){.refHero{grid-template-columns:1fr}.refImg,.refImg.tall{min-height:300px}.refMiniGrid{grid-template-columns:1fr 1fr}}
 
-  /* Approach list tighter */
-  .approach-item{ padding:12px 0; gap:12px; }
-  .a-num{ font-size:.52rem; padding:3px 6px; }
-  .a-head{ font-size:.95rem; margin-bottom:4px; }
-  .a-body{ font-size:.72rem; line-height:1.6; }
+/* Sections */
+section.block{padding:92px 0}.dark{background:var(--ink);color:var(--paper)}.paper{background:var(--paper);color:var(--ink)}.soft{background:var(--paper2);color:var(--ink)}
+.split{display:grid;grid-template-columns:.86fr 1.14fr;gap:54px;align-items:start}.sectionTitle{font-size:clamp(3.8rem,7vw,7.8rem)}.sectionText{font-size:1rem;line-height:1.85;font-weight:300;color:rgba(9,9,9,.58)}.dark .sectionText{color:rgba(238,233,221,.55)}.sectionText strong{font-weight:600;color:inherit}.sectionText + .sectionText{margin-top:18px}
+@media(max-width:900px){section.block{padding:72px 0}.split{grid-template-columns:1fr;gap:28px}}
 
-  /* Spec table tighter */
-  .spec-row{ padding:9px 0; }
-  .spec-key{ font-size:.54rem; }
-  .spec-val{ font-size:.76rem; }
+/* Feature cards */
+.featureGrid{display:grid;grid-template-columns:repeat(3,1fr);border:2px solid var(--ink)}.feature{min-height:245px;padding:22px;border-right:2px solid var(--ink);position:relative;display:flex;flex-direction:column;justify-content:space-between;transition:.18s;background:rgba(255,255,255,.06)}.feature:nth-child(3n){border-right:0}.feature:nth-child(-n+3){border-bottom:2px solid var(--ink)}.feature:hover{background:rgba(255,92,0,.08)}.feature .n{font-family:var(--mono);font-size:.55rem;letter-spacing:.12em;color:rgba(9,9,9,.42)}.feature h3{font-family:var(--display);font-size:1.65rem;letter-spacing:.06em;text-transform:uppercase;line-height:.95}.feature p{font-size:.82rem;line-height:1.7;color:rgba(9,9,9,.52);font-weight:300}.feature .mini{width:24px;height:24px;background:var(--orange);margin-left:auto}
+@media(max-width:900px){.featureGrid{grid-template-columns:1fr 1fr}.feature:nth-child(3n){border-right:2px solid var(--ink)}.feature:nth-child(2n){border-right:0}.feature:nth-child(-n+4){border-bottom:2px solid var(--ink)}}@media(max-width:560px){.featureGrid{grid-template-columns:1fr}.feature,.feature:nth-child(3n){border-right:0}.feature{min-height:210px;border-bottom:2px solid var(--ink)}.feature:last-child{border-bottom:0}}
 
-  /* About body text */
-  .about-body{ font-size:.8rem; line-height:1.65; }
+/* Parent / product */
+.parentFrame{display:grid;grid-template-columns:1fr 1fr;border:1px solid rgba(238,233,221,.14)}.parentCell{padding:26px;border-right:1px solid rgba(238,233,221,.12);border-bottom:1px solid rgba(238,233,221,.12)}.parentCell:nth-child(2n){border-right:0}.parentCell:nth-last-child(-n+2){border-bottom:0}.parentCell h3{font-family:var(--display);font-size:2rem;letter-spacing:.05em;text-transform:uppercase;margin-bottom:10px}.parentCell p{font-size:.88rem;line-height:1.75;color:rgba(238,233,221,.52);font-weight:300}.parentCell.big{grid-column:1/-1;background:linear-gradient(135deg,rgba(185,244,90,.11),rgba(255,92,0,.08))}.parentCell.big h3{font-size:clamp(2.8rem,5vw,5.5rem);line-height:.9}.parentCell.big p{max-width:760px}.tagList{display:flex;gap:6px;flex-wrap:wrap;margin-top:20px}
+@media(max-width:700px){.parentFrame{grid-template-columns:1fr}.parentCell,.parentCell:nth-child(2n){border-right:0}.parentCell:nth-last-child(2){border-bottom:1px solid rgba(238,233,221,.12)}}
 
-  /* Digital h2 margin */
-  .digital-h2{ margin-bottom:16px; font-size:clamp(2rem,9vw,3rem); }
+/* Workflow */
+.workflow{display:grid;grid-template-columns:repeat(5,1fr);border:1px solid rgba(238,233,221,.14)}.step{padding:20px;min-height:250px;border-right:1px solid rgba(238,233,221,.12);display:flex;flex-direction:column;justify-content:space-between}.step:last-child{border-right:0}.stepNum{font-family:var(--mono);font-size:.62rem;color:var(--green);letter-spacing:.12em}.step h3{font-family:var(--display);font-size:1.55rem;text-transform:uppercase;letter-spacing:.05em;line-height:1}.step p{font-size:.76rem;line-height:1.7;color:rgba(238,233,221,.46);font-weight:300}.arrowLine{height:1px;background:linear-gradient(90deg,var(--green),transparent);margin:18px 0}
+@media(max-width:980px){.workflow{grid-template-columns:1fr}.step{min-height:auto;border-right:0;border-bottom:1px solid rgba(238,233,221,.12);gap:18px}.step:last-child{border-bottom:0}}
 
-  /* AI */
-  .ai-intro{ font-size:.78rem; line-height:1.6; }
-  .ai-step-title{ font-size:.85rem; }
-  .ai-step-body{ font-size:.68rem; line-height:1.6; }
-  /* ai2 callout grid — compress to fit 100svh on mobile */
-  .callout-t{ font-size:.75rem; }
-  .callout-b{ font-size:.5rem; line-height:1.4; }
-  .callout{ padding:8px 10px; }
-  #ai2 .wrap{ padding-top:16px !important; padding-bottom:16px !important; }
-  #ai2 .sec-header{ margin-bottom:10px; padding:8px 0; }
-  .callout-grid{ margin-top:0; }
+/* Proof / identity */
+.identity{display:grid;grid-template-columns:1fr 1fr;gap:0;border:2px solid var(--ink)}.identityLeft{padding:32px;border-right:2px solid var(--ink);background:var(--ink);color:var(--paper)}.identityRight{padding:32px}.identityLogo{font-family:var(--display);font-size:clamp(4rem,10vw,9rem);line-height:.8;text-transform:uppercase;letter-spacing:.04em}.identityLogo span{display:block}.identityLogo .s{color:var(--green)}.identityLogo .t{color:var(--orange)}.identityRight h3{font-family:var(--display);font-size:2.2rem;text-transform:uppercase;letter-spacing:.05em;margin-bottom:12px}.identityRight p{font-size:.92rem;line-height:1.78;color:rgba(9,9,9,.58);font-weight:300}.identityList{margin-top:24px;border-top:1px solid rgba(9,9,9,.14)}.identityList div{display:grid;grid-template-columns:120px 1fr;gap:12px;padding:12px 0;border-bottom:1px solid rgba(9,9,9,.12);font-size:.82rem}.identityList b{font-family:var(--mono);font-size:.56rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(9,9,9,.42)}
+@media(max-width:850px){.identity{grid-template-columns:1fr}.identityLeft{border-right:0;border-bottom:2px solid var(--ink)}}
 
-  /* Process */
-  .process-intro{ font-size:.78rem; }
-  .p-step-title{ font-size:.9rem; }
-  .p-step-inner{ font-size:.7rem; }
+/* CTA */
+.cta{background:var(--green);color:var(--ink);padding:82px 0}.ctaGrid{display:grid;grid-template-columns:1fr .62fr;gap:40px;align-items:end}.cta h2{font-family:var(--display);font-size:clamp(4rem,10vw,10rem);line-height:.82;letter-spacing:.035em;text-transform:uppercase}.cta p{font-size:1rem;line-height:1.8;color:rgba(9,9,9,.62);font-weight:400;margin-bottom:24px}.cta .btn{border-color:var(--ink)}
+@media(max-width:820px){.ctaGrid{grid-template-columns:1fr;align-items:start}.cta h2{font-size:clamp(3.5rem,16vw,7rem)}}
 
-  /* Gallery */
-  .gallery-sub{ font-size:.78rem; }
-  .g-cell-label{ font-size:.9rem; }
+/* Footer */
+footer{background:#060606;color:rgba(238,233,221,.4);padding:54px 0 28px}.footGrid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:36px}.footTitle{font-family:var(--display);font-size:2rem;color:var(--paper);letter-spacing:.06em;text-transform:uppercase;margin-bottom:12px}.footText{font-family:var(--mono);font-size:.58rem;line-height:1.8;color:rgba(238,233,221,.25)}.footCol h4{font-family:var(--mono);font-size:.56rem;text-transform:uppercase;letter-spacing:.14em;color:rgba(238,233,221,.3);padding-bottom:12px;border-bottom:1px solid rgba(238,233,221,.08);margin-bottom:12px}.footCol a{display:block;text-decoration:none;font-family:var(--mono);font-size:.62rem;color:rgba(7,17,13,.28);margin:10px 0}.footCol a:hover{color:var(--green)}.footBottom{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-top:44px;padding-top:22px;border-top:1px solid rgba(238,233,221,.08);font-family:var(--mono);font-size:.55rem;letter-spacing:.08em;text-transform:uppercase;color:rgba(238,233,221,.18)}
+@media(max-width:760px){.footGrid{grid-template-columns:1fr 1fr}.footBrand{grid-column:1/-1}}@media(max-width:460px){.footGrid{grid-template-columns:1fr}}
 
-  /* AI note */
-  .ai-note p{ font-size:.58rem; }
+/* Reveal */
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .65s ease,transform .65s ease}.reveal.on{opacity:1;transform:none}.d1{transition-delay:.07s}.d2{transition-delay:.14s}.d3{transition-delay:.21s}
 
-  /* Footer */
-  .footer-grid{ padding:0 16px; gap:24px; }
-  .footer-copy,.footer-signal{ font-size:.5rem; }
-}
 
-/* ════════════════════════════
-   NAV
-════════════════════════════ */
-nav{
-  position:fixed;top:0;left:0;right:0;z-index:800;
-  height:52px;
-  display:flex;align-items:stretch;
-  background:var(--ink);
-  border-bottom:1px solid rgba(238,235,228,.12);
+/* ─────────────────────────────────────────────
+   SHOOTLESS BACKGROUND MATCH OVERRIDE
+   Keeps the layout/type/design, but moves the parent site onto
+   the same grey-blue Shootless-style canvas instead of black pages.
+───────────────────────────────────────────── */
+:root{
+  --shootless-bg:#BFC9CC;
+  --shootless-bg-2:#D3D9DB;
+  --shootless-bg-3:#AEBCC1;
+  --shootless-ink:#07110D;
+  --shootless-ink-soft:rgba(7,17,13,.62);
+  --shootless-line:rgba(7,17,13,.13);
 }
-.nav-left{
-  display:flex;align-items:center;
-  padding:0 20px;
-  border-right:1px solid rgba(238,235,228,.12);
-  flex-shrink:0;
-}
-.nav-left img{height:40px;display:block;}
-.nav-mid{
-  display:flex;align-items:center;
-  flex:1;padding:0 24px;gap:0;
-  overflow:hidden;
-}
-.nav-link{
-  font-family:var(--mono);font-size:.58rem;
-  letter-spacing:.08em;text-transform:uppercase;
-  color:var(--paper);text-decoration:none;
-  padding:0 18px;height:100%;
-  display:flex;align-items:center;
-  border-right:1px solid rgba(238,235,228,.08);
-  opacity:.4;transition:opacity .15s,background .15s;
-  white-space:nowrap;
-}
-.nav-link:hover{opacity:1;background:rgba(238,235,228,.05);}
-.nav-right{
-  display:flex;align-items:center;
-  padding:0 24px;
-  border-left:1px solid rgba(238,235,228,.12);
-  flex-shrink:0;
-}
-.nav-cta{
-  font-family:var(--mono);font-size:.58rem;
-  letter-spacing:.08em;text-transform:uppercase;
-  background:var(--signal);color:var(--ink);font-weight:700;
-  padding:9px 18px;text-decoration:none;
-  transition:background .15s;
-  white-space:nowrap;
-}
-.nav-cta:hover{background:#e04d00;}
+html{background:transparent!important;}
+body{background:transparent!important;color:var(--shootless-ink)!important;}
+body:before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(circle at 12% 5%,rgba(255,255,255,.18),transparent 34%),radial-gradient(circle at 88% 16%,rgba(215,255,95,.10),transparent 32%),linear-gradient(180deg,#BFC9CC 0%,#B5C1C6 50%,#C8D0D3 100%)!important;}
 
-/* Mobile nav */
-.nav-hamburger{
-  display:none;
-  background:none;border:none;
-  width:52px;height:52px;
-  align-items:center;justify-content:center;
-  cursor:none;flex-direction:column;gap:5px;
-  padding:0;flex-shrink:0;
-  border-left:1px solid rgba(238,235,228,.12);
+/* Navigation becomes a grey-blue Shootless shell, not a black bar */
+.nav{
+  background:rgba(191,201,204,.92)!important;
+  border-bottom:1px solid var(--shootless-line)!important;
+  color:var(--shootless-ink)!important;
 }
-.nav-hamburger span{
-  display:block;width:20px;height:2px;
-  background:var(--paper);transition:transform .2s,opacity .2s;
-}
-.nav-mobile-menu{
-  display:none;
-  position:fixed;top:52px;left:0;right:0;
-  background:var(--ink);
-  border-bottom:1px solid rgba(238,235,228,.12);
-  z-index:799;
-  flex-direction:column;
-}
-.nav-mobile-menu.open{display:flex;}
-.nav-mobile-link{
-  font-family:var(--mono);font-size:.65rem;
-  letter-spacing:.08em;text-transform:uppercase;
-  color:var(--paper);text-decoration:none;
-  padding:16px 24px;
-  border-bottom:1px solid rgba(238,235,228,.08);
-  opacity:.5;
-}
-.nav-mobile-link:hover{opacity:1;background:rgba(238,235,228,.04);}
-.nav-mobile-cta{
-  background:var(--signal);color:var(--ink);font-weight:700;
-  padding:16px 24px;
-  font-family:var(--mono);font-size:.65rem;
-  letter-spacing:.08em;text-transform:uppercase;
-  text-decoration:none;
-}
+.logoBox{color:var(--shootless-ink)!important;border-right:1px solid var(--shootless-line)!important;}
+.logoWords em{color:rgba(7,17,13,.44)!important;}
+.logoMark{border-color:rgba(7,17,13,.18)!important;background:linear-gradient(135deg,rgba(215,255,95,.78),rgba(255,106,0,.28))!important;}
+.logoMark:before{background:transparent!important;}.logoMark:after{background:var(--shootless-ink)!important;}
+.navLinks a{color:rgba(7,17,13,.48)!important;border-right:1px solid rgba(7,17,13,.08)!important;}
+.navLinks a:hover{color:var(--shootless-ink)!important;background:rgba(7,17,13,.035)!important;}
+.navCtas{border-left:1px solid var(--shootless-line)!important;}.navCtas a:first-child{color:rgba(7,17,13,.56)!important;}
+.menuBtn{color:var(--shootless-ink)!important;border-left:1px solid var(--shootless-line)!important;}
+.mobileMenu{background:transparent!important;border-bottom:1px solid var(--shootless-line)!important;}.mobileMenu a{color:rgba(7,17,13,.68)!important;border-top:1px solid var(--shootless-line)!important;}
 
-@media(max-width:768px){
-  .nav-mid{display:none;}
-  .nav-right{display:none;}
-  .nav-hamburger{display:flex;}
-}
-
-/* ════════════════════════════
-   HERO
-════════════════════════════ */
-#hero{
-  padding-top:52px;
-  background:var(--ink);
-  height:100svh;
-  display:flex;
-  flex-direction:column;
-  position:relative;
-  overflow:hidden;
-}
-
-/* Crosshair grid lines */
-#hero::before{
-  content:'';
-  position:absolute;inset:0;
-  background-image:
-    linear-gradient(rgba(238,235,228,.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(238,235,228,.04) 1px, transparent 1px);
-  background-size:80px 80px;
-  pointer-events:none;
-}
-
-.hero-top-bar{
-  flex-shrink:0;
-  display:flex;align-items:center;
-  border-bottom:1px solid rgba(238,235,228,.1);
-  padding:8px 32px;
-  gap:24px;
-}
-.hero-top-bar .label{color:rgba(238,235,228,.3);}
-.hero-top-bar .dot{background:var(--signal);}
-.hero-top-bar .strike-line{background:rgba(238,235,228,.08);}
-
-/* Main body: two columns, fills remaining height */
-.hero-body{
-  flex:1;
-  min-height:0;
-  display:grid;
-  grid-template-columns:1fr 340px;
-  overflow:hidden;
-}
-
-/* Left: headline pinned to bottom of its cell */
-.hero-left{
-  display:flex;
-  flex-direction:column;
-  justify-content:flex-end;
-  padding:24px 32px 24px 32px;
-  overflow:hidden;
-}
-
-.hero-h1{
-  font-family:var(--display);
-  font-size:clamp(4rem,9.5vw,11.5rem);
-  line-height:.84;
-  letter-spacing:.02em;
-  color:var(--paper);
-  text-transform:uppercase;
-}
-.hero-h1 .outline{
-  -webkit-text-stroke:1.5px rgba(238,235,228,.22);
-  color:transparent;
-  display:block;
-}
-.hero-h1 .signal-word{
-  color:var(--signal);
-  display:block;
-}
-
-/* Right: stacked content, scrolls within its column if needed */
-.hero-right{
-  border-left:1px solid rgba(238,235,228,.1);
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  gap:20px;
-  padding:24px 28px;
-  overflow:hidden;
-  min-height:0;
-}
-.hero-descriptor{
-  font-size:.82rem;font-weight:300;
-  line-height:1.65;
-  color:rgba(238,235,228,.4);
-}
-.hero-descriptor strong{
-  display:block;
-  font-family:var(--mono);font-size:.58rem;
-  letter-spacing:.12em;text-transform:uppercase;
-  color:var(--signal);font-weight:700;
-  margin-bottom:8px;
-}
-
-.hero-tags{display:flex;flex-wrap:wrap;gap:4px;}
-.hero-tag{
-  font-family:var(--mono);font-size:.5rem;
-  letter-spacing:.06em;text-transform:uppercase;
-  border:1px solid rgba(238,235,228,.12);
-  color:rgba(238,235,228,.25);
-  padding:3px 7px;
-}
-
-.hero-ctas{display:flex;gap:8px;flex-wrap:wrap;}
-.btn-signal{
-  font-family:var(--mono);font-size:.58rem;
-  letter-spacing:.08em;text-transform:uppercase;
-  background:var(--signal);color:var(--ink);
-  padding:10px 18px;text-decoration:none;
-  font-weight:700;
-  transition:background .15s;display:inline-block;
-}
-.btn-signal:hover{background:#e04d00;}
-.btn-ghost-inv{
-  font-family:var(--mono);font-size:.58rem;
-  letter-spacing:.08em;text-transform:uppercase;
-  background:transparent;color:rgba(238,235,228,.35);
-  padding:10px 18px;text-decoration:none;
-  border:1px solid rgba(238,235,228,.18);
-  transition:color .15s,border-color .15s;display:inline-block;
-}
-.btn-ghost-inv:hover{color:var(--paper);border-color:rgba(238,235,228,.5);}
-
-/* Hero readout strip — pinned to bottom */
-.hero-readout{
-  flex-shrink:0;
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  border-top:1px solid rgba(238,235,228,.1);
-}
-.readout-cell{
-  padding:12px 24px 14px;
-  border-right:1px solid rgba(238,235,228,.08);
-  position:relative;
-}
-.readout-cell:last-child{border-right:none;}
-.readout-cell::before{
-  content:attr(data-n);
-  position:absolute;top:8px;left:24px;
-  font-family:var(--mono);font-size:.44rem;
-  letter-spacing:.1em;color:rgba(238,235,228,.18);
-}
-.readout-val{
-  font-family:var(--display);
-  font-size:clamp(1.4rem,2.8vw,2.6rem);
-  color:var(--paper);line-height:1;
-  margin-top:14px;margin-bottom:2px;
-  letter-spacing:.04em;
-}
-.readout-val .sig{color:var(--signal);}
-.readout-lbl{
-  font-family:var(--mono);font-size:.46rem;
-  letter-spacing:.06em;text-transform:uppercase;
-  color:rgba(238,235,228,.22);
-}
-
-@media(max-width:900px){
-  .hero-body{grid-template-columns:1fr;gap:24px;}
-  .hero-right{border-left:none;border-top:1px solid rgba(238,235,228,.1);padding-left:0;padding-top:16px;gap:12px;}
-  .hero-h1{font-size:clamp(4.5rem,18vw,9rem);}
-  .hero-readout{grid-template-columns:1fr 1fr;}
-  .readout-cell{border-bottom:1px solid rgba(238,235,228,.08);}
-  .readout-cell:nth-child(2){border-right:none;}
-  .readout-cell:nth-child(n+3){border-bottom:none;}
-}
-@media(max-width:500px){
-  /* Hero must fit one screen — compress everything */
-  #hero{justify-content:space-between;}
-  .hero-top-bar{padding:10px 20px;gap:12px;}
-  .hero-body{padding:16px 20px 0;gap:14px;}
-  .hero-h1{font-size:clamp(3.6rem,15vw,5.5rem);line-height:.84;}
-  .hero-right{padding-top:14px;gap:12px;border-top:1px solid rgba(238,235,228,.1);}
-  .hero-descriptor{font-size:.76rem;line-height:1.45;}
-  .hero-descriptor strong{margin-bottom:6px;}
-  .hero-tags{gap:3px;}
-  .hero-tag{font-size:.46rem;padding:3px 6px;}
-  .hero-ctas{gap:8px;}
-  .btn-signal,.btn-ghost-inv{padding:9px 14px;font-size:.53rem;}
-  /* Readout: 4 across, very compact */
-  .hero-readout{
-    grid-template-columns:repeat(4,1fr);
-  }
-  .readout-cell{
-    padding:10px 10px 12px;
-    border-bottom:none !important;
-  }
-  .readout-cell:nth-child(2){border-right:1px solid rgba(238,235,228,.08) !important;}
-  .readout-cell:nth-child(3){border-right:1px solid rgba(238,235,228,.08);}
-  .readout-cell::before{font-size:.38rem;top:7px;left:10px;letter-spacing:.06em;}
-  .readout-val{font-size:clamp(.85rem,3vw,1.2rem);margin-top:14px;margin-bottom:2px;}
-  .readout-lbl{font-size:.4rem;letter-spacing:.03em;}
-  /* Hide verbose content — headline and stats are enough */
-  .hero-descriptor{display:none;}
-  .hero-tags{display:none;}
-  /* Tighten right panel to just the CTAs */
-  .hero-right{gap:0;padding-top:12px;}
-  .hero-ctas{margin-top:4px;}
-}
-
-/* ════════════════════════════
-   SECTION HEADER
-════════════════════════════ */
-.sec-header{
-  display:flex;align-items:center;gap:16px;
-  padding:20px 0;
-  border-top:2px solid var(--ink);
-  border-bottom:1px solid var(--rule);
-  margin-bottom:32px;
-}
-.sec-header .label{color:var(--ink);opacity:.4;}
-.sec-num{
-  font-family:var(--mono);font-size:.6rem;
-  letter-spacing:.1em;color:var(--signal);
-  background:var(--ink);
-  padding:4px 8px;
-  flex-shrink:0;
-}
-.sec-title-text{
-  font-family:var(--display);
-  font-size:1.1rem;letter-spacing:.12em;
-  color:var(--ink);text-transform:uppercase;
-}
-.sec-header .dot{background:var(--ink);}
-
-/* Dark section header */
-.sec-header-inv{
-  border-top-color:rgba(238,235,228,.2);
-  border-bottom-color:rgba(238,235,228,.08);
-}
-.sec-header-inv .sec-num{background:var(--signal);color:var(--ink);}
-.sec-header-inv .sec-title-text{color:rgba(238,235,228,.5);}
-.sec-header-inv .dot{background:rgba(238,235,228,.2);}
-.sec-header-inv .strike-line{background:rgba(238,235,228,.08);}
-
-/* ════════════════════════════
-   ABOUT
-════════════════════════════ */
-#about{background:var(--paper);}
-
-.about-layout{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:0;
-  border:2px solid var(--ink);
-}
-.about-left{
-  padding:28px 36px;
-  border-right:2px solid var(--ink);
-}
-.about-right{padding:28px 36px;}
-
-.about-h2{
-  font-family:var(--display);
-  font-size:clamp(3.5rem,6vw,6.5rem);
-  line-height:.86;letter-spacing:.04em;
-  text-transform:uppercase;color:var(--ink);
-  margin-bottom:32px;
-}
-.about-h2 .sig{color:var(--signal);
-  background:var(--ink);
-  padding:0 6px;
-  display:inline;
-}
-
-.about-body{
-  font-size:.88rem;font-weight:300;
-  line-height:1.9;color:rgba(17,17,17,.55);
-  margin-bottom:40px;
-}
-
-.spec-block{
-  border-top:1px solid var(--rule-hv);
-}
-.spec-row{
-  display:grid;
-  grid-template-columns:120px 1fr;
-  gap:0;
-  border-bottom:1px solid var(--rule);
-  padding:12px 0;
-  align-items:baseline;
-}
-.spec-key{
-  font-family:var(--mono);font-size:.58rem;
-  letter-spacing:.08em;text-transform:uppercase;
-  color:var(--mid);
-}
-.spec-val{
-  font-size:.8rem;font-weight:500;color:var(--ink);
-}
-
-/* Numbered approach list */
-.approach-list{display:flex;flex-direction:column;gap:0;}
-.approach-item{
-  padding:16px 0;
-  border-bottom:1px solid var(--rule);
-  display:grid;
-  grid-template-columns:56px 1fr;
-  gap:0;align-items:start;
-}
-.approach-item:first-child{padding-top:0;border-top:none;}
-.a-num{
-  font-family:var(--mono);font-size:.6rem;
-  letter-spacing:.1em;color:var(--signal);
-  background:var(--ink);
-  padding:3px 7px;
-  display:inline-block;
-  width:fit-content;
-  margin-top:2px;
-}
-.a-head{
-  font-family:var(--display);
-  font-size:1.1rem;letter-spacing:.06em;
-  text-transform:uppercase;color:var(--ink);
-  margin-bottom:6px;
-  line-height:1;
-}
-.a-body{
-  font-size:.76rem;font-weight:300;
-  line-height:1.8;color:rgba(17,17,17,.5);
-}
-
-/* about-layout replaced by split-layout */
-
-/* ════════════════════════════
-   PROCESS
-════════════════════════════ */
-#process{background:var(--ink);}
-
-.process-layout{
-  display:grid;
-  grid-template-columns:400px 1fr;
-  gap:40px;align-items:start;
-}
-.process-h2{
-  font-family:var(--display);
-  font-size:clamp(3.5rem,6vw,6.5rem);
-  line-height:.86;letter-spacing:.04em;
-  text-transform:uppercase;color:var(--paper);
-  margin-bottom:24px;
-}
-.process-h2 .sig{color:var(--signal);}
-.process-intro{
-  font-size:.85rem;font-weight:300;
-  line-height:1.85;color:rgba(238,235,228,.35);
-}
-
-.pipeline-steps{display:flex;flex-direction:column;gap:0;}
-.p-step{
-  display:grid;
-  grid-template-columns:48px 1fr;
-  gap:0;
-  border-bottom:1px solid rgba(238,235,228,.08);
-  padding:0;
-  overflow:hidden;
-}
-.p-step:first-child{border-top:1px solid rgba(238,235,228,.08);}
-.p-step-num{
-  display:flex;align-items:flex-start;
-  padding:20px 0;
-  border-right:1px solid rgba(238,235,228,.08);
-  justify-content:center;
-  padding-top:22px;
-}
-.p-step-num span{
-  font-family:var(--mono);font-size:.55rem;
-  letter-spacing:.1em;color:var(--signal);
-  writing-mode:horizontal-tb;
-}
-.p-step-content{
-  padding:14px 16px;
-  cursor:none;
-  transition:background .18s;
-}
-.p-step-content:hover{background:rgba(238,235,228,.03);}
-.p-step-trigger{
-  display:flex;align-items:center;
-  justify-content:space-between;gap:16px;
-  background:none;border:none;width:100%;
-  text-align:left;cursor:none;padding:0;
-  margin-bottom:0;
-}
-.p-step-title{
-  font-family:var(--display);
-  font-size:1.05rem;letter-spacing:.06em;
-  text-transform:uppercase;color:var(--paper);
-  transition:color .15s;
-}
-.p-step-trigger:hover .p-step-title{color:var(--signal);}
-.p-step-icon{
-  width:16px;height:16px;
-  border:1px solid rgba(238,235,228,.2);
-  display:flex;align-items:center;justify-content:center;
-  flex-shrink:0;transition:border-color .15s,transform .3s;
-}
-.p-step.open .p-step-icon{border-color:var(--signal);transform:rotate(45deg);}
-.p-step-body{
-  overflow:hidden;max-height:0;
-  transition:max-height .32s cubic-bezier(.16,1,.3,1);
-}
-.p-step-inner{
-  padding-top:12px;
-  font-size:.75rem;font-weight:300;
-  line-height:1.8;color:rgba(238,235,228,.3);
-}
-
-@media(max-width:900px){
-  .process-layout{grid-template-columns:1fr;gap:24px;}
-}
-@media(max-width:500px){
-  .p-step-content{padding:16px;}
-}
-
-/* ════════════════════════════
-   DIGITAL & 3D
-════════════════════════════ */
-#digital{background:var(--paper2);}
-
-.digital-h2{
-  font-family:var(--display);
-  font-size:clamp(3.5rem,6vw,6.5rem);
-  line-height:.86;letter-spacing:.04em;
-  text-transform:uppercase;color:var(--ink);
-  margin-bottom:32px;
-}
-.digital-h2 .sig{
-  color:var(--signal);background:var(--ink);padding:0 6px;
-}
-
-.services-grid{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  border:2px solid var(--ink);
-  gap:0;
-}
-.svc-card{
-  padding:22px 20px 26px;
-  border-right:2px solid var(--ink);
-  position:relative;
-  transition:background .18s;
-  overflow:hidden;
-}
-.svc-card:last-child{border-right:none;}
-.svc-card::before{
-  content:'';
-  position:absolute;top:0;left:0;right:0;height:3px;
-  background:var(--signal);
-  transform:scaleX(0);transform-origin:left;
-  transition:transform .22s;
-}
-.svc-card:hover{background:rgba(17,17,17,.03);}
-.svc-card:hover::before{transform:scaleX(1);}
-.svc-n{
-  font-family:var(--mono);font-size:.52rem;
-  letter-spacing:.12em;text-transform:uppercase;
-  color:var(--mid);margin-bottom:20px;
-}
-.svc-title{
-  font-family:var(--display);
-  font-size:1.25rem;letter-spacing:.05em;
-  text-transform:uppercase;color:var(--ink);
-  margin-bottom:12px;line-height:1.1;
-}
-.svc-body{
-  font-size:.74rem;font-weight:300;
-  line-height:1.7;color:rgba(17,17,17,.45);
-}
-
-@media(max-width:900px){
-  .services-grid{grid-template-columns:1fr 1fr;}
-  .svc-card:nth-child(2){border-right:none;}
-  .svc-card:nth-child(1),.svc-card:nth-child(2){border-bottom:2px solid var(--ink);}
-}
-@media(max-width:500px){
-  .services-grid{grid-template-columns:1fr 1fr;}
-  .svc-card{border-right:none;border-bottom:2px solid var(--ink);padding:14px 12px 16px;}
-  .svc-card:nth-child(odd){border-right:2px solid var(--ink);}
-  .svc-card:last-child{border-bottom:none;}
-  .svc-card:nth-last-child(2):nth-child(odd){border-bottom:none;}
-  .svc-n{margin-bottom:8px;font-size:.48rem;}
-  .svc-title{font-size:1rem;margin-bottom:6px;}
-  .svc-body{font-size:.66rem;line-height:1.55;}
-}
-
-/* ════════════════════════════
-   AI
-════════════════════════════ */
-#ai{background:var(--ink);}
-
-.ai-layout{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:40px;align-items:start;
-}
-.ai-h2{
-  font-family:var(--display);
-  font-size:clamp(3.5rem,6vw,6.5rem);
-  line-height:.86;letter-spacing:.04em;
-  text-transform:uppercase;color:var(--paper);
-  margin-bottom:24px;
-}
-.ai-h2 .sig{color:var(--signal);}
-.ai-intro{
-  font-size:.88rem;font-weight:300;
-  line-height:1.85;color:rgba(238,235,228,.35);
-  margin-bottom:36px;
-}
-
-/* Technical callout boxes */
-.callout-grid{
-  display:grid;grid-template-columns:1fr 1fr;
-  gap:0;
-  border:1px solid rgba(238,235,228,.12);
-}
-.callout{
-  padding:14px;
-  border-right:1px solid rgba(238,235,228,.12);
-  border-bottom:1px solid rgba(238,235,228,.12);
-  transition:background .15s;
-}
-.callout:nth-child(even){border-right:none;}
-.callout:nth-child(n+5){border-bottom:none;}
-.callout:hover{background:rgba(238,232,0,.04);}
-.callout-t{
-  font-family:var(--display);font-size:1rem;
-  letter-spacing:.06em;text-transform:uppercase;
-  color:var(--paper);margin-bottom:4px;
-}
-.callout-b{
-  font-family:var(--mono);font-size:.58rem;
-  color:rgba(238,235,228,.28);line-height:1.5;
-}
-
-/* Pipeline steps */
-.ai-pipeline{
-  display:flex;flex-direction:column;gap:0;
-  border:1px solid rgba(238,235,228,.12);
-}
-.ai-step{
-  display:grid;grid-template-columns:48px 1fr;
-  border-bottom:1px solid rgba(238,235,228,.12);
-  transition:background .15s;
-}
-.ai-step:last-child{border-bottom:none;}
-.ai-step:hover{background:rgba(238,232,0,.04);}
-.ai-step-num{
-  display:flex;align-items:flex-start;
-  justify-content:center;padding-top:20px;
-  border-right:1px solid rgba(238,235,228,.12);
-}
-.ai-step-num span{
-  font-family:var(--mono);font-size:.52rem;
-  letter-spacing:.1em;color:var(--signal);
-}
-.ai-step-inner{padding:14px 16px;}
-.ai-step-title{
-  font-family:var(--display);font-size:1rem;
-  letter-spacing:.06em;text-transform:uppercase;
-  color:var(--paper);margin-bottom:5px;
-}
-.ai-step-body{
-  font-size:.72rem;font-weight:300;
-  line-height:1.75;color:rgba(238,235,228,.3);
-}
-
-.ai-note{
-  margin-top:24px;
-  padding:18px;
-  border-left:2px solid var(--signal);
-  background:rgba(238,232,0,.04);
-}
-.ai-note p{
-  font-family:var(--mono);font-size:.62rem;
-  line-height:1.7;color:rgba(238,235,228,.35);
-  letter-spacing:.02em;
-}
-
-@media(max-width:900px){
-  .ai-layout{grid-template-columns:1fr;}
-}
-
-/* ════════════════════════════
-   GALLERY
-════════════════════════════ */
-#gallery{background:var(--paper);}
-
-.gallery-intro{
-  display:grid;grid-template-columns:1fr 1fr;
-  gap:64px;align-items:end;
-  margin-bottom:24px;
-}
-.gallery-h2{
-  font-family:var(--display);
-  font-size:clamp(3.5rem,6vw,6.5rem);
-  line-height:.86;letter-spacing:.04em;
-  text-transform:uppercase;color:var(--ink);
-}
-.gallery-h2 .sig{color:var(--signal);background:var(--ink);padding:0 6px;}
-.gallery-sub{
-  font-size:.85rem;font-weight:300;
-  line-height:1.8;color:rgba(17,17,17,.45);
-}
-
-.gallery-grid{
-  display:grid;grid-template-columns:repeat(3,1fr);
-  border:2px solid var(--ink);gap:0;
-}
-.g-cell{
-  aspect-ratio:5/3;
-  border-right:2px solid var(--ink);
-  border-bottom:2px solid var(--ink);
-  position:relative;overflow:hidden;
-  display:flex;align-items:flex-end;
-  padding:16px;
-  background:var(--paper2);
-  transition:background .18s;
-}
-.g-cell:nth-child(3n){border-right:none;}
-.g-cell:nth-child(n+4){border-bottom:none;}
-.g-cell:hover{background:var(--paper3);}
-.g-cell-n{
-  position:absolute;top:14px;left:14px;
-  font-family:var(--mono);font-size:.5rem;
-  letter-spacing:.1em;color:rgba(17,17,17,.25);
-}
-.g-cell-label{
-  font-family:var(--display);
-  font-size:1.1rem;letter-spacing:.06em;
-  text-transform:uppercase;color:rgba(17,17,17,.25);
-}
-.g-cell-dot{
-  position:absolute;top:14px;right:14px;
-  width:6px;height:6px;background:var(--rule);
-  transition:background .15s;
-}
-.g-cell:hover .g-cell-dot{background:var(--signal);}
-
-@media(max-width:768px){
-  .gallery-intro{ grid-template-columns:1fr; gap:16px; margin-bottom:20px; }
-  .gallery-grid{ grid-template-columns:1fr 1fr; }
-  .g-cell:nth-child(3n){ border-right:2px solid var(--ink); }
-  .g-cell:nth-child(2n){ border-right:none; }
-  .g-cell:nth-child(n+4){ border-bottom:2px solid var(--ink); }
-  .g-cell:nth-child(n+5){ border-bottom:none; }
-}
-@media(max-width:500px){
-  .gallery-intro{ gap:10px; margin-bottom:16px; }
-  .gallery-grid{ grid-template-columns:1fr 1fr; }
-  .g-cell{ aspect-ratio:1; }
-}
-
-/* ════════════════════════════
-   CONTACT
-════════════════════════════ */
-#contact{
-  display:grid;grid-template-columns:1fr 1fr;
-  background:var(--ink);
-  border-top:2px solid var(--signal);
-  min-height:100svh;
-}
-.contact-left{
-  padding:48px;
-  border-right:1px solid rgba(238,235,228,.08);
-  display:flex;flex-direction:column;
-  justify-content:center;
-}
-.contact-h2{
-  font-family:var(--display);
-  font-size:clamp(4rem,7vw,8rem);
-  line-height:.84;letter-spacing:.04em;
-  text-transform:uppercase;color:var(--paper);
-  margin-bottom:24px;
-}
-.contact-h2 .sig{color:var(--signal);}
-.contact-body{
-  font-size:.88rem;font-weight:300;
-  line-height:1.85;color:rgba(238,235,228,.32);
-  max-width:380px;
-}
-.contact-right{
-  padding:48px;
-  background:var(--signal);
-  display:flex;flex-direction:column;
-  justify-content:center;
-}
-.contact-right .sec-num{
-  background:var(--ink);color:var(--signal);
-  margin-bottom:24px;display:inline-block;
-}
-.contact-right h3{
-  font-family:var(--display);
-  font-size:1.6rem;letter-spacing:.06em;
-  text-transform:uppercase;color:var(--ink);
-  margin-bottom:10px;
-}
-.contact-right p{
-  font-size:.82rem;font-weight:400;
-  line-height:1.75;color:rgba(17,17,17,.55);
-  margin-bottom:28px;
-}
-.contact-email{
-  font-family:var(--mono);
-  font-size:clamp(.75rem,1.8vw,1rem);
-  letter-spacing:.02em;
-  color:var(--ink);text-decoration:none;
-  border-bottom:2px solid rgba(17,17,17,.3);
-  padding-bottom:4px;display:inline-block;
-  transition:border-color .15s;
-  word-break:break-all;
-}
-.contact-email:hover{border-color:var(--ink);}
-.btn-ink{
-  display:inline-block;
-  background:var(--ink);color:var(--signal);
-  font-family:var(--mono);font-size:.6rem;
-  letter-spacing:.08em;text-transform:uppercase;
-  font-weight:700;
-  text-decoration:none;padding:13px 24px;
-  margin-top:20px;
-  transition:background .15s;
-  border:2px solid var(--ink);
-}
-.btn-ink:hover{background:transparent;color:var(--ink);}
-
-@media(max-width:768px){
-  #contact{ grid-template-columns:1fr; min-height:auto; }
-  .contact-left{ padding:48px 32px; border-right:none; border-bottom:1px solid rgba(238,235,228,.15); }
-  .contact-right{ padding:48px 32px; }
-}
-@media(max-width:500px){
-  .contact-left{ padding:36px 16px; }
-  .contact-right{ padding:36px 16px; }
-  .contact-h2{ font-size:clamp(2.8rem,12vw,4.5rem); }
-  .contact-email{ font-size:.75rem; }
-  .btn-ink{ padding:12px 20px; font-size:.58rem; }
-}
-
-/* ════════════════════════════
-   FOOTER
-════════════════════════════ */
+/* Hero and every major page block use the Shootless grey-blue background */
+.hero,
+section.block.dark,
+section.block.paper,
+section.block.soft,
+.cta,
 footer{
-  background:#080808;
-  border-top:1px solid rgba(238,235,228,.06);
-  padding:48px 0 28px;
-  min-height:auto;
+  background:transparent!important;
+  color:var(--shootless-ink)!important;
 }
-.footer-grid{
-  display:grid;
-  grid-template-columns:2fr 1fr 1fr 1fr;
-  gap:40px;margin-bottom:48px;
+.hero:before{
+  background-image:linear-gradient(rgba(7,17,13,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(7,17,13,.045) 1px,transparent 1px)!important;
+  mask-image:linear-gradient(to bottom,#000,transparent 82%)!important;
 }
-.footer-logo img{height:12px;opacity:.35;margin-bottom:14px;display:block;}
-.footer-about{
-  font-family:var(--mono);font-size:.58rem;
-  letter-spacing:.04em;line-height:1.8;
-  color:rgba(238,235,228,.18);
-}
-.footer-col-title{
-  font-family:var(--mono);font-size:.55rem;
-  letter-spacing:.14em;text-transform:uppercase;
-  color:rgba(238,235,228,.2);
-  margin-bottom:16px;
-  padding-bottom:10px;
-  border-bottom:1px solid rgba(238,235,228,.06);
-}
-.footer-links{list-style:none;display:flex;flex-direction:column;gap:10px;}
-.footer-links a{
-  font-family:var(--mono);font-size:.6rem;
-  letter-spacing:.04em;
-  color:rgba(238,235,228,.2);
-  text-decoration:none;transition:color .15s;
-}
-.footer-links a:hover{color:var(--signal);}
-.footer-bottom{
-  display:flex;justify-content:space-between;
-  align-items:center;
-  padding-top:24px;
-  border-top:1px solid rgba(238,235,228,.05);
-  flex-wrap:wrap;gap:12px;
-}
-.footer-copy{
-  font-family:var(--mono);font-size:.55rem;
-  letter-spacing:.06em;color:rgba(238,235,228,.15);
-}
-.footer-signal{
-  font-family:var(--mono);font-size:.55rem;
-  letter-spacing:.08em;text-transform:uppercase;
-  color:rgba(238,235,228,.15);
-}
-.footer-signal span{color:var(--signal);}
+.heroGlow{background:radial-gradient(circle,rgba(215,255,95,.38),transparent 58%)!important;opacity:.9!important;}
+.heroGlow.two{background:radial-gradient(circle,rgba(255,106,0,.20),transparent 60%)!important;}
+.heroTop{border-bottom:1px solid var(--shootless-line)!important;color:rgba(7,17,13,.48)!important;}
+.heroCopy .thin{color:transparent!important;-webkit-text-stroke:1px rgba(7,17,13,.28)!important;}
+.heroIntro,.sectionText,.shootlessLead,.parentCell p,.step p,.cta p,.footText{color:var(--shootless-ink-soft)!important;}
+.heroIntro strong{color:var(--shootless-ink)!important;}
+.pill{border-color:var(--shootless-line)!important;color:rgba(7,17,13,.52)!important;background:rgba(255,255,255,.22)!important;}
+.rule{background:var(--shootless-line)!important;}.section-label{color:rgba(7,17,13,.18)!important;border-color:rgba(7,17,13,.18)!important;}.section-label span{color:rgba(7,17,13,.52)!important;}
+.kicker{color:var(--orange)!important;}.kicker.dark{color:rgba(7,17,13,.48)!important;}
+.btn-ghost{border-color:rgba(7,17,13,.18)!important;color:rgba(7,17,13,.68)!important;background:rgba(255,255,255,.18)!important;}.btn-ghost:hover{border-color:var(--green)!important;color:var(--shootless-ink)!important;}
 
-@media(max-width:768px){
-  .footer-grid{ grid-template-columns:1fr 1fr; gap:28px; }
-  .footer-logo{ grid-column:1/-1; }
+/* Keep actual app/screenshot UI cards dark, so the light background matches Shootless but the product still feels like software */
+.productPanel,.browserFrame,.refNote,.refMini,.identityLeft{
+  background:linear-gradient(180deg,#0D1A14,#07110D)!important;
+  color:var(--paper)!important;
+  border-color:rgba(7,17,13,.16)!important;
 }
-@media(max-width:500px){
-  .footer-grid{ grid-template-columns:1fr 1fr; gap:20px; padding:0 16px; }
-  .footer-logo{ grid-column:1/-1; }
-  .footer-bottom{ flex-direction:column; align-items:flex-start; gap:6px; padding:0 16px; padding-top:20px; }
-}
+.browserFrame{box-shadow:0 22px 60px rgba(7,17,13,.18)!important;}
+.productPanel{box-shadow:0 28px 70px rgba(7,17,13,.22)!important;}
+.panelTop,.browserBar{border-bottom:1px solid rgba(242,239,231,.1)!important;color:rgba(242,239,231,.42)!important;}
+.shot{background:linear-gradient(135deg,rgba(215,255,95,.16),rgba(255,106,0,.1)),#0B1510!important;}
+.shot:after{background:linear-gradient(to top,rgba(7,17,13,.76),transparent 52%)!important;}
 
-/* ════════════════════════════
-   REVEAL ANIMATIONS
-════════════════════════════ */
-.reveal{
-  opacity:0;transform:translateY(16px);
-  transition:opacity .6s ease,transform .6s ease;
-}
-.reveal.on{opacity:1;transform:none;}
-.reveal-d1{transition-delay:.07s;}
-.reveal-d2{transition-delay:.14s;}
-.reveal-d3{transition-delay:.21s;}
+/* Parent / workflow panels become light cards rather than black sections */
+.parentFrame,.workflow{border:1px solid var(--shootless-line)!important;background:rgba(255,255,255,.16)!important;}
+.parentCell,.step{border-color:var(--shootless-line)!important;}
+.parentCell.big{background:linear-gradient(135deg,rgba(215,255,95,.22),rgba(255,106,0,.10))!important;}
+.stepNum{color:#6E8E19!important;}.arrowLine{background:linear-gradient(90deg,#6E8E19,transparent)!important;}
+.identity{border-color:var(--shootless-ink)!important;background:transparent!important;}.identityLeft{border-right-color:var(--shootless-ink)!important;}
+
+/* Footer now sits on the same background with a quieter divider */
+footer{border-top:1px solid var(--shootless-line)!important;}
+.footTitle{color:var(--shootless-ink)!important;}.footCol h4{color:rgba(7,17,13,.42)!important;border-bottom:1px solid var(--shootless-line)!important;}.footCol a{color:rgba(7,17,13,.46)!important;}.footCol a:hover{color:#6E8E19!important;}.footBottom{border-top:1px solid var(--shootless-line)!important;color:rgba(7,17,13,.34)!important;}
+
+@media(max-width:920px){.logoBox{border-right:0!important;}}
 
 
-/* ─── SPLIT LAYOUT (used for split snap sections) ─── */
-.split-layout {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0;
-  border: 2px solid var(--ink);
-}
-.split-left {
-  padding: 36px 40px;
-  border-right: 2px solid var(--ink);
-}
-.split-right {
-  padding: 36px 40px;
-}
-/* Dark variant */
-#ai .split-layout,
-#ai2 .split-layout {
-  border-color: rgba(238,235,228,.15);
-}
-#ai .split-left,
-#ai2 .split-left {
-  border-right-color: rgba(238,235,228,.15);
-}
-@media(max-width:900px) {
-  .split-layout { grid-template-columns: 1fr; border: none; }
-  .split-left {
-    border-right: none;
-    border: none;
-    border-bottom: 1px solid rgba(17,17,17,.12);
-    padding: 24px 0;
-  }
-  .split-right { padding: 24px 0; border: none; }
-  #ai .split-left,
-  #ai2 .split-left { border-bottom-color: rgba(238,235,228,.12); }
-}
-@media(max-width:500px) {
-  .split-left, .split-right { padding: 18px 0; }
-}
+
+/* SHOOTLESS GREY-BLUE CANVAS OVERRIDE */
+.heroCopy .thin{color:transparent;-webkit-text-stroke:1px rgba(7,17,13,.30)}
+.heroTop{border-bottom-color:rgba(7,17,13,.12);color:rgba(7,17,13,.48)}
+.heroIntro{color:rgba(7,17,13,.72)}
+.heroIntro strong{color:var(--ink)}
+.pill{border-color:rgba(7,17,13,.18);color:rgba(7,17,13,.58);background:rgba(255,255,255,.12)}
+.btn-ghost{border-color:rgba(7,17,13,.25);color:rgba(7,17,13,.72)}
+.btn-ghost:hover{border-color:var(--ink);color:var(--ink);background:rgba(255,255,255,.16)}
+.productPanel,.screenPanel,.dark-card,.queueCard{background:linear-gradient(180deg,rgba(13,26,20,.96),rgba(7,17,13,.91));color:#F2EFE7;border-color:rgba(242,239,231,.14)}
+.productPanel .pill,.screenPanel .pill,.dark-card .pill,.queueCard .pill{border-color:rgba(242,239,231,.14);color:rgba(242,239,231,.52);background:transparent}
+.panelTop,.screenTop{border-bottom-color:rgba(242,239,231,.10);color:rgba(242,239,231,.46)}
+.sectionLabelDark,.section-label:not(.light){color:rgba(7,17,13,.16)}
+.section-label:not(.light) span{color:rgba(7,17,13,.50)}
+.darkSection{background:transparent;color:var(--ink)}
+.darkSection .section-label,.darkSection .section-label span{color:rgba(7,17,13,.5)}
+.darkSection h2,.darkSection h3,.darkSection p{color:inherit}
 
 
-/* ─── AI VISUAL PIPELINE ─── */
-.ai-vis-pipeline {
-  display: flex;
-  align-items: center;
-  gap: 0;
-  width: 100%;
-  padding-top: 8px;
-}
-.avp-group {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  min-width: 0;
-}
-.avp-images {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.avp-images.single {
-  justify-content: center;
-}
-.avp-images.double {
-  justify-content: center;
-}
-.avp-img-wrap {
-  flex: 1;
-  max-width: 160px;
-}
-.avp-img-placeholder {
-  aspect-ratio: 3/4;
-  border: 1px solid rgba(238,235,228,.15);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  background: rgba(238,235,228,.03);
-  transition: background .18s;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-}
 
-.avp-img-placeholder img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  pointer-events: none;
+/* FINAL COLOUR CORRECTION: Shootless grey-blue page canvas */
+:root{
+  --paper:#BFC9CC;
+  --paper2:#D3D9DB;
+  --soft:#9AA8AD;
+  --shootless-bg:#BFC9CC;
+  --shootless-bg-2:#D3D9DB;
+  --shootless-bg-3:#AEBCC1;
 }
-.avp-img-icon { opacity: .4; }
-.avp-upload-label {
-  font-family: var(--mono);
-  font-size: .48rem;
-  letter-spacing: .08em;
-  text-transform: uppercase;
-  color: rgba(238,235,228,.25);
-}
-/* Hide label when image loaded */
-.avp-img-placeholder.has-image .avp-img-icon,
-.avp-img-placeholder.has-image .avp-upload-label { display: none; }
-
-.avp-inline-arrow {
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-}
-.avp-label {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  padding: 0 8px;
-  border-left: 2px solid rgba(238,235,228,.08);
-}
-.avp-step-num {
-  font-family: var(--mono);
-  font-size: .5rem;
-  letter-spacing: .1em;
-  color: var(--signal);
-  background: var(--ink);
-  border: 1px solid var(--signal);
-  padding: 2px 6px;
-  display: inline-block;
-  width: fit-content;
-}
-.avp-step-title {
-  font-family: var(--display);
-  font-size: 1rem;
-  letter-spacing: .06em;
-  text-transform: uppercase;
-  color: var(--paper);
-  line-height: 1;
-}
-.avp-step-sub {
-  font-family: var(--mono);
-  font-size: .55rem;
-  color: rgba(238,235,228,.3);
-  line-height: 1.4;
-  letter-spacing: .02em;
-}
-.avp-arrow {
-  flex-shrink: 0;
-  padding: 0 12px;
-  padding-bottom: 40px; /* align with image centres */
-  display: flex;
-  align-items: center;
-}
-
-/* Mobile: stack vertically */
-@media(max-width:700px) {
-  .ai-vis-pipeline { flex-direction: column; align-items: stretch; gap: 0; }
-  .avp-arrow { padding: 8px 0; justify-content: center; transform: rotate(90deg); }
-  .avp-group { flex-direction: row; align-items: center; gap: 20px; padding: 20px 0; border-bottom: 1px solid rgba(238,235,228,.08); }
-  .avp-group:last-child { border-bottom: none; }
-  .avp-images { flex: 0 0 auto; width: 180px; }
-  .avp-images.double { gap: 6px; }
-  .avp-img-wrap { max-width: 80px; }
-  .avp-label { border-left: none; padding: 0; flex: 1; }
-  .avp-step-title { font-size: 1.1rem; }
-  .avp-step-sub { font-size: .6rem; }
-}
-
-/* ─── SCROLL SNAP ─── */
-/* Use scroll-margin-top so snapping accounts for the fixed 52px nav */
-html {
-  scroll-snap-type: y mandatory;
-  scroll-behavior: smooth;
-}
-body {
-  overflow-x: hidden;
-}
-.snap {
-  scroll-snap-align: start;
-  scroll-snap-stop: always;
-  min-height: 100svh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-/* All sections except hero need scroll-margin for the fixed nav */
-#about, #about2, #process, #digital, #ai, #ai2, #ai3, #gallery, #contact {
-  scroll-margin-top: 52px;
-}
-.snap-short {
-  scroll-snap-align: start;
-  scroll-margin-top: 52px;
-}
-/* Hero fills full height naturally */
-#hero {
-  justify-content: flex-start;
-}
-
-/* ─── SCROLL DOTS ─── */
-#sdots{
-  position:fixed;right:18px;top:50%;
-  transform:translateY(-50%);
-  z-index:700;
-  display:flex;flex-direction:column;gap:9px;
-  pointer-events:none;
-}
-.sdot{
-  width:4px;height:4px;
-  border:1px solid rgba(17,17,17,.28);
-  transition:background .18s,border-color .18s,height .24s cubic-bezier(.34,1.56,.64,1);
-}
-.sdot.on{height:16px;background:var(--signal);border-color:var(--signal);}
-#sdots.inv .sdot{border-color:rgba(238,235,228,.28);}
-#sdots.inv .sdot.on{background:var(--signal);border-color:var(--signal);}
-@media(max-width:600px){#sdots{display:none;}}
+html,body{background:#BFC9CC!important;color:#07110D!important;}
+body:before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(circle at 16% 7%,rgba(255,255,255,.22),transparent 34%),radial-gradient(circle at 86% 18%,rgba(215,255,95,.10),transparent 30%),linear-gradient(180deg,#BFC9CC 0%,#B6C2C7 48%,#C8D1D4 100%)!important;}
+.nav,.mobileMenu{background:rgba(191,201,204,.92)!important;backdrop-filter:blur(18px);}
+.hero,section.block.dark,section.block.paper,section.block.soft,.cta,footer{background:transparent!important;color:#07110D!important;}
+.productPanel,.browserFrame,.refNote,.refMini,.identityLeft{background:linear-gradient(180deg,#0D1A14,#07110D)!important;color:#F2EFE7!important;}
+.logoMark:before{background:#BFC9CC!important;}
+.btn-ink{background:#07110D!important;color:#BFC9CC!important;}
 
 
-/* ── LIGHTBOX ── */
-#lightbox {
-  display: none;
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-  background: rgba(0,0,0,.92);
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
+
+/* =========================================================
+   FINAL SHOOTLESS MATCH PASS
+   Background sampled from the provided Shootless screenshot:
+   approx RGB 232,241,253 / #E8F1FD.
+========================================================= */
+:root{
+  --shootless-bg:#E8F1FD!important;
+  --shootless-bg-2:#EDF5FF!important;
+  --shootless-bg-3:#DFEAF7!important;
+  --shootless-ink:#0D0D0F!important;
+  --shootless-soft-ink:#5F5F5C!important;
+  --shootless-border:#D3D8DE!important;
+  --shootless-panel:#F7F8FA!important;
+  --shootless-orange:#FF6A21!important;
+  --shootless-green:#1E3328!important;
+  --paper:#E8F1FD!important;
+  --paper2:#EDF5FF!important;
+  --soft:#DCE8F5!important;
+  --ink:#0D0D0F!important;
+  --ink2:#1E3328!important;
+  --green:#1E3328!important;
+  --acid:#1E3328!important;
+  --orange:#FF6A21!important;
+  --line:rgba(13,13,15,.12)!important;
+  --line-dark:rgba(13,13,15,.14)!important;
 }
-#lightbox.open { display: flex; }
-#lightbox img {
-  max-width: 90vw;
-  max-height: 90vh;
-  object-fit: contain;
-  box-shadow: 0 0 60px rgba(0,0,0,.6);
-  cursor: default;
+html,body{background:#E8F1FD!important;color:#0D0D0F!important;}
+body:before{
+  content:""!important;position:fixed!important;inset:0!important;z-index:-1!important;pointer-events:none!important;
+  background:
+    radial-gradient(circle at 18% 10%,rgba(255,255,255,.42),transparent 34%),
+    radial-gradient(circle at 78% 18%,rgba(255,255,255,.22),transparent 30%),
+    linear-gradient(180deg,#E8F1FD 0%,#E7F0FC 54%,#DFEAF7 100%)!important;
 }
-#lightbox-close {
-  position: absolute;
-  top: 20px; right: 24px;
-  font-family: var(--mono);
-  font-size: .65rem;
-  letter-spacing: .1em;
-  color: rgba(238,235,228,.4);
-  cursor: pointer;
-  text-transform: uppercase;
-  transition: color .15s;
-}
-#lightbox-close:hover { color: var(--signal); }
-.avp-img-placeholder.has-image {
-  cursor: zoom-in;
-}
+.nav,.mobileMenu{background:rgba(232,241,253,.88)!important;backdrop-filter:blur(18px)!important;border-bottom:1px solid rgba(13,13,15,.08)!important;color:#0D0D0F!important;}
+.navBrand{border-right:1px solid rgba(13,13,15,.14)!important;color:#0D0D0F!important;}
+.navName b,.navName span{color:#0D0D0F!important;}
+.logoMark{border-color:rgba(13,13,15,.18)!important;background:transparent!important;}
+.logoMark:before{background:var(--shootless-orange)!important;}
+.logoMark:after{background:rgba(13,13,15,.72)!important;}
+.navLinks a,.navCtas a:first-child,.mobileMenu a{color:rgba(13,13,15,.62)!important;border-color:rgba(13,13,15,.08)!important;}
+.navLinks a:hover,.mobileMenu a:hover{color:#0D0D0F!important;background:rgba(255,255,255,.28)!important;}
+.navCtas{border-left:1px solid rgba(13,13,15,.08)!important;}
+.navCtas a:first-child,.btn-ghost{background:rgba(255,255,255,.42)!important;border:1px solid #D3D8DE!important;color:#2A2A2A!important;border-radius:999px!important;box-shadow:0 1px 2px rgba(13,13,15,.05)!important;}
+.navCtas a:last-child,.btn-green,.btn-orange,.btn-ink{background:#0D0D0F!important;color:#FFFFFF!important;border-color:#0D0D0F!important;border-radius:999px!important;}
+.hero,section.block,section.block.dark,section.block.paper,section.block.soft,.dark,.paper,.soft,.cta,footer,.darkSection{background:transparent!important;color:#0D0D0F!important;}
+.hero:before{background-image:none!important;}
+.heroGlow{display:none!important;}
+.section-label,.eyebrow,.heroKicker{background:#0D0D0F!important;color:#FFFFFF!important;border-color:#0D0D0F!important;border-radius:999px!important;}
+.pill,.tagList span{background:rgba(255,255,255,.44)!important;border:1px solid #D3D8DE!important;color:rgba(13,13,15,.68)!important;border-radius:999px!important;}
+.rule,.rule.dark{background:rgba(13,13,15,.12)!important;}
+.dot{background:#FF6A21!important;border-radius:999px!important;}
+.heroTitle,.sectionTitle,.feature h3,.identityRight h3,.parentCell h3,.step h3,.cta h2,.footTitle{color:#0D0D0F!important;}
+.heroCopy,.sectionText,.feature p,.identityRight p,.parentCell p,.step p,.cta p,.footText,.footCol a,.footBottom{color:rgba(13,13,15,.58)!important;}
+.featureGrid,.identity,.parentFrame,.workflow,.browserFrame.lightFrame{border-color:#D3D8DE!important;background:rgba(255,255,255,.18)!important;}
+.feature,.identityRight,.parentCell,.step{background:rgba(255,255,255,.18)!important;border-color:#D3D8DE!important;}
+.feature:hover,.parentCell.big{background:rgba(255,255,255,.32)!important;}
+.feature .n,.stepNum{color:rgba(13,13,15,.42)!important;}
+.feature .mini{background:#FF6A21!important;border-radius:999px!important;}
+.productPanel,.screenPanel,.dark-card,.queueCard,.browserFrame,.refNote,.refMini,.identityLeft{background:#0D0D0F!important;color:#F7F8FA!important;border:1px solid rgba(13,13,15,.12)!important;box-shadow:0 22px 70px rgba(13,13,15,.14)!important;}
+.panelTop,.browserBar{background:linear-gradient(180deg,#FFFFFF,#F4F4F1)!important;color:rgba(13,13,15,.58)!important;border-bottom:1px solid #D3D8DE!important;}
+.status{color:#1E3328!important;}
+.status i{background:#1E3328!important;box-shadow:none!important;}
+.shot,.refImg{background:#F7F8FA!important;border-color:#D3D8DE!important;border-radius:16px!important;}
+.shot span,.refCap{background:rgba(13,13,15,.58)!important;color:#fff!important;border:0!important;border-radius:10px!important;}
+footer{border-top:1px solid rgba(13,13,15,.10)!important;}
+.footCol h4{color:rgba(13,13,15,.44)!important;border-bottom:1px solid rgba(13,13,15,.10)!important;}
+.footTitle{color:#0D0D0F!important;}.footBottom{border-top:1px solid rgba(13,13,15,.10)!important;}
+.menuBtn{color:#0D0D0F!important;border-left:1px solid rgba(13,13,15,.08)!important;}
+@media(max-width:760px){.navCtas a:first-child{display:none!important;}.mobileMenu{background:#E8F1FD!important;}}
+
 </style>
 </head>
-<body>
+<body class="light">
+<div id="cur"></div><div id="ring"></div>
 
-<!-- AI PIPELINE IMAGES: set directly as <img> tags in avp-ph-1 through avp-ph-4 below -->
-
-<div id="cur"></div>
-<div id="cur-ring"></div>
-
-<!-- ═══ NAV ═══ -->
-<nav>
-  <div class="nav-left">
-    <img src="logo/TA_4.png" alt="Third Axis Creative">
+<nav class="nav">
+  <a href="#top" class="logoBox hoverable" aria-label="Third Axis Creative home">
+    <div class="logoMark"></div>
+    <div class="logoWords"><strong>Third Axis</strong><em>Creative Systems</em></div>
+  </a>
+  <div class="navLinks">
+    <a href="#shootless">Shootless</a>
+    <a href="#reference">Visuals</a>
+    <a href="#reference">Visuals</a>
+  <a href="#why">Why it exists</a>
+    <a href="#parent">Third Axis</a>
+    <a href="#workflow">Workflow</a>
+    <a href="#services">Services</a>
   </div>
-  <div class="nav-mid">
-    <a href="#about" class="nav-link">About</a>
-    <a href="#process" class="nav-link">Process</a>
-    <a href="#digital" class="nav-link">3D + Digital</a>
-    <a href="#ai" class="nav-link">AI</a>
-    <a href="#gallery" class="nav-link">Gallery</a>
+  <div class="navCtas">
+    <a href="https://www.shootless.co.uk/" target="_blank" rel="noopener">Visit Shootless</a>
+    <a href="#contact">Talk to us</a>
   </div>
-  <div class="nav-right">
-    <a href="#contact" class="nav-cta">Get in Touch</a>
-  </div>
-  <button class="nav-hamburger" id="hamburger" aria-label="Menu">
-    <span></span><span></span><span></span>
-  </button>
+  <button class="menuBtn" id="menuBtn">Menu</button>
 </nav>
-
-<div class="nav-mobile-menu" id="mobile-menu">
-  <a href="#about" class="nav-mobile-link">About</a>
-  <a href="#process" class="nav-mobile-link">Process</a>
-  <a href="#digital" class="nav-mobile-link">3D + Digital</a>
-  <a href="#ai" class="nav-mobile-link">AI</a>
-  <a href="#gallery" class="nav-mobile-link">Gallery</a>
-  <a href="#contact" class="nav-mobile-cta">Get in Touch</a>
+<div class="mobileMenu" id="mobileMenu">
+  <a href="#shootless">Shootless</a>
+  <a href="#why">Why it exists</a>
+  <a href="#parent">Third Axis</a>
+  <a href="#workflow">Workflow</a>
+  <a href="#services">Services</a>
+  <a href="https://www.shootless.co.uk/" target="_blank" rel="noopener">Visit Shootless</a>
+  <a href="#contact">Talk to us</a>
 </div>
 
-<!-- ═══ HERO ═══ -->
-<section id="hero" class="snap">
-  <div class="hero-top-bar">
-    <div class="dot"></div>
-    <span class="label">Third Axis Creative</span>
-    <div class="strike-line"></div>
-    <span class="label">End-to-End Production</span>
-    <div class="strike-line" style="max-width:40px;"></div>
-    <span class="label" style="color:rgba(238,235,228,.2);">Est. Peterborough, UK.</span>
+<header class="hero" id="top">
+  <div class="heroGlow"></div><div class="heroGlow two"></div>
+  <div class="wrap heroTop">
+    <span class="dot"></span><span>Third Axis Creative</span><span class="rule"></span><span>Parent company behind Shootless Studio</span>
   </div>
-
-  <div class="hero-body">
-    <div class="hero-left">
-      <h1 class="hero-h1">
-        <span class="outline">From</span>
-        Idea
-        <span class="signal-word">To Scale.</span>
-      </h1>
-    </div>
-    <div class="hero-right">
-      <div class="hero-descriptor">
-        <strong>Third Axis Creative</strong>
-        Production built as a system — physical, digital, and AI working as one pipeline. Not a series of disconnected jobs.
+  <div class="wrap heroMain">
+    <div class="heroCopy reveal">
+      <p class="kicker">Flagship product / Shootless Studio</p>
+      <h1 class="display"><span class="thin">The system</span><br>behind <span class="green">shootless</span><br><span class="orange">production.</span></h1>
+      <p class="heroIntro"><strong>Third Axis Creative builds production systems for modern content teams.</strong> Shootless Studio sits at the front: a controlled AI fashion workflow that helps ecommerce brands create model and campaign imagery without repeating the full shoot cycle every time.</p>
+      <div class="heroBtns">
+        <a class="btn btn-green hoverable" href="https://www.shootless.co.uk/" target="_blank" rel="noopener">Open Shootless Studio →</a>
+        <a class="btn btn-ghost hoverable" href="#parent">Explore Third Axis</a>
       </div>
-      <div class="hero-tags">
-        <span class="hero-tag">Stock Flow</span>
-        <span class="hero-tag">Set Build</span>
-        <span class="hero-tag">Photography</span>
-        <span class="hero-tag">Digital Environments</span>
-        <span class="hero-tag">3D Vis</span>
-        <span class="hero-tag">AI Imagery</span>
-        <span class="hero-tag">Scalable Output</span>
-      </div>
-      <div class="hero-ctas">
-        <a href="#about" class="btn-signal">Our Approach</a>
-        <a href="#contact" class="btn-ghost-inv">Start a Project</a>
+      <div class="heroBadges">
+        <span class="pill">AI Fashion Imagery</span><span class="pill">Ghost Mannequin → Model</span><span class="pill">Creative Automation</span><span class="pill">Production Systems</span>
       </div>
     </div>
+    <aside class="productPanel reveal d1 hoverable" aria-label="Shootless Studio product preview">
+      <div class="panelTop"><span>Shootless Studio</span><span class="status"><i></i>System online</span></div>
+      <div class="screen">
+        <div class="screenGrid">
+          <div class="shot"><img src="https://www.shootless.co.uk/examples/consistency-ecommerce.jpg" alt="Shootless ecommerce model output"><span>Model passport</span></div>
+          <div class="shot"><img src="https://www.shootless.co.uk/examples/ghost-mannequin-input.jpg" alt="Shootless ghost mannequin garment input"><span>Garment input</span></div>
+          <div class="shot"><img src="https://www.shootless.co.uk/examples/ghost-mannequin-output.jpg" alt="Shootless on-model AI output"><span>On-model output</span></div>
+          <div class="shot"><img src="https://www.shootless.co.uk/examples/campaign-concept.jpg" alt="Shootless campaign concept output"><span>Campaign scene</span></div>
+        </div>
+        <div class="queue">
+          <div class="qrow"><span>01</span><b>Upload approved references</b><em>Ready</em></div>
+          <div class="qrow"><span>02</span><b>Select fashion workflow</b><em>Queued</em></div>
+          <div class="qrow"><span>03</span><b>Review controlled outputs</b><em>Export</em></div>
+        </div>
+      </div>
+    </aside>
   </div>
-
-  <div class="hero-readout">
-    <div class="readout-cell" data-n="01 / STATUS">
-      <div class="readout-val">End<span class="sig">&#8209;</span>to<span class="sig">&#8209;</span>End</div>
-      <div class="readout-lbl">Brief through to final scaled output</div>
-    </div>
-    <div class="readout-cell" data-n="02 / METHOD">
-      <div class="readout-val">Hybrid</div>
-      <div class="readout-lbl">Physical and digital as one system</div>
-    </div>
-    <div class="readout-cell" data-n="03 / TECH">
-      <div class="readout-val">AI<span class="sig">&#8209;</span>Ready</div>
-      <div class="readout-lbl">Integrated where it genuinely adds value</div>
-    </div>
-    <div class="readout-cell" data-n="04 / OUTPUT">
-      <div class="readout-val">Scalable</div>
-      <div class="readout-lbl">Systems that grow without losing craft</div>
-    </div>
+  <div class="heroStats">
+    <div class="stat"><strong>Shootless</strong><span>Flagship product</span></div>
+    <div class="stat"><strong>Studio</strong><span>Built from production reality</span></div>
+    <div class="stat"><strong>AI + Ops</strong><span>Creative workflow systems</span></div>
+    <div class="stat"><strong>UK</strong><span>Peterborough-based parent brand</span></div>
   </div>
-</section>
+</header>
 
-<!-- ═══ ABOUT ═══ -->
-<!-- ABOUT 1/2: Headline + spec -->
-<section id="about" class="snap" style="background:var(--paper);">
-  <div class="wrap" style="padding-top:32px;padding-bottom:32px;width:100%;">
-    <div class="sec-header">
-      <span class="sec-num">01</span>
-      <span class="sec-title-text">About</span>
-      <div class="dot"></div>
-      <div class="strike-line"></div>
-      <span class="label">01 / 02</span>
-    </div>
-    <div class="split-layout reveal">
-      <div class="split-left">
-        <h2 class="about-h2">What<br>Production<br><span class="sig">Means</span><br>Now.</h2>
-        <p class="about-body">Modern production isn't just photography — it's planning, logistics, systems, and decision-making long before a camera is switched on. Every decision upstream affects speed, quality, and consistency downstream.</p>
-      </div>
-      <div class="split-right">
-        <div class="spec-block" style="border-top:2px solid var(--ink);">
-          <div class="spec-row"><span class="spec-key">Type</span><span class="spec-val">Production Consultancy</span></div>
-          <div class="spec-row"><span class="spec-key">Scope</span><span class="spec-val">Physical → Digital → AI</span></div>
-          <div class="spec-row"><span class="spec-key">Output</span><span class="spec-val">Scalable Systems</span></div>
-          <div class="spec-row"><span class="spec-key">Location</span><span class="spec-val">Peterborough, UK</span></div>
-          <div class="spec-row"><span class="spec-key">Contact</span><span class="spec-val">hello@thirdaxis.co.uk</span></div>
-        </div>
-        <p class="about-body" style="margin-top:24px;">Third Axis Creative designs and runs production systems that work — combining physical craft with digital capability and AI where it genuinely helps.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ABOUT 2/2: Principles -->
-<section id="about2" class="snap" style="background:var(--paper);">
-  <div class="wrap" style="padding-top:32px;padding-bottom:32px;width:100%;">
-    <div class="sec-header">
-      <span class="sec-num">01</span>
-      <span class="sec-title-text">Our Approach</span>
-      <div class="dot"></div>
-      <div class="strike-line"></div>
-      <span class="label">02 / 02</span>
-    </div>
-    <div class="approach-list reveal">
-      <div class="approach-item">
-        <span class="a-num">01</span>
-        <div>
-          <div class="a-head">Production is a pipeline, not a shoot day</div>
-          <p class="a-body">We design the workflow before we plan the shoot. Understanding how products move, how briefs form, and how content scales downstream changes everything that happens upstream.</p>
-        </div>
-      </div>
-      <div class="approach-item">
-        <span class="a-num">02</span>
-        <div>
-          <div class="a-head">Physical and digital are one system</div>
-          <p class="a-body">3D environments inform set builds. AI outputs extend photographic ranges. Digital pre-vis reduces physical reshoots. Every method is part of the same workflow.</p>
-        </div>
-      </div>
-      <div class="approach-item">
-        <span class="a-num">03</span>
-        <div>
-          <div class="a-head">Scalable without losing quality</div>
-          <p class="a-body">Volume doesn't have to mean compromise. With the right systems in place, consistent quality becomes easier at scale — not harder.</p>
-        </div>
-      </div>
-      <div class="approach-item">
-        <span class="a-num">04</span>
-        <div>
-          <div class="a-head">AI as an amplifier, not a shortcut</div>
-          <p class="a-body">We use AI where it genuinely adds value — to extend creative ranges, scale outputs, and reduce cost — always grounded in real production data.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ═══ PROCESS ═══ -->
-<section id="process" class="snap">
-  <div class="wrap" style="padding-top:32px;padding-bottom:32px;width:100%;">
-    <div class="sec-header sec-header-inv">
-      <span class="sec-num">02</span>
-      <span class="sec-title-text" style="color:rgba(238,235,228,.5);">End-to-End Process</span>
-      <div class="dot" style="background:rgba(238,235,228,.15);"></div>
-      <div class="strike-line" style="background:rgba(238,235,228,.08);"></div>
-      <span class="label" style="color:rgba(238,235,228,.2);">How We Work</span>
-    </div>
-    <div class="process-layout">
-      <div class="reveal">
-        <h2 class="process-h2">We<br>Start<br>With<br><span class="sig">Flow.</span></h2>
-        <p class="process-intro">Every engagement begins by mapping how product and content move through your business — before we plan a single shot. The right workflow upstream means less waste, fewer reshoots, and better output across every channel.</p>
-      </div>
-      <div class="pipeline-steps reveal reveal-d1">
-        <div class="p-step open">
-          <div class="p-step-num"><span>01</span></div>
-          <div class="p-step-content">
-            <button class="p-step-trigger">
-              <span class="p-step-title">Stock Flow &amp; Intake</span>
-              <span class="p-step-icon"><svg width="8" height="8" viewBox="0 0 8 8" fill="none"><line x1="4" y1="0" x2="4" y2="8" stroke="#EEEBE4" stroke-width="1.5"/><line x1="0" y1="4" x2="8" y2="4" stroke="#EEEBE4" stroke-width="1.5"/></svg></span>
-            </button>
-            <div class="p-step-body" style="max-height:150px">
-              <p class="p-step-inner">Map how products arrive, move, and need to be captured before planning a single shoot. Understanding stock flow reduces duplication, cuts reshoots, and ensures nothing is missed.</p>
-            </div>
-          </div>
-        </div>
-        <div class="p-step">
-          <div class="p-step-num"><span>02</span></div>
-          <div class="p-step-content">
-            <button class="p-step-trigger"><span class="p-step-title">Concept &amp; Pre-Production</span><span class="p-step-icon"><svg width="8" height="8" viewBox="0 0 8 8" fill="none"><line x1="4" y1="0" x2="4" y2="8" stroke="#EEEBE4" stroke-width="1.5"/><line x1="0" y1="4" x2="8" y2="4" stroke="#EEEBE4" stroke-width="1.5"/></svg></span></button>
-            <div class="p-step-body"><p class="p-step-inner">Creative briefs, shot lists, set planning, and 3D pre-vis. We define exactly what needs to be captured before the crew arrives — reducing wasted time on the day.</p></div>
-          </div>
-        </div>
-        <div class="p-step">
-          <div class="p-step-num"><span>03</span></div>
-          <div class="p-step-content">
-            <button class="p-step-trigger"><span class="p-step-title">Physical Production</span><span class="p-step-icon"><svg width="8" height="8" viewBox="0 0 8 8" fill="none"><line x1="4" y1="0" x2="4" y2="8" stroke="#EEEBE4" stroke-width="1.5"/><line x1="0" y1="4" x2="8" y2="4" stroke="#EEEBE4" stroke-width="1.5"/></svg></span></button>
-            <div class="p-step-body"><p class="p-step-inner">The right team, the right setup, the right brief. Photography and set build executed against a defined system rather than improvised on the day.</p></div>
-          </div>
-        </div>
-        <div class="p-step">
-          <div class="p-step-num"><span>04</span></div>
-          <div class="p-step-content">
-            <button class="p-step-trigger"><span class="p-step-title">Post, Scale &amp; Output</span><span class="p-step-icon"><svg width="8" height="8" viewBox="0 0 8 8" fill="none"><line x1="4" y1="0" x2="4" y2="8" stroke="#EEEBE4" stroke-width="1.5"/><line x1="0" y1="4" x2="8" y2="4" stroke="#EEEBE4" stroke-width="1.5"/></svg></span></button>
-            <div class="p-step-body"><p class="p-step-inner">Retouching, formatting, versioning, and delivery — built into the production system from the start. Output scaled consistently across channels without rework.</p></div>
-          </div>
-        </div>
-        <div class="p-step">
-          <div class="p-step-num"><span>05</span></div>
-          <div class="p-step-content">
-            <button class="p-step-trigger"><span class="p-step-title">Hybrid &amp; AI Integration</span><span class="p-step-icon"><svg width="8" height="8" viewBox="0 0 8 8" fill="none"><line x1="4" y1="0" x2="4" y2="8" stroke="#EEEBE4" stroke-width="1.5"/><line x1="0" y1="4" x2="8" y2="4" stroke="#EEEBE4" stroke-width="1.5"/></svg></span></button>
-            <div class="p-step-body"><p class="p-step-inner">Where AI and digital extend the physical — adding variation, scaling output, and creating assets that would otherwise require additional shoots.</p></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ═══ DIGITAL & 3D ═══ -->
-<section id="digital" class="snap">
-  <div class="wrap" style="padding-top:32px;padding-bottom:32px;width:100%;">
-    <div class="sec-header">
-      <span class="sec-num">03</span>
-      <span class="sec-title-text">Digital &amp; 3D</span>
-      <div class="dot"></div>
-      <div class="strike-line"></div>
-      <span class="label">Before It's Built</span>
-    </div>
-    <h2 class="digital-h2 reveal">Before It's Built,<br>It Can Be <span class="sig">Defined.</span></h2>
-    <div class="services-grid">
-      <div class="svc-card reveal"><div class="svc-n">SVC / 01</div><div class="svc-title">3D Visualisation</div><div class="svc-body">Photorealistic 3D renders for product, set, and environment — used for pre-vis, client sign-off, and final output.</div></div>
-      <div class="svc-card reveal reveal-d1"><div class="svc-n">SVC / 02</div><div class="svc-title">Digital Environments</div><div class="svc-body">Full CG environments built to extend or replace physical sets — controllable, scalable, and reusable across campaigns.</div></div>
-      <div class="svc-card reveal reveal-d2"><div class="svc-n">SVC / 03</div><div class="svc-title">Set Pre-Visualisation</div><div class="svc-body">Walk through your set before it's built. Explore camera angles, lighting rigs, and layouts in 3D before committing budget.</div></div>
-      <div class="svc-card reveal reveal-d3"><div class="svc-n">SVC / 04</div><div class="svc-title">Asset Libraries</div><div class="svc-body">3D assets built once, reused across seasons — consistent product renders available without reshooting.</div></div>
-    </div>
-  </div>
-</section>
-
-<!-- ═══ AI ═══ -->
-<!-- AI 1/2: Headline + pipeline -->
-<section id="ai" class="snap" style="background:var(--ink);">
-  <div class="wrap" style="padding-top:32px;padding-bottom:32px;width:100%;">
-    <div class="sec-header sec-header-inv">
-      <span class="sec-num">04</span>
-      <span class="sec-title-text" style="color:rgba(238,235,228,.5);">AI Production</span>
-      <div class="dot" style="background:rgba(238,235,228,.15);"></div>
-      <div class="strike-line" style="background:rgba(238,235,228,.08);"></div>
-      <span class="label" style="color:rgba(238,235,228,.2);">01 / 03</span>
-    </div>
-    <div class="split-layout reveal">
-      <div class="split-left">
-        <h2 class="ai-h2">AI Is<br>The<br><span class="sig">Amplifier.</span></h2>
-        <p class="ai-intro">Not the starting point. We integrate AI where it adds genuine value — extending production rather than replacing the craft, realism, and consistency that make content work.</p>
-        <div class="ai-note" style="margin-top:24px;">
-          <p>AI production works best when it's grounded in a real production system — not used as a standalone tool.</p>
-        </div>
-      </div>
-      <div class="split-right">
-        <div class="ai-pipeline">
-          <div class="ai-step">
-            <div class="ai-step-num"><span>01</span></div>
-            <div class="ai-step-inner"><div class="ai-step-title">Generate the AI Model</div><p class="ai-step-body">Photorealistic e-commerce model built to your brand spec — consistent pose, proportions, and lighting across every SKU.</p></div>
-          </div>
-          <div class="ai-step">
-            <div class="ai-step-num"><span>02</span></div>
-            <div class="ai-step-inner"><div class="ai-step-title">Apply the Cut-Out Garment</div><p class="ai-step-body">Real product cut-out mapped directly onto the model — fabric texture, drape, and detail preserved naturally.</p></div>
-          </div>
-          <div class="ai-step">
-            <div class="ai-step-num"><span>03</span></div>
-            <div class="ai-step-inner"><div class="ai-step-title">Place in a Campaign Scene</div><p class="ai-step-body">Same model, same garment — into a styled editorial environment. No studio, no reshoot, campaign-ready output.</p></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- AI 2/2: Capabilities grid -->
-<section id="ai2" class="snap" style="background:var(--ink);">
-  <div class="wrap" style="padding-top:32px;padding-bottom:32px;width:100%;">
-    <div class="sec-header sec-header-inv">
-      <span class="sec-num">04</span>
-      <span class="sec-title-text" style="color:rgba(238,235,228,.5);">What It Delivers</span>
-      <div class="dot" style="background:rgba(238,235,228,.15);"></div>
-      <div class="strike-line" style="background:rgba(238,235,228,.08);"></div>
-      <span class="label" style="color:rgba(238,235,228,.2);">02 / 03</span>
-    </div>
-    <div class="callout-grid reveal" style="border:1px solid rgba(238,235,228,.12);">
-      <div class="callout"><div class="callout-t">Scale</div><div class="callout-b">Hundreds of product images from one pipeline</div></div>
-      <div class="callout"><div class="callout-t">Speed</div><div class="callout-b">Days not weeks — no studio booking required</div></div>
-      <div class="callout"><div class="callout-t">Consistency</div><div class="callout-b">Same model, same lighting, every product</div></div>
-      <div class="callout"><div class="callout-t">On-Brand</div><div class="callout-b">AI guided by your brand rules, not randomness</div></div>
-      <div class="callout"><div class="callout-t">Anchored</div><div class="callout-b">Real product detail at the core of every image</div></div>
-      <div class="callout"><div class="callout-t">Repeatable</div><div class="callout-b">Reliable output across seasons and teams</div></div>
-    </div>
-  </div>
-</section>
-
-<!-- AI 3/3: Visual pipeline -->
-<section id="ai3" class="snap" style="background:var(--ink);">
-  <div class="wrap" style="padding-top:32px;padding-bottom:32px;width:100%;">
-    <div class="sec-header sec-header-inv">
-      <span class="sec-num">04</span>
-      <span class="sec-title-text" style="color:rgba(238,235,228,.5);">The Pipeline</span>
-      <div class="dot" style="background:rgba(238,235,228,.15);"></div>
-      <div class="strike-line" style="background:rgba(238,235,228,.08);"></div>
-      <span class="label" style="color:rgba(238,235,228,.2);">03 / 03</span>
-    </div>
-    <div class="ai-vis-pipeline reveal">
-
-      <!-- STEP 1: AI Model -->
-      <div class="avp-group">
-        <div class="avp-images single">
-          <div class="avp-img-wrap">
-            <div class="avp-img-placeholder has-image" id="avp-ph-1">
-              <img src="Images/base.png" alt="Base AI model">
-              <span class="avp-img-icon">
-                <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect x="1" y="1" width="26" height="26" stroke="rgba(238,235,228,.2)" stroke-width="1"/><circle cx="14" cy="11" r="4" stroke="rgba(238,235,228,.2)" stroke-width="1"/><path d="M5 26c0-4.97 4.03-9 9-9s9 4.03 9 9" stroke="rgba(238,235,228,.2)" stroke-width="1"/></svg>
-              </span>
-              <span class="avp-upload-label">Upload image</span>
-            </div>
-          </div>
-        </div>
-        <div class="avp-label">
-          <span class="avp-step-num">01</span>
-          <span class="avp-step-title">Base AI Model</span>
-          <span class="avp-step-sub">Photorealistic model generated to spec</span>
-        </div>
-      </div>
-
-      <!-- ARROW -->
-      <div class="avp-arrow">
-        <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><line x1="0" y1="16" x2="28" y2="16" stroke="var(--signal)" stroke-width="1.5"/><polyline points="20,8 28,16 20,24" fill="none" stroke="var(--signal)" stroke-width="1.5"/></svg>
-      </div>
-
-      <!-- STEP 2: Model + Garment (two images with arrow) -->
-      <div class="avp-group">
-        <div class="avp-images double">
-          <div class="avp-img-wrap">
-            <div class="avp-img-placeholder has-image" id="avp-ph-2">
-              <img src="Images/man.png" alt="Ghost mannequin with garment">
-              <span class="avp-img-icon">
-                <svg width="24" height="28" viewBox="0 0 24 28" fill="none"><rect x="1" y="1" width="22" height="26" stroke="rgba(238,235,228,.2)" stroke-width="1"/><path d="M8 8h8M8 12h8M8 16h5" stroke="rgba(238,235,228,.2)" stroke-width="1"/></svg>
-              </span>
-              <span class="avp-upload-label">Upload image</span>
-            </div>
-          </div>
-          <div class="avp-inline-arrow">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><line x1="0" y1="10" x2="16" y2="10" stroke="rgba(238,235,228,.3)" stroke-width="1"/><polyline points="10,4 16,10 10,16" fill="none" stroke="rgba(238,235,228,.3)" stroke-width="1"/></svg>
-          </div>
-          <div class="avp-img-wrap">
-            <div class="avp-img-placeholder has-image" id="avp-ph-3">
-              <img src="Images/modelgarment.png" alt="AI model wearing garment">
-              <span class="avp-img-icon">
-                <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect x="1" y="1" width="26" height="26" stroke="rgba(238,235,228,.2)" stroke-width="1"/><circle cx="14" cy="11" r="4" stroke="rgba(238,235,228,.2)" stroke-width="1"/><path d="M5 26c0-4.97 4.03-9 9-9s9 4.03 9 9" stroke="rgba(238,235,228,.2)" stroke-width="1"/></svg>
-              </span>
-              <span class="avp-upload-label">Upload image</span>
-            </div>
-          </div>
-        </div>
-        <div class="avp-label">
-          <span class="avp-step-num">02</span>
-          <span class="avp-step-title">Garment Applied</span>
-          <span class="avp-step-sub">Mannequin cut-out mapped onto model</span>
-        </div>
-      </div>
-
-      <!-- ARROW -->
-      <div class="avp-arrow">
-        <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><line x1="0" y1="16" x2="28" y2="16" stroke="var(--signal)" stroke-width="1.5"/><polyline points="20,8 28,16 20,24" fill="none" stroke="var(--signal)" stroke-width="1.5"/></svg>
-      </div>
-
-      <!-- STEP 3: Editorial -->
-      <div class="avp-group">
-        <div class="avp-images single">
-          <div class="avp-img-wrap">
-            <div class="avp-img-placeholder has-image" id="avp-ph-4">
-              <img src="Images/editorial.png" alt="Editorial output image">
-              <span class="avp-img-icon">
-                <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect x="1" y="1" width="26" height="26" stroke="rgba(238,235,228,.2)" stroke-width="1"/><path d="M1 20l7-7 5 5 4-4 10 10" stroke="rgba(238,235,228,.2)" stroke-width="1"/><circle cx="21" cy="8" r="3" stroke="rgba(238,235,228,.2)" stroke-width="1"/></svg>
-              </span>
-              <span class="avp-upload-label">Upload image</span>
-            </div>
-          </div>
-        </div>
-        <div class="avp-label">
-          <span class="avp-step-num">03</span>
-          <span class="avp-step-title">Editorial Output</span>
-          <span class="avp-step-sub">Model placed in campaign scene</span>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- ═══ GALLERY ═══ -->
-<section id="gallery" class="snap">
-  <div class="wrap" style="padding-top:32px;padding-bottom:32px;width:100%;">
-    <div class="sec-header">
-      <span class="sec-num">05</span>
-      <span class="sec-title-text">Gallery</span>
-      <div class="dot"></div>
-      <div class="strike-line"></div>
-      <span class="label">Work &amp; Exploration</span>
-    </div>
-    <div class="gallery-intro">
-      <h2 class="gallery-h2 reveal">Work &amp;<br><span class="sig">Exploration</span></h2>
-      <p class="gallery-sub reveal reveal-d1">Production tests, digital studies, and hybrid workflows — exploring where physical and digital creation intersect. Gallery content coming soon.</p>
-    </div>
-    <div class="gallery-grid">
-      <div class="g-cell reveal" data-img="Images/gallery_01.jpg" data-alt="3D Showreel"><span class="g-cell-n">01</span><div class="g-cell-dot"></div><span class="g-cell-label">3D Showreel</span></div>
-      <div class="g-cell reveal reveal-d1" data-img="Images/gallery_02.jpg" data-alt="Digital Study"><span class="g-cell-n">02</span><div class="g-cell-dot"></div><span class="g-cell-label">Digital Study</span></div>
-      <div class="g-cell reveal reveal-d2" data-img="Images/gallery_03.jpg" data-alt="AI Pipeline"><span class="g-cell-n">03</span><div class="g-cell-dot"></div><span class="g-cell-label">AI Pipeline</span></div>
-      <div class="g-cell reveal" data-img="Images/gallery_04.jpg" data-alt="Campaign Work"><span class="g-cell-n">04</span><div class="g-cell-dot"></div><span class="g-cell-label">Campaign Work</span></div>
-      <div class="g-cell reveal reveal-d1" data-img="Images/gallery_05.jpg" data-alt="Set Pre-Vis"><span class="g-cell-n">05</span><div class="g-cell-dot"></div><span class="g-cell-label">Set Pre-Vis</span></div>
-      <div class="g-cell reveal reveal-d2"><span class="g-cell-n">06</span><div class="g-cell-dot"></div><span class="g-cell-label">More Soon</span></div>
-    </div>
-  </div>
-</section>
-
-<!-- ═══ CONTACT ═══ -->
-<section id="contact" class="snap">
-  <div class="contact-left">
-    <span class="sec-num" style="margin-bottom:24px;display:inline-block;">06</span>
-    <h2 class="contact-h2">Ready<br>To Build<br><span class="sig">Better?</span></h2>
-    <p class="contact-body">Whether you're building a new production workflow from scratch or improving an existing one — describe your project and we'll come back with thoughts and a proposed approach.</p>
-  </div>
-  <div class="contact-right">
-    <span class="sec-num" style="margin-bottom:24px;">Get in Touch</span>
-    <h3>Start the Conversation</h3>
-    <p>Tell us about your current production setup, output volumes, and what's working — and what isn't.</p>
-    <a href="mailto:hello@thirdaxis.co.uk" class="contact-email">hello@thirdaxis.co.uk</a>
-    <a href="mailto:hello@thirdaxis.co.uk" class="btn-ink">Send an Email</a>
-  </div>
-</section>
-
-<!-- ═══ FOOTER ═══ -->
-<footer class="snap-short" id="footer-sec">
+<section class="block paper" id="shootless">
   <div class="wrap">
-    <div class="footer-grid">
-      <div class="footer-logo">
-        <img src="logo/TA_2.png" alt="Third Axis Creative">
-        <p class="footer-about">End-to-end production consultancy.<br>Physical to digital. From idea to scale.</p>
+    <div class="section-label light"><span>01 / Flagship Product</span><span class="rule dark"></span><span>Shootless at the forefront</span></div>
+    <div class="split">
+      <div class="reveal">
+        <p class="kicker dark">Shootless Studio</p>
+        <h2 class="display sectionTitle">Create more content without adding more shoot days.</h2>
       </div>
-      <div>
-        <div class="footer-col-title">Navigate</div>
-        <ul class="footer-links">
-          <li><a href="#about">About</a></li>
-          <li><a href="#process">Process</a></li>
-          <li><a href="#digital">3D + Digital</a></li>
-          <li><a href="#ai">AI Production</a></li>
-          <li><a href="#gallery">Gallery</a></li>
-        </ul>
-      </div>
-      <div>
-        <div class="footer-col-title">Services</div>
-        <ul class="footer-links">
-          <li><a href="#">Stock Flow</a></li>
-          <li><a href="#">Photography</a></li>
-          <li><a href="#">3D Visualisation</a></li>
-          <li><a href="#">Digital Environments</a></li>
-          <li><a href="#">AI Imagery</a></li>
-        </ul>
-      </div>
-      <div>
-        <div class="footer-col-title">Connect</div>
-        <ul class="footer-links">
-          <li><a href="mailto:hello@thirdaxis.co.uk">hello@thirdaxis.co.uk</a></li>
-          <li><a href="#">LinkedIn</a></li>
-          <li><a href="#">Instagram</a></li>
-          <li><a href="#">Vimeo</a></li>
-        </ul>
+      <div class="reveal d1">
+        <p class="sectionText">Shootless is the first public expression of Third Axis Creative: a practical, controlled AI production workflow for fashion and ecommerce teams.</p>
+        <p class="sectionText">It takes the problem brands already understand — endless product drops, model availability, shoot costs, reshoots, campaign variations and launch pressure — and turns it into a repeatable system.</p>
+        <div class="heroBtns" style="margin-top:24px"><a class="btn btn-ink hoverable" href="https://www.shootless.co.uk/" target="_blank" rel="noopener">Go to Shootless</a><a class="btn hoverable" style="border-color:var(--ink)" href="#workflow">See workflow logic</a></div>
       </div>
     </div>
-    <div class="footer-bottom">
-      <span class="footer-copy">&copy; 2025 Third Axis Creative Ltd</span>
-      <span class="footer-signal">Status <span>&#9679;</span> Active</span>
+  </div>
+</section>
+
+
+<section class="block dark" id="reference">
+  <div class="wrap">
+    <div class="section-label"><span>02 / Shootless Visual Reference</span><span class="rule"></span><span>Live imagery pulled from Shootless</span></div>
+    <div class="referenceGrid reveal">
+      <div class="browserFrame hoverable">
+        <div class="browserBar"><i></i><i></i><i></i><span>www.shootless.co.uk / output reference</span></div>
+        <div class="browserBody">
+          <div class="refHero">
+            <figure class="refImg tall"><img src="https://www.shootless.co.uk/examples/ecommerce-model.jpg" alt="Shootless ecommerce model output"><figcaption class="refCap">Ecommerce model output</figcaption></figure>
+            <figure class="refImg tall"><img src="https://www.shootless.co.uk/examples/campaign-concept.jpg" alt="Shootless campaign concept"><figcaption class="refCap">Campaign concept</figcaption></figure>
+          </div>
+        </div>
+      </div>
+      <div class="refNotes">
+        <div class="refNote hoverable"><h3>Same colour language.</h3><p>Dark production interface, acid green system signal, orange Third Axis energy, warm off-white editorial surfaces. The Third Axis page now sits much closer to Shootless instead of feeling like a separate brand.</p></div>
+        <div class="refNote hoverable"><h3>Same visual proof.</h3><p>The parent site uses Shootless output imagery directly, so visitors immediately understand that Shootless is the front-facing product and Third Axis is the company behind it.</p>
+          <div class="refMiniGrid">
+            <div class="refMini"><img src="https://www.shootless.co.uk/examples/ghost-mannequin-bts.jpg" alt="Ghost mannequin shoot"></div>
+            <div class="refMini"><img src="https://www.shootless.co.uk/examples/ghost-mannequin-output.jpg" alt="On-model output"></div>
+            <div class="refMini"><img src="https://www.shootless.co.uk/examples/consistency-campaign.jpg" alt="Campaign variation"></div>
+            <div class="refMini"><img src="https://www.shootless.co.uk/examples/styling-variation-2.png" alt="Styling variation"></div>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
+</section>
+
+<section class="block soft" id="why">
+  <div class="wrap">
+    <div class="section-label light"><span>03 / The Problem</span><span class="rule dark"></span><span>Why Shootless exists</span></div>
+    <div class="featureGrid reveal">
+      <article class="feature hoverable"><div><span class="n">01</span><h3>More imagery. Same resources.</h3></div><p>Brands need ecommerce assets, campaign content, launch tiles, social edits, styling variations and seasonal refreshes — without endless new shoots.</p><span class="mini"></span></article>
+      <article class="feature hoverable"><div><span class="n">02</span><h3>Traditional shoots don’t scale cleanly.</h3></div><p>Every extra output can trigger model booking, studio time, styling, sample prep, retouching and approval loops.</p><span class="mini"></span></article>
+      <article class="feature hoverable"><div><span class="n">03</span><h3>AI needs production control.</h3></div><p>Random prompts are not enough. Commercial output needs references, rules, review points and repeatable workflow logic.</p><span class="mini"></span></article>
+      <article class="feature hoverable"><div><span class="n">04</span><h3>Make existing shoots work harder.</h3></div><p>Approved garments, model references and campaign direction become reusable inputs rather than one-off assets.</p><span class="mini"></span></article>
+      <article class="feature hoverable"><div><span class="n">05</span><h3>Reduce repeat photography.</h3></div><p>Selected model imagery, styling tests and campaign extensions can be generated from controlled references instead of starting again.</p><span class="mini"></span></article>
+      <article class="feature hoverable"><div><span class="n">06</span><h3>Keep creative direction intact.</h3></div><p>The goal is not to remove judgement. It is to remove bottlenecks around judgement, so teams can choose faster and produce smarter.</p><span class="mini"></span></article>
+    </div>
+  </div>
+</section>
+
+<section class="block dark" id="parent">
+  <div class="wrap">
+    <div class="section-label"><span>04 / Parent Company</span><span class="rule"></span><span>What Third Axis Creative is</span></div>
+    <div class="parentFrame reveal">
+      <div class="parentCell big">
+        <p class="kicker">Third Axis Creative</p>
+        <h3>Creative production, treated like a system.</h3>
+        <p>Third Axis Creative is the parent company behind Shootless Studio. It exists to build practical creative systems where production knowledge, automation, AI workflows and visual direction work together.</p>
+        <div class="tagList"><span class="pill">Production Strategy</span><span class="pill">AI Workflow Design</span><span class="pill">Ecommerce Content</span><span class="pill">Creative Systems</span></div>
+      </div>
+      <div class="parentCell"><h3>Product-led</h3><p>Shootless leads the brand because it is the clearest commercial product: a focused solution for fashion imagery and ecommerce production pressure.</p></div>
+      <div class="parentCell"><h3>Studio-grounded</h3><p>The thinking comes from real production environments: samples, retouching, model bookings, handovers, late changes, deadlines and wasted shoot cycles.</p></div>
+      <div class="parentCell"><h3>AI-assisted</h3><p>AI is used where it has a job: scale, variation, extension and controlled output. Not as a gimmick and not as a replacement for direction.</p></div>
+      <div class="parentCell"><h3>Broader than one app</h3><p>Third Axis can support workflow design, content systems, creative automation and future tools beyond Shootless.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="block dark" id="workflow">
+  <div class="wrap">
+    <div class="section-label"><span>05 / Workflow</span><span class="rule"></span><span>From approved input to usable output</span></div>
+    <div class="split" style="margin-bottom:30px">
+      <div class="reveal"><h2 class="display sectionTitle">Controlled inputs. Reviewed outputs.</h2></div>
+      <div class="reveal d1"><p class="sectionText">The design language stays close to Shootless: warm Shootless-style background, production queue language, strong interface cards, green system signal and orange Third Axis energy. The difference is hierarchy — this page explains the company behind the product.</p></div>
+    </div>
+    <div class="workflow reveal d2">
+      <div class="step hoverable"><span class="stepNum">01</span><div><h3>Approved references</h3><div class="arrowLine"></div><p>Garment imagery, model references, brand direction and usable visual inputs.</p></div></div>
+      <div class="step hoverable"><span class="stepNum">02</span><div><h3>Workflow selected</h3><div class="arrowLine"></div><p>Ghost mannequin to model, styling variation, campaign extension or concept output.</p></div></div>
+      <div class="step hoverable"><span class="stepNum">03</span><div><h3>System processing</h3><div class="arrowLine"></div><p>Controlled generation using structured settings rather than loose one-off prompting.</p></div></div>
+      <div class="step hoverable"><span class="stepNum">04</span><div><h3>Creative review</h3><div class="arrowLine"></div><p>Review, refine and check output against product, model and brand expectations.</p></div></div>
+      <div class="step hoverable"><span class="stepNum">05</span><div><h3>Export & scale</h3><div class="arrowLine"></div><p>Usable ecommerce, campaign, social or launch content generated from the same base system.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="block paper" id="services">
+  <div class="wrap">
+    <div class="section-label light"><span>06 / Third Axis Support</span><span class="rule dark"></span><span>Beyond the Shootless product</span></div>
+    <div class="identity reveal">
+      <div class="identityLeft">
+        <div class="identityLogo"><span class="t">Third</span><span>Axis</span><span class="s">Creative</span></div>
+      </div>
+      <div class="identityRight">
+        <h3>One parent brand. One flagship product. Room to grow.</h3>
+        <p>This gives the site a clearer structure: Shootless is the front-facing product, while Third Axis Creative is the strategic parent that can credibly support wider production, automation and workflow work.</p>
+        <div class="identityList">
+          <div><b>Flagship</b><span>Shootless Studio — AI fashion and ecommerce imagery workflow.</span></div>
+          <div><b>Parent</b><span>Third Axis Creative — production systems, creative automation and AI workflow design.</span></div>
+          <div><b>Audience</b><span>Fashion brands, ecommerce teams, creative studios and content operations teams.</span></div>
+          <div><b>Tone</b><span>Technical, confident, practical and commercially grounded.</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta" id="contact">
+  <div class="wrap ctaGrid">
+    <div class="reveal"><p class="kicker dark">Start with Shootless</p><h2>Build the content system behind the output.</h2></div>
+    <div class="reveal d1"><p>For Shootless demos, AI fashion workflow ideas, production system support or broader Third Axis Creative enquiries, start the conversation.</p><div class="heroBtns"><a class="btn btn-ink hoverable" href="mailto:hello@thirdaxis.co.uk">hello@thirdaxis.co.uk</a><a class="btn hoverable" href="https://www.shootless.co.uk/" target="_blank" rel="noopener">Visit Shootless</a></div></div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footGrid">
+      <div class="footBrand"><div class="footTitle">Third Axis Creative</div><p class="footText">Parent company behind Shootless Studio. Creative production systems, controlled AI workflows and ecommerce content automation.</p></div>
+      <div class="footCol"><h4>Product</h4><a href="https://www.shootless.co.uk/" target="_blank" rel="noopener">Shootless Studio</a><a href="#workflow">Workflow</a><a href="#why">Why it exists</a></div>
+      <div class="footCol"><h4>Company</h4><a href="#parent">Third Axis</a><a href="#services">Services</a><a href="#contact">Contact</a></div>
+      <div class="footCol"><h4>Connect</h4><a href="mailto:hello@thirdaxis.co.uk">hello@thirdaxis.co.uk</a><a href="https://www.shootless.co.uk/" target="_blank" rel="noopener">shootless.co.uk</a></div>
+    </div>
+    <div class="footBottom"><span>© 2026 Third Axis Creative</span><span>Status ● Shootless at the forefront</span></div>
   </div>
 </footer>
 
-<!-- Scroll dots -->
-
-<div id="sdots">
-  <div class="sdot on" data-s="hero"></div>
-  <div class="sdot" data-s="about"></div>
-  <div class="sdot" data-s="about2"></div>
-  <div class="sdot" data-s="process"></div>
-  <div class="sdot" data-s="digital"></div>
-  <div class="sdot" data-s="ai"></div>
-  <div class="sdot" data-s="ai2"></div>
-  <div class="sdot" data-s="ai3"></div>
-  <div class="sdot" data-s="gallery"></div>
-  <div class="sdot" data-s="contact"></div>
-</div>
-
 <script>
-// ── CURSOR (desktop/mouse only) ──
-if (window.matchMedia('(hover:hover) and (pointer:fine)').matches) {
-  const cur = document.getElementById('cur');
-  const ring = document.getElementById('cur-ring');
-  let mx=0, my=0, rx=0, ry=0;
-  window.addEventListener('mousemove', e => {
-    mx=e.clientX; my=e.clientY;
-    cur.style.left=mx+'px'; cur.style.top=my+'px';
-  });
-  (function loop(){
-    rx+=(mx-rx)*.13; ry+=(my-ry)*.13;
-    ring.style.left=rx+'px'; ring.style.top=ry+'px';
-    requestAnimationFrame(loop);
-  })();
-  document.querySelectorAll('a,button,.svc-card,.g-cell,.approach-item,.callout,.ai-step,.p-step-content').forEach(el=>{
-    el.addEventListener('mouseenter', () => ring.classList.add('h'));
-    el.addEventListener('mouseleave', () => ring.classList.remove('h'));
-  });
+const menuBtn=document.getElementById('menuBtn');
+const mobileMenu=document.getElementById('mobileMenu');
+menuBtn.addEventListener('click',()=>mobileMenu.classList.toggle('open'));
+mobileMenu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>mobileMenu.classList.remove('open')));
+
+const cur=document.getElementById('cur'), ring=document.getElementById('ring');
+if(window.matchMedia('(hover:hover) and (pointer:fine)').matches){
+  let mx=0,my=0,rx=0,ry=0;
+  window.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
+  function loop(){rx+=(mx-rx)*.14;ry+=(my-ry)*.14;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(loop)} loop();
+  document.querySelectorAll('a,button,.hoverable').forEach(el=>{el.addEventListener('mouseenter',()=>ring.classList.add('hot'));el.addEventListener('mouseleave',()=>ring.classList.remove('hot'))});
 }
 
-// ── MOBILE MENU ──
-const hamburger = document.getElementById('hamburger');
-const mobileMenu = document.getElementById('mobile-menu');
-hamburger.addEventListener('click', () => mobileMenu.classList.toggle('open'));
-mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mobileMenu.classList.remove('open')));
+const revealObs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');revealObs.unobserve(e.target)}})},{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>revealObs.observe(el));
 
-// ── ACCORDION ──
-document.querySelectorAll('.p-step-trigger').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const step = btn.closest('.p-step');
-    const body = step.querySelector('.p-step-body');
-    const isOpen = step.classList.contains('open');
-    document.querySelectorAll('.p-step').forEach(s => {
-      s.classList.remove('open');
-      s.querySelector('.p-step-body').style.maxHeight = '0';
-    });
-    if (!isOpen) {
-      step.classList.add('open');
-      body.style.maxHeight = body.scrollHeight + 'px';
-    }
-  });
-});
-
-// ── REVEAL ──
-const ro = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (e.isIntersecting) { e.target.classList.add('on'); ro.unobserve(e.target); }
-  });
-}, { threshold: .1 });
-document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
-
-// ── HAPTIC + DOTS + CURSOR THEME ──
-const sdots = document.getElementById('sdots');
-const dotEls = sdots ? Array.from(sdots.querySelectorAll('.sdot')) : [];
-const darkSecIds = new Set(['hero','process','ai','ai2','ai3','contact','footer-sec']);
-let lastSnap = null;
-
-const snapObs = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (!e.isIntersecting || e.intersectionRatio < 0.5) return;
-    const id = e.target.id;
-    if (!id || id === lastSnap) return;
-    lastSnap = id;
-
-    // Haptic pulse
-    try { if (navigator.vibrate) navigator.vibrate(6); } catch(_) {}
-
-    // Progress dots
-    dotEls.forEach(d => d.classList.toggle('on', d.dataset.s === id));
-    if (sdots) sdots.classList.toggle('inv', darkSecIds.has(id));
-
-    // Cursor ring invert
-    document.body.classList.toggle('inv', darkSecIds.has(id));
-  });
-}, { threshold: 0.5 });
-
-document.querySelectorAll('.snap, .snap-short').forEach(s => snapObs.observe(s));
-
-</script>
-
-
-
-<!-- LIGHTBOX -->
-<div id="lightbox">
-  <span id="lightbox-close">Close ✕</span>
-  <img id="lightbox-img" src="" alt="">
-</div>
-
-<!-- Lightbox & gallery -->
-<script>
-(function() {
-  var lb = document.getElementById('lightbox');
-  var lbImg = document.getElementById('lightbox-img');
-  var lbClose = document.getElementById('lightbox-close');
-
-  function openLightbox(src, alt) {
-    lbImg.src = src;
-    lbImg.alt = alt || '';
-    lb.classList.add('open');
-    document.body.style.overflow = 'hidden';
-  }
-
-  function closeLightbox() {
-    lb.classList.remove('open');
-    document.body.style.overflow = '';
-    setTimeout(function() { lbImg.src = ''; }, 300);
-  }
-
-  // Wire up gallery cells
-  document.querySelectorAll('.g-cell[data-img]').forEach(function(cell) {
-    cell.style.cursor = 'pointer';
-    function handleOpen(e) {
-      e.preventDefault();
-      openLightbox(cell.dataset.img, cell.dataset.alt || '');
-    }
-    cell.addEventListener('click', handleOpen);
-    cell.addEventListener('touchend', handleOpen, { passive: false });
-  });
-
-  // Wire up AI pipeline placeholders
-  document.querySelectorAll('.avp-img-placeholder.has-image').forEach(function(ph) {
-    ph.style.cursor = 'zoom-in';
-    function handleOpen(e) {
-      e.preventDefault();
-      var img = ph.querySelector('img');
-      if (img) openLightbox(img.src, img.alt);
-    }
-    ph.addEventListener('click', handleOpen);
-    ph.addEventListener('touchend', handleOpen, { passive: false });
-  });
-
-  lbClose.addEventListener('click', closeLightbox);
-  lbClose.addEventListener('touchend', function(e) { e.preventDefault(); closeLightbox(); }, { passive: false });
-
-  lb.addEventListener('click', function(e) {
-    if (e.target !== lbImg) closeLightbox();
-  });
-  lb.addEventListener('touchend', function(e) {
-    if (e.target !== lbImg && e.target !== lbClose) { e.preventDefault(); closeLightbox(); }
-  }, { passive: false });
-
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') closeLightbox();
-  });
-})();
+const themeObs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting && e.intersectionRatio>.45){document.body.classList.toggle('light',!e.target.classList.contains('dark') && !e.target.classList.contains('hero'))}})},{threshold:[.45]});
+document.querySelectorAll('header,section,footer').forEach(s=>themeObs.observe(s));
 </script>
 </body>
 </html>
